@@ -1,0 +1,2129 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>礼品中心后台原型</title>
+  <style>
+    :root {
+      --bg: #f5f7fb;
+      --shell: #172033;
+      --shell-soft: #222c41;
+      --panel: #ffffff;
+      --panel-alt: #f9fbff;
+      --line: #dfe5ee;
+      --line-soft: #edf1f6;
+      --text: #1c2433;
+      --muted: #677286;
+      --subtle: #8a95a8;
+      --brand: #1767b3;
+      --brand-dark: #0d4f91;
+      --teal: #168f89;
+      --green: #2c9b62;
+      --amber: #c7841a;
+      --red: #c94848;
+      --violet: #6b5bd2;
+      --shadow: 0 16px 36px rgba(23, 32, 51, .12);
+      --radius: 8px;
+      --fast: 160ms ease;
+      font-family: Inter, "PingFang SC", "Microsoft YaHei", Arial, sans-serif;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--text);
+      font-size: 14px;
+      letter-spacing: 0;
+      overflow-x: hidden;
+    }
+
+    button,
+    input,
+    select,
+    textarea {
+      font: inherit;
+      letter-spacing: 0;
+    }
+
+    button {
+      border: 0;
+      cursor: pointer;
+    }
+
+    .app {
+      min-height: 100vh;
+      display: grid;
+      grid-template-columns: 232px 1fr;
+    }
+
+    .sidebar {
+      background: var(--shell);
+      color: #dce5f2;
+      display: flex;
+      flex-direction: column;
+      min-width: 0;
+    }
+
+    .brand {
+      height: 64px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 0 20px;
+      border-bottom: 1px solid rgba(255,255,255,.08);
+    }
+
+    .brand-mark {
+      width: 32px;
+      height: 32px;
+      border-radius: 8px;
+      display: grid;
+      place-items: center;
+      color: #fff;
+      background: linear-gradient(135deg, #1767b3, #23a28f);
+      font-weight: 800;
+    }
+
+    .brand strong {
+      display: block;
+      color: #fff;
+      font-size: 15px;
+    }
+
+    .brand span {
+      display: block;
+      color: #94a5bd;
+      font-size: 12px;
+      margin-top: 3px;
+    }
+
+    .nav {
+      padding: 14px 10px;
+      overflow: auto;
+    }
+
+    .nav-section {
+      margin: 14px 10px 7px;
+      color: #8292aa;
+      font-size: 12px;
+    }
+
+    .nav-item {
+      width: 100%;
+      height: 38px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 0 10px;
+      border-radius: 8px;
+      color: #c9d4e4;
+      background: transparent;
+      text-align: left;
+      transition: background var(--fast), color var(--fast);
+    }
+
+    .nav-item:hover,
+    .nav-item.active {
+      background: var(--shell-soft);
+      color: #fff;
+    }
+
+    .nav-item.active {
+      box-shadow: inset 3px 0 0 #42b2ff;
+    }
+
+    .nav-item svg,
+    .icon {
+      width: 17px;
+      height: 17px;
+      flex: 0 0 auto;
+      stroke: currentColor;
+      stroke-width: 2;
+      fill: none;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    .main {
+      min-width: 0;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .topbar {
+      height: 64px;
+      background: var(--panel);
+      border-bottom: 1px solid var(--line);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 24px;
+      position: sticky;
+      top: 0;
+      z-index: 20;
+    }
+
+    .crumb {
+      color: var(--muted);
+      font-size: 13px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .crumb strong {
+      color: var(--text);
+      font-size: 18px;
+    }
+
+    .top-actions {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .user-pill {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      border: 1px solid var(--line);
+      background: #fff;
+      height: 36px;
+      padding: 0 10px;
+      border-radius: 8px;
+      color: var(--muted);
+    }
+
+    .avatar {
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      background: #d7e8ff;
+      display: grid;
+      place-items: center;
+      color: var(--brand);
+      font-weight: 800;
+      font-size: 12px;
+    }
+
+    .workspace {
+      padding: 20px 24px 24px;
+      display: grid;
+      grid-template-columns: minmax(740px, 1fr) 360px;
+      gap: 18px;
+      align-items: start;
+    }
+
+    .left-flow {
+      min-width: 0;
+      display: grid;
+      gap: 14px;
+    }
+
+    .tabs {
+      display: flex;
+      gap: 2px;
+      border-bottom: 1px solid var(--line);
+      background: var(--panel);
+      padding: 0 14px;
+      border-radius: var(--radius) var(--radius) 0 0;
+    }
+
+    .tab {
+      height: 48px;
+      padding: 0 16px;
+      background: transparent;
+      color: var(--muted);
+      border-bottom: 3px solid transparent;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-weight: 600;
+    }
+
+    .tab.active {
+      color: var(--brand);
+      border-bottom-color: var(--brand);
+    }
+
+    .panel {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      box-shadow: 0 1px 0 rgba(23,32,51,.03);
+    }
+
+    .toolbar {
+      padding: 16px;
+      display: grid;
+      grid-template-columns: minmax(190px, 1.2fr) minmax(130px, .8fr) minmax(130px, .75fr) minmax(130px, .75fr);
+      gap: 10px;
+      align-items: end;
+      border-bottom: 1px solid var(--line-soft);
+    }
+
+    .field {
+      display: grid;
+      gap: 6px;
+      min-width: 0;
+    }
+
+    .field label {
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 600;
+    }
+
+    .input,
+    .select,
+    .textarea {
+      width: 100%;
+      min-width: 0;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #fff;
+      color: var(--text);
+      height: 36px;
+      padding: 0 10px;
+      outline: 0;
+      transition: border-color var(--fast), box-shadow var(--fast);
+    }
+
+    .textarea {
+      height: 88px;
+      resize: vertical;
+      padding-top: 9px;
+      line-height: 1.5;
+    }
+
+    .input:focus,
+    .select:focus,
+    .textarea:focus {
+      border-color: var(--brand);
+      box-shadow: 0 0 0 3px rgba(23,103,179,.12);
+    }
+
+    .btn-row {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+      justify-content: flex-end;
+      flex-wrap: wrap;
+    }
+
+    .toolbar > .btn-row {
+      grid-column: 1 / -1;
+      justify-content: flex-start;
+    }
+
+    .btn {
+      height: 36px;
+      border-radius: 8px;
+      padding: 0 12px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 7px;
+      background: #fff;
+      border: 1px solid var(--line);
+      color: var(--text);
+      font-weight: 600;
+      white-space: nowrap;
+      transition: transform var(--fast), background var(--fast), border-color var(--fast);
+    }
+
+    .btn:hover {
+      transform: translateY(-1px);
+      border-color: #b9c5d5;
+    }
+
+    .btn.primary {
+      background: var(--brand);
+      border-color: var(--brand);
+      color: #fff;
+    }
+
+    .btn.primary:hover { background: var(--brand-dark); }
+
+    .btn.teal {
+      background: var(--teal);
+      border-color: var(--teal);
+      color: #fff;
+    }
+
+    .btn.danger {
+      color: var(--red);
+      border-color: #f0c7c7;
+      background: #fff8f8;
+    }
+
+    .btn.icon-only {
+      width: 34px;
+      padding: 0;
+    }
+
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 10px;
+      padding: 14px 16px 0;
+    }
+
+    .stat {
+      background: var(--panel-alt);
+      border: 1px solid var(--line-soft);
+      border-radius: 8px;
+      padding: 12px;
+      display: grid;
+      gap: 6px;
+    }
+
+    .stat span {
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .stat strong {
+      font-size: 22px;
+      line-height: 1;
+    }
+
+    .table-wrap {
+      overflow: auto;
+      padding: 14px 16px 16px;
+      max-width: 100%;
+    }
+
+    table {
+      width: 100%;
+      min-width: 780px;
+      border-collapse: collapse;
+    }
+
+    th {
+      height: 40px;
+      background: #f2f5f9;
+      color: #5f6b7e;
+      font-size: 12px;
+      text-align: left;
+      font-weight: 700;
+      border-bottom: 1px solid var(--line);
+      padding: 0 10px;
+      white-space: nowrap;
+    }
+
+    td {
+      border-bottom: 1px solid var(--line-soft);
+      padding: 10px;
+      vertical-align: middle;
+      color: #283247;
+    }
+
+    tr:hover td { background: #fbfdff; }
+
+    .gift-cell {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      min-width: 190px;
+    }
+
+    .gift-img {
+      width: 56px;
+      height: 44px;
+      border-radius: 7px;
+      border: 1px solid #dbe3ee;
+      background:
+        linear-gradient(145deg, rgba(255,255,255,.6), rgba(255,255,255,0)),
+        var(--gift-bg, #d7ebff);
+      display: grid;
+      place-items: center;
+      color: var(--gift-color, #1767b3);
+      font-weight: 800;
+      font-size: 18px;
+      overflow: hidden;
+    }
+
+    .gift-img img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .gift-img.override-thumb {
+      background: linear-gradient(135deg, #e6f4ff, #e9fbf5);
+      color: var(--brand);
+      font-size: 13px;
+      line-height: 1.15;
+      text-align: center;
+    }
+
+    .gift-meta strong {
+      display: block;
+      max-width: 190px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      font-size: 13px;
+    }
+
+    .gift-meta span {
+      display: block;
+      color: var(--subtle);
+      font-size: 12px;
+      margin-top: 4px;
+    }
+
+    .tag {
+      display: inline-flex;
+      align-items: center;
+      height: 22px;
+      padding: 0 8px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--brand);
+      background: #e8f2ff;
+      white-space: nowrap;
+    }
+
+    .tag.green {
+      color: var(--green);
+      background: #e8f7ef;
+    }
+
+    .tag.amber {
+      color: var(--amber);
+      background: #fff5df;
+    }
+
+    .tag.gray {
+      color: #637083;
+      background: #eef2f6;
+    }
+
+    .op {
+      display: flex;
+      gap: 6px;
+      white-space: nowrap;
+    }
+
+    .link-btn {
+      color: var(--brand);
+      background: transparent;
+      padding: 0;
+      font-weight: 700;
+    }
+
+    .right-preview {
+      position: sticky;
+      top: 84px;
+      display: grid;
+      gap: 12px;
+    }
+
+    .preview-head {
+      padding: 14px 14px 0;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .preview-head h2 {
+      font-size: 15px;
+      margin: 0;
+    }
+
+    .seg {
+      display: flex;
+      padding: 3px;
+      background: #eef2f7;
+      border-radius: 8px;
+      gap: 3px;
+    }
+
+    .seg button {
+      height: 28px;
+      padding: 0 9px;
+      border-radius: 6px;
+      color: var(--muted);
+      background: transparent;
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    .seg button.active {
+      background: #fff;
+      color: var(--brand);
+      box-shadow: 0 1px 3px rgba(23,32,51,.08);
+    }
+
+    .phone-shell {
+      margin: 8px auto 16px;
+      width: 280px;
+      height: 580px;
+      border-radius: 28px;
+      background: #111827;
+      padding: 10px;
+      box-shadow: var(--shadow);
+    }
+
+    .phone {
+      height: 100%;
+      border-radius: 22px;
+      overflow: hidden;
+      background: #eaf5ff;
+      position: relative;
+    }
+
+    .phone-bar {
+      height: 36px;
+      background: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+      font-size: 13px;
+      color: #15233a;
+      border-bottom: 1px solid rgba(23,32,51,.08);
+    }
+
+    .hero {
+      height: 148px;
+      background: linear-gradient(180deg, #8fd0ff, #f1f9ff);
+      position: relative;
+      padding: 18px 15px;
+      overflow: hidden;
+    }
+
+    .hero::after {
+      content: "";
+      position: absolute;
+      right: -32px;
+      bottom: -24px;
+      width: 128px;
+      height: 86px;
+      border-radius: 50%;
+      background: rgba(50,120,55,.18);
+    }
+
+    .hero-title {
+      color: #1261a6;
+      font-size: 27px;
+      font-weight: 900;
+      line-height: 1.08;
+      width: 170px;
+    }
+
+    .hero-sub {
+      margin-top: 7px;
+      color: #27617d;
+      font-size: 12px;
+      font-weight: 800;
+    }
+
+    .phone-content {
+      padding: 12px;
+      height: calc(100% - 36px);
+      overflow: hidden;
+    }
+
+    .phone-title {
+      color: #1261a6;
+      font-weight: 900;
+      margin: 0 0 8px;
+      font-size: 16px;
+    }
+
+    .mobile-card {
+      background: rgba(255,255,255,.94);
+      border: 1px solid rgba(198,166,79,.38);
+      border-radius: 8px;
+      padding: 9px;
+      margin-bottom: 10px;
+      box-shadow: 0 3px 9px rgba(29,85,130,.08);
+    }
+
+    .mobile-card h4 {
+      margin: 0 0 8px;
+      color: #1261a6;
+      font-size: 13px;
+      line-height: 1.35;
+      border-bottom: 1px solid rgba(18,97,166,.18);
+      padding-bottom: 6px;
+    }
+
+    .mobile-product {
+      height: 86px;
+      border-radius: 7px;
+      display: grid;
+      place-items: center;
+      background: #f7fbff;
+      color: var(--brand);
+      font-size: 36px;
+      font-weight: 900;
+      overflow: hidden;
+    }
+
+    .mobile-product img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: top;
+    }
+
+    .activity-override-card {
+      width: 100%;
+      height: 100%;
+      display: grid;
+      place-items: center;
+      text-align: center;
+      color: #0f5fa9;
+      background: linear-gradient(135deg, #dff0ff, #e9fbf4);
+      font-size: 15px;
+      line-height: 1.35;
+      font-weight: 900;
+    }
+
+    .mobile-caption {
+      text-align: center;
+      color: #48718c;
+      font-size: 11px;
+      margin-top: 6px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .redeem {
+      width: 120px;
+      height: 34px;
+      border-radius: 18px;
+      display: grid;
+      place-items: center;
+      margin: 8px auto 0;
+      color: #fff;
+      background: linear-gradient(180deg, #b9c0c8, #8f98a4);
+      font-weight: 800;
+    }
+
+    .my-gifts-tabs {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      height: 36px;
+      background: #0f5fa9;
+      color: #fff;
+      align-items: center;
+      text-align: center;
+      font-size: 11px;
+      font-weight: 800;
+      border-radius: 8px 8px 0 0;
+      overflow: hidden;
+    }
+
+    .my-gifts-tabs span:nth-child(3) {
+      color: #ffe27c;
+      text-decoration: underline;
+    }
+
+    .gift-ticket {
+      display: grid;
+      grid-template-columns: 58px 1fr 42px;
+      gap: 8px;
+      align-items: center;
+      background: #fff;
+      border: 1px solid #dbe7f5;
+      border-radius: 8px;
+      padding: 10px;
+      margin-top: 10px;
+    }
+
+    .ticket-title {
+      font-size: 12px;
+      font-weight: 800;
+      color: #263249;
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+    }
+
+    .ticket-line {
+      font-size: 10px;
+      color: #7a879a;
+      margin-top: 3px;
+    }
+
+    .stamp {
+      width: 40px;
+      height: 40px;
+      border: 2px solid #c9d0d9;
+      border-radius: 50%;
+      color: #8b95a3;
+      display: grid;
+      place-items: center;
+      transform: rotate(-18deg);
+      font-size: 11px;
+      font-weight: 900;
+    }
+
+    .detail-poster {
+      height: 380px;
+      border-radius: 8px;
+      background: linear-gradient(180deg, #f4c247, #fdf2d0 62%, #f9fff1);
+      padding: 16px 14px;
+      color: #9a5a00;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .detail-poster h3 {
+      margin: 0 0 16px;
+      color: #fff;
+      font-size: 22px;
+      text-shadow: 0 2px 4px rgba(96,56,0,.24);
+    }
+
+    .play-box {
+      height: 128px;
+      border: 2px solid rgba(255,255,255,.75);
+      background: rgba(255,255,255,.85);
+      border-radius: 8px;
+      display: grid;
+      place-items: center;
+      color: var(--brand);
+      font-size: 44px;
+      font-weight: 900;
+    }
+
+    .service-box {
+      margin-top: 18px;
+      background: rgba(255,255,255,.82);
+      border-radius: 8px;
+      padding: 10px;
+      color: #6a4a10;
+      font-size: 12px;
+      line-height: 1.5;
+    }
+
+    .drawer-backdrop,
+    .modal-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(17,24,39,.35);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity var(--fast);
+      z-index: 60;
+    }
+
+    .drawer-backdrop.show,
+    .modal-backdrop.show {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .drawer {
+      position: fixed;
+      top: 0;
+      right: 0;
+      width: 620px;
+      max-width: calc(100vw - 28px);
+      height: 100vh;
+      background: #fff;
+      box-shadow: -20px 0 50px rgba(17,24,39,.18);
+      transform: translateX(102%);
+      transition: transform var(--fast);
+      z-index: 70;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .drawer.show { transform: translateX(0); }
+
+    .drawer-head,
+    .modal-head {
+      height: 62px;
+      padding: 0 18px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .drawer-head h2,
+    .modal-head h2 {
+      margin: 0;
+      font-size: 17px;
+    }
+
+    .drawer-body {
+      overflow: auto;
+      padding: 16px 18px 82px;
+    }
+
+    .drawer-foot,
+    .modal-foot {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      min-height: 64px;
+      padding: 12px 18px;
+      background: #fff;
+      border-top: 1px solid var(--line);
+      display: flex;
+      justify-content: flex-end;
+      gap: 10px;
+    }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+      margin-bottom: 16px;
+    }
+
+    .form-grid .full { grid-column: 1 / -1; }
+
+    .inner-tabs {
+      display: flex;
+      gap: 4px;
+      margin-bottom: 14px;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .inner-tabs button {
+      height: 38px;
+      padding: 0 12px;
+      color: var(--muted);
+      background: transparent;
+      border-bottom: 2px solid transparent;
+      font-weight: 700;
+    }
+
+    .inner-tabs button.active {
+      color: var(--brand);
+      border-bottom-color: var(--brand);
+    }
+
+    .drawer-section { display: none; }
+    .drawer-section.active { display: block; }
+
+    .asset-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+
+    .asset-card {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: var(--panel-alt);
+      padding: 12px;
+      display: grid;
+      gap: 10px;
+    }
+
+    .asset-card h3 {
+      margin: 0;
+      font-size: 13px;
+    }
+
+    .required {
+      color: var(--red);
+      font-weight: 900;
+      margin-left: 4px;
+    }
+
+    .asset-frame {
+      height: 110px;
+      border-radius: 8px;
+      border: 1px dashed #b9c5d5;
+      background: #fff;
+      display: grid;
+      place-items: center;
+      color: var(--subtle);
+      overflow: hidden;
+    }
+
+    .asset-frame img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: top;
+    }
+
+    .asset-frame.video-frame {
+      background:
+        linear-gradient(135deg, rgba(23,103,179,.08), rgba(35,162,143,.08)),
+        #fff;
+      color: var(--brand);
+      gap: 8px;
+      font-weight: 800;
+    }
+
+    .asset-frame.video-frame .play-mark {
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      color: #fff;
+      background: var(--brand);
+      box-shadow: 0 8px 18px rgba(23,103,179,.22);
+    }
+
+    .asset-frame.video-frame .play-mark::before {
+      content: "";
+      width: 0;
+      height: 0;
+      border-top: 9px solid transparent;
+      border-bottom: 9px solid transparent;
+      border-left: 14px solid currentColor;
+      margin-left: 4px;
+    }
+
+    .asset-tip {
+      font-size: 12px;
+      color: var(--muted);
+      line-height: 1.45;
+    }
+
+    .override-note {
+      margin-bottom: 14px;
+      border: 1px solid #cfe2f7;
+      background: #f4f9ff;
+      color: #315a82;
+      border-radius: 8px;
+      padding: 12px;
+      line-height: 1.55;
+    }
+
+    .override-note strong {
+      color: var(--brand);
+    }
+
+    .override-meta {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin-bottom: 14px;
+    }
+
+    .override-meta .info-box {
+      border: 1px solid var(--line-soft);
+      border-radius: 8px;
+      background: #fff;
+      padding: 10px 12px;
+    }
+
+    .override-frame {
+      background:
+        linear-gradient(135deg, rgba(23,103,179,.1), rgba(35,162,143,.08)),
+        #fff;
+      color: var(--brand);
+      font-weight: 900;
+      text-align: center;
+      line-height: 1.35;
+    }
+
+    .source-hint {
+      display: block;
+      margin-top: 4px;
+      color: var(--subtle);
+      font-size: 12px;
+    }
+
+    .modal {
+      position: fixed;
+      left: 50%;
+      top: 50%;
+      width: 860px;
+      max-width: calc(100vw - 32px);
+      max-height: calc(100vh - 42px);
+      background: #fff;
+      border-radius: 8px;
+      box-shadow: var(--shadow);
+      transform: translate(-50%, -46%) scale(.98);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity var(--fast), transform var(--fast);
+      z-index: 80;
+      overflow: hidden;
+    }
+
+    .modal.show {
+      opacity: 1;
+      pointer-events: auto;
+      transform: translate(-50%, -50%) scale(1);
+    }
+
+    .modal-body {
+      padding: 16px 18px 84px;
+      max-height: calc(100vh - 168px);
+      overflow: auto;
+    }
+
+    .toast {
+      position: fixed;
+      right: 22px;
+      bottom: 22px;
+      min-width: 220px;
+      height: 44px;
+      padding: 0 14px;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      color: #fff;
+      background: #172033;
+      box-shadow: var(--shadow);
+      opacity: 0;
+      transform: translateY(12px);
+      pointer-events: none;
+      transition: opacity var(--fast), transform var(--fast);
+      z-index: 90;
+    }
+
+    .toast.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .switch {
+      position: relative;
+      width: 42px;
+      height: 24px;
+      background: #cbd3df;
+      border-radius: 999px;
+      padding: 0;
+      vertical-align: middle;
+      transition: background var(--fast);
+    }
+
+    .switch::after {
+      content: "";
+      position: absolute;
+      top: 3px;
+      left: 3px;
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      background: #fff;
+      transition: left var(--fast);
+      box-shadow: 0 1px 3px rgba(23,32,51,.2);
+    }
+
+    .switch.on { background: var(--green); }
+    .switch.on::after { left: 21px; }
+
+    .activity-header {
+      padding: 16px;
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 12px;
+      align-items: center;
+      border-bottom: 1px solid var(--line-soft);
+    }
+
+    .activity-card {
+      display: grid;
+      grid-template-columns: 1.2fr .85fr .85fr .65fr;
+      gap: 10px;
+      padding: 14px 16px;
+      background: #fbfdff;
+      border-bottom: 1px solid var(--line-soft);
+    }
+
+    .info-box {
+      display: grid;
+      gap: 5px;
+    }
+
+    .info-box span {
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .info-box strong {
+      font-size: 13px;
+    }
+
+    .row-tools {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+    }
+
+    .page { display: none; }
+    .page.active { display: block; }
+
+    .log-list {
+      padding: 16px;
+      display: grid;
+      gap: 10px;
+    }
+
+    .log-row {
+      display: grid;
+      grid-template-columns: 120px 1fr 110px;
+      gap: 12px;
+      align-items: center;
+      padding: 12px;
+      border: 1px solid var(--line-soft);
+      border-radius: 8px;
+      background: #fff;
+    }
+
+    .log-row strong { font-size: 13px; }
+    .log-row span { color: var(--muted); font-size: 12px; }
+
+    .empty-state {
+      padding: 44px 20px;
+      text-align: center;
+      color: var(--muted);
+    }
+
+    @media (max-width: 1180px) {
+      .workspace {
+        grid-template-columns: 1fr;
+      }
+
+      .right-preview {
+        position: static;
+      }
+    }
+
+    @media (max-width: 820px) {
+      .app {
+        grid-template-columns: 1fr;
+      }
+
+      .sidebar {
+        display: none;
+      }
+
+      .topbar {
+        padding: 0 14px;
+      }
+
+      .top-actions .user-pill {
+        display: none;
+      }
+
+      .workspace {
+        padding: 14px;
+      }
+
+      .toolbar,
+      .activity-card {
+        grid-template-columns: 1fr;
+      }
+
+      .tabs {
+        overflow-x: auto;
+        padding: 0 8px;
+      }
+
+      .tab {
+        flex: 0 0 auto;
+      }
+
+      .stats {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .form-grid,
+      .asset-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <svg width="0" height="0" style="position:absolute">
+    <symbol id="i-gift" viewBox="0 0 24 24"><path d="M20 12v8H4v-8"/><path d="M2 7h20v5H2z"/><path d="M12 22V7"/><path d="M12 7H7.5a2.5 2.5 0 1 1 2-4c1 1.1 2.5 4 2.5 4Z"/><path d="M12 7h4.5a2.5 2.5 0 1 0-2-4c-1 1.1-2.5 4-2.5 4Z"/></symbol>
+    <symbol id="i-list" viewBox="0 0 24 24"><path d="M8 6h13"/><path d="M8 12h13"/><path d="M8 18h13"/><path d="M3 6h.01"/><path d="M3 12h.01"/><path d="M3 18h.01"/></symbol>
+    <symbol id="i-calendar" viewBox="0 0 24 24"><path d="M8 2v4"/><path d="M16 2v4"/><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M3 10h18"/></symbol>
+    <symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></symbol>
+    <symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 5v14"/><path d="M5 12h14"/></symbol>
+    <symbol id="i-upload" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="m17 8-5-5-5 5"/><path d="M12 3v12"/></symbol>
+    <symbol id="i-eye" viewBox="0 0 24 24"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></symbol>
+    <symbol id="i-x" viewBox="0 0 24 24"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></symbol>
+    <symbol id="i-save" viewBox="0 0 24 24"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2Z"/><path d="M17 21v-8H7v8"/><path d="M7 3v5h8"/></symbol>
+    <symbol id="i-log" viewBox="0 0 24 24"><path d="M3 3v18h18"/><path d="M7 14l3-3 3 2 5-6"/></symbol>
+    <symbol id="i-bell" viewBox="0 0 24 24"><path d="M18 8a6 6 0 1 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9"/><path d="M13.7 21a2 2 0 0 1-3.4 0"/></symbol>
+    <symbol id="i-filter" viewBox="0 0 24 24"><path d="M3 5h18"/><path d="M6 12h12"/><path d="M10 19h4"/></symbol>
+  </svg>
+
+  <div class="app">
+    <aside class="sidebar">
+      <div class="brand">
+        <div class="brand-mark">礼</div>
+        <div>
+          <strong>FMC 后台</strong>
+          <span>礼品配置中心</span>
+        </div>
+      </div>
+      <nav class="nav" aria-label="后台导航">
+        <div class="nav-section">礼品中心</div>
+        <button class="nav-item active" data-nav="library"><svg><use href="#i-gift"/></svg>礼品库</button>
+        <button class="nav-item" data-nav="activity"><svg><use href="#i-calendar"/></svg>活动礼品配置</button>
+        <button class="nav-item" data-nav="logs"><svg><use href="#i-log"/></svg>操作记录</button>
+      </nav>
+    </aside>
+
+    <main class="main">
+      <header class="topbar">
+        <div class="crumb">
+          系统首页 / 礼品中心 /
+          <strong id="pageTitle">礼品库</strong>
+        </div>
+        <div class="top-actions">
+          <button class="btn icon-only" title="通知"><svg class="icon"><use href="#i-bell"/></svg></button>
+          <div class="user-pill"><span class="avatar">运</span>活动运营</div>
+        </div>
+      </header>
+
+      <section class="workspace">
+        <div class="left-flow">
+          <div class="tabs panel">
+            <button class="tab active" data-tab="library"><svg class="icon"><use href="#i-gift"/></svg>礼品库</button>
+            <button class="tab" data-tab="activity"><svg class="icon"><use href="#i-calendar"/></svg>活动礼品配置</button>
+            <button class="tab" data-tab="logs"><svg class="icon"><use href="#i-log"/></svg>操作记录</button>
+          </div>
+
+          <section class="page active" id="libraryPage">
+            <div class="panel">
+              <div class="toolbar">
+                <div class="field">
+                  <label>关键词</label>
+                  <input class="input" id="keyword" placeholder="礼品 code / 名称 / 品牌" />
+                </div>
+                <div class="field">
+                  <label>礼品类型</label>
+                  <select class="select" id="typeFilter">
+                    <option value="">全部类型</option>
+                    <option>实物礼品</option>
+                    <option>红包礼品</option>
+                    <option>虚拟礼品</option>
+                  </select>
+                </div>
+                <div class="field">
+                  <label>状态</label>
+                  <select class="select" id="statusFilter">
+                    <option value="">全部状态</option>
+                    <option>启用</option>
+                    <option>草稿</option>
+                    <option>停用</option>
+                  </select>
+                </div>
+                <div class="field">
+                  <label>品牌</label>
+                  <select class="select" id="brandFilter">
+                    <option value="">全部品牌</option>
+                    <option>Friso</option>
+                    <option>Hape</option>
+                    <option>SXJF</option>
+                  </select>
+                </div>
+                <div class="btn-row">
+                  <button class="btn" id="resetBtn"><svg class="icon"><use href="#i-filter"/></svg>重置</button>
+                  <button class="btn primary" id="newGiftBtn"><svg class="icon"><use href="#i-plus"/></svg>同步礼品</button>
+                </div>
+              </div>
+              <div class="stats">
+                <div class="stat"><span>礼品总数</span><strong id="statTotal">0</strong></div>
+                <div class="stat"><span>启用礼品</span><strong id="statActive">0</strong></div>
+                <div class="stat"><span>待补素材</span><strong id="statAssets">0</strong></div>
+                <div class="stat"><span>活动绑定</span><strong>18</strong></div>
+              </div>
+              <div class="table-wrap">
+                <table aria-label="礼品库列表">
+                  <thead>
+                    <tr>
+                      <th>礼品信息</th>
+                      <th>类型</th>
+                      <th>品牌</th>
+                      <th>素材状态</th>
+                      <th>客服电话</th>
+                      <th>状态</th>
+                      <th>更新时间</th>
+                      <th>操作</th>
+                    </tr>
+                  </thead>
+                  <tbody id="giftTable"></tbody>
+                </table>
+              </div>
+            </div>
+          </section>
+
+          <section class="page" id="activityPage">
+            <div class="panel">
+              <div class="activity-header">
+                <div class="field">
+                  <label>活动</label>
+                  <select class="select" id="activitySelect">
+                    <option>Y26 新版妈妈粉全国买赠活动</option>
+                    <option>2026 年 7-8 月美素佳儿高活乳源活动</option>
+                    <option>Y25M3 皇家主题买赠活动</option>
+                  </select>
+                </div>
+                <div class="btn-row">
+                  <button class="btn" id="batchStopBtn">批量停用</button>
+                  <button class="btn teal" id="addToActivityBtn"><svg class="icon"><use href="#i-plus"/></svg>添加礼品</button>
+                </div>
+              </div>
+              <div class="activity-card">
+                <div class="info-box"><span>活动 code</span><strong>NT_YY223DH_N_241001</strong></div>
+                <div class="info-box"><span>活动时间</span><strong>2026-07-11 至 2026-08-11</strong></div>
+                <div class="info-box"><span>已绑定礼品</span><strong id="boundCount">0 个</strong></div>
+                <div class="info-box"><span>前端状态</span><strong><span class="tag green">生效中</span></strong></div>
+              </div>
+              <div class="table-wrap">
+                <table aria-label="活动礼品配置列表">
+                  <thead>
+                    <tr>
+                      <th><input type="checkbox" id="checkAll" /></th>
+                      <th>礼品信息</th>
+                      <th>排序</th>
+                      <th>活动内覆盖</th>
+                      <th>展示时间</th>
+                      <th>状态</th>
+                      <th>操作</th>
+                    </tr>
+                  </thead>
+                  <tbody id="activityTable"></tbody>
+                </table>
+              </div>
+            </div>
+          </section>
+
+          <section class="page" id="logsPage">
+            <div class="panel">
+              <div class="toolbar" style="grid-template-columns: 1fr .8fr .8fr auto;">
+                <div class="field">
+                  <label>操作对象</label>
+                  <input class="input" placeholder="礼品 code / 活动 code" />
+                </div>
+                <div class="field">
+                  <label>操作类型</label>
+                  <select class="select">
+                    <option>全部类型</option>
+                    <option>新增礼品</option>
+                    <option>编辑素材</option>
+                    <option>绑定活动</option>
+                  </select>
+                </div>
+                <div class="field">
+                  <label>操作人</label>
+                  <select class="select">
+                    <option>全部人员</option>
+                    <option>活动运营</option>
+                    <option>管理员</option>
+                  </select>
+                </div>
+                <div class="btn-row"><button class="btn primary"><svg class="icon"><use href="#i-search"/></svg>查询</button></div>
+              </div>
+              <div class="log-list">
+                <div class="log-row"><span>2026-07-21 11:30</span><strong>编辑礼品活动展示图：凤凰儿童平衡车</strong><span>活动运营</span></div>
+                <div class="log-row"><span>2026-07-21 11:12</span><strong>绑定礼品到活动：Y26 新版妈妈粉全国买赠活动</strong><span>活动运营</span></div>
+                <div class="log-row"><span>2026-07-20 18:46</span><strong>启用礼品：柔护双星 A 类婴儿毛浴巾</strong><span>管理员</span></div>
+                <div class="log-row"><span>2026-07-20 15:18</span><strong>新增礼品：便携式餐碗 5 件套</strong><span>活动运营</span></div>
+              </div>
+            </div>
+          </section>
+        </div>
+
+        <aside class="right-preview panel" aria-label="消费者端预览">
+          <div class="preview-head">
+            <h2>消费者端预览</h2>
+            <div class="seg" id="previewSeg">
+              <button class="active" data-preview="activity">活动页</button>
+              <button data-preview="mine">我的礼品</button>
+              <button data-preview="detail">详情页</button>
+            </div>
+          </div>
+          <div class="phone-shell">
+            <div class="phone">
+              <div class="phone-bar">美素佳儿</div>
+              <div class="phone-content" id="phoneContent"></div>
+            </div>
+          </div>
+        </aside>
+      </section>
+    </main>
+  </div>
+
+  <div class="drawer-backdrop" id="drawerBackdrop"></div>
+  <aside class="drawer" id="giftDrawer" aria-label="礼品编辑抽屉">
+    <div class="drawer-head">
+      <h2 id="drawerTitle">新增礼品</h2>
+      <button class="btn icon-only" id="closeDrawerBtn" title="关闭"><svg class="icon"><use href="#i-x"/></svg></button>
+    </div>
+    <div class="drawer-body">
+      <div class="inner-tabs" id="drawerTabs">
+        <button class="active" data-section="base">基础信息</button>
+        <button data-section="assets">展示素材</button>
+        <button data-section="records">操作记录</button>
+      </div>
+
+      <section class="drawer-section active" data-section-panel="base">
+        <div class="form-grid">
+          <div class="field"><label>礼品 code</label><input class="input" id="formCode" /></div>
+          <div class="field"><label>礼品名称</label><input class="input" id="formName" /></div>
+          <div class="field"><label>礼品别名</label><input class="input" id="formAlias" placeholder="用于短标题或消费者端展示" /></div>
+          <div class="field"><label>礼品类型</label><select class="select" id="formType"><option>实物礼品</option><option>红包礼品</option><option>虚拟礼品</option></select></div>
+          <div class="field"><label>品牌</label><input class="input" id="formBrand" /></div>
+          <div class="field"><label>规格/型号</label><input class="input" id="formSpec" /></div>
+          <div class="field"><label>客服电话</label><input class="input" id="formPhone" /></div>
+          <div class="field"><label>礼品状态</label><select class="select" id="formStatus"><option>启用</option><option>草稿</option><option>停用</option></select></div>
+          <div class="field full"><label>备注</label><textarea class="textarea" id="formNote"></textarea></div>
+        </div>
+      </section>
+
+      <section class="drawer-section" data-section-panel="assets">
+        <div class="asset-grid">
+          <div class="asset-card">
+            <h3>主图<span class="required">*</span></h3>
+            <div class="asset-frame" id="assetMain">通用缩略图</div>
+            <button class="btn"><svg class="icon"><use href="#i-upload"/></svg>上传图片</button>
+            <div class="asset-tip">用于礼品库列表、我的礼品。建议 400x300，PNG/JPG。</div>
+          </div>
+          <div class="asset-card">
+            <h3>活动展示图</h3>
+            <div class="asset-frame" id="assetActivity">活动页卡片</div>
+            <button class="btn"><svg class="icon"><use href="#i-upload"/></svg>上传图片</button>
+            <div class="asset-tip">用于消费者活动页“请选择赠品”。建议 654x400，小于 500KB。</div>
+          </div>
+          <div class="asset-card">
+            <h3>详情图</h3>
+            <div class="asset-frame">详情弹层长图</div>
+            <button class="btn"><svg class="icon"><use href="#i-upload"/></svg>上传图片</button>
+            <div class="asset-tip">用于礼品详情页，可承载服务电话、玩法说明、视频封面。</div>
+          </div>
+          <div class="asset-card">
+            <h3>物料图</h3>
+            <div class="asset-frame">线下物料图</div>
+            <button class="btn"><svg class="icon"><use href="#i-upload"/></svg>上传图片</button>
+            <div class="asset-tip">用于赠品登记入库、运营下载和物料核对。</div>
+          </div>
+          <div class="asset-card">
+            <h3>礼品视频</h3>
+            <div class="asset-frame video-frame" id="assetVideo"><span class="play-mark"></span><span>视频素材</span></div>
+            <button class="btn" data-upload-video><svg class="icon"><use href="#i-upload"/></svg>上传视频</button>
+            <div class="field">
+              <label>视频 URL</label>
+              <input class="input" id="formVideo" placeholder="https://cdn.example.com/gift-video.mp4" />
+            </div>
+            <div class="asset-tip">用于礼品详情页视频展示。支持上传 MP4，建议小于 100MB；也支持填写视频 URL。</div>
+          </div>
+        </div>
+      </section>
+
+      <section class="drawer-section" data-section-panel="records">
+        <div class="log-list" style="padding:0">
+          <div class="log-row"><span>今天 11:30</span><strong>更新活动展示图</strong><span>活动运营</span></div>
+          <div class="log-row"><span>昨天 17:22</span><strong>修改客服电话</strong><span>管理员</span></div>
+          <div class="log-row"><span>07-18 10:01</span><strong>礼品启用</strong><span>活动运营</span></div>
+        </div>
+      </section>
+    </div>
+    <div class="drawer-foot">
+      <button class="btn" id="cancelDrawerBtn">取消</button>
+      <button class="btn primary" id="saveGiftBtn"><svg class="icon"><use href="#i-save"/></svg>保存并预览</button>
+    </div>
+  </aside>
+
+  <div class="modal-backdrop" id="modalBackdrop"></div>
+  <section class="modal" id="giftModal" aria-label="添加活动礼品弹窗">
+    <div class="modal-head">
+      <h2>添加活动礼品</h2>
+      <button class="btn icon-only" id="closeModalBtn" title="关闭"><svg class="icon"><use href="#i-x"/></svg></button>
+    </div>
+    <div class="modal-body">
+      <div class="toolbar" style="grid-template-columns:1fr .8fr .8fr auto; padding:0 0 14px; border-bottom:0;">
+        <div class="field"><label>关键词</label><input class="input" id="modalKeyword" placeholder="礼品 code / 名称" /></div>
+        <div class="field"><label>类型</label><select class="select"><option>全部类型</option><option>实物礼品</option><option>虚拟礼品</option></select></div>
+        <div class="field"><label>品牌</label><select class="select"><option>全部品牌</option><option>Friso</option><option>Hape</option></select></div>
+        <div class="btn-row"><button class="btn primary"><svg class="icon"><use href="#i-search"/></svg>查询</button></div>
+      </div>
+      <div class="table-wrap" style="padding:0">
+        <table aria-label="可添加礼品列表">
+          <thead>
+            <tr><th>选择</th><th>礼品信息</th><th>类型</th><th>品牌</th><th>素材状态</th><th>状态</th></tr>
+          </thead>
+          <tbody id="modalGiftTable"></tbody>
+        </table>
+      </div>
+    </div>
+    <div class="modal-foot">
+      <button class="btn" id="cancelModalBtn">取消</button>
+      <button class="btn teal" id="confirmAddBtn">确认添加</button>
+    </div>
+  </section>
+
+  <section class="modal" id="overrideModal" aria-label="活动素材覆盖配置弹窗">
+    <div class="modal-head">
+      <h2>活动素材覆盖配置</h2>
+      <button class="btn icon-only" id="closeOverrideBtn" title="关闭"><svg class="icon"><use href="#i-x"/></svg></button>
+    </div>
+    <div class="modal-body">
+      <div class="override-note">
+        当前配置只作用于 <strong id="overrideActivityName">当前活动</strong>。同一个赠品被多个活动复用时，可在这里为每个活动单独配置主图和活动展示图，不会回写或覆盖礼品库默认素材。
+      </div>
+      <div class="override-meta">
+        <div class="info-box"><span>当前赠品</span><strong id="overrideGiftName">-</strong></div>
+        <div class="info-box"><span>礼品 code</span><strong id="overrideGiftCode">-</strong></div>
+      </div>
+      <div class="asset-grid">
+        <div class="asset-card">
+          <h3>当前活动主图</h3>
+          <div class="asset-frame override-frame" id="overrideMainFrame">继承礼品库主图</div>
+          <div class="btn-row" style="justify-content:flex-start">
+            <button class="btn" data-upload-override-main><svg class="icon"><use href="#i-upload"/></svg>上传主图</button>
+            <button class="btn" data-reset-override-main>恢复继承</button>
+          </div>
+          <div class="asset-tip">用于该活动下“我的礼品”、活动中奖记录等通用缩略图。仅当前活动生效。</div>
+        </div>
+        <div class="asset-card">
+          <h3>当前活动展示图</h3>
+          <div class="asset-frame override-frame" id="overrideActivityFrame">继承礼品库活动展示图</div>
+          <div class="btn-row" style="justify-content:flex-start">
+            <button class="btn" data-upload-override-activity><svg class="icon"><use href="#i-upload"/></svg>上传活动图</button>
+            <button class="btn" data-reset-override-activity>恢复继承</button>
+          </div>
+          <div class="asset-tip">用于消费者活动页“请选择赠品”卡片。适合不同活动使用不同包装、KV 或权益表达。</div>
+        </div>
+      </div>
+    </div>
+    <div class="modal-foot">
+      <button class="btn" id="cancelOverrideBtn">取消</button>
+      <button class="btn primary" id="saveOverrideBtn"><svg class="icon"><use href="#i-save"/></svg>保存当前活动素材</button>
+    </div>
+  </section>
+
+  <div class="toast" id="toast"><svg class="icon"><use href="#i-save"/></svg><span id="toastText">已保存</span></div>
+
+  <script>
+    const screenshotPath = "7f390a45-9d42-49a3-9418-d7df06c56bb8.png";
+    const gifts = [
+      {
+        code: "SW_BC_BC2109020_1X1",
+        name: "凤凰儿童平衡车",
+        alias: "凤凰儿童尼龙平衡车",
+        type: "实物礼品",
+        brand: "Hape",
+        spec: "线下领取_皇家",
+        phone: "4008662020",
+        status: "启用",
+        assets: "完整",
+        updated: "2026-07-21 11:30",
+        color: "#dff5b8",
+        glyph: "车",
+        bg: "#e9f7d5"
+      },
+      {
+        code: "LK_LK_TCFC8WB_SF",
+        name: "摩登童趣餐碗 5 件套",
+        alias: "便携式餐碗 5 件套",
+        type: "实物礼品",
+        brand: "SXJF",
+        spec: "河马系列",
+        phone: "8008207919",
+        status: "启用",
+        assets: "缺详情图",
+        updated: "2026-07-20 18:46",
+        color: "#e7804f",
+        glyph: "碗",
+        bg: "#fff0e6"
+      },
+      {
+        code: "SW_FRISO_SFMD22",
+        name: "桌面冰壶保龄球二合一",
+        alias: "桌面冰壶保龄球",
+        type: "实物礼品",
+        brand: "Friso",
+        spec: "美素佳儿联名",
+        phone: "4001868208",
+        status: "草稿",
+        assets: "缺活动图",
+        updated: "2026-07-18 10:01",
+        color: "#407cc9",
+        glyph: "球",
+        bg: "#e8f2ff"
+      },
+      {
+        code: "SW_YY_6973357844882X1",
+        name: "大洋海绵宝宝净浴巾",
+        alias: "净浴巾",
+        type: "实物礼品",
+        brand: "Friso",
+        spec: "颜色款式随机",
+        phone: "4008119297",
+        status: "停用",
+        assets: "完整",
+        updated: "2026-06-30 14:20",
+        color: "#23a28f",
+        glyph: "巾",
+        bg: "#e4f7f4"
+      }
+    ];
+
+    let selectedGift = gifts[0];
+    let currentPreview = "activity";
+    let currentOverrideCode = null;
+    let bound = [
+      { code: gifts[0].code, order: 1, overrideMain: true, overrideActivity: true, time: "跟随活动", active: true, checked: false },
+      { code: gifts[1].code, order: 2, overrideMain: false, overrideActivity: false, time: "跟随活动", active: true, checked: false }
+    ];
+
+    const $ = (selector) => document.querySelector(selector);
+    const $$ = (selector) => Array.from(document.querySelectorAll(selector));
+
+    function iconUse(id) {
+      return `<svg class="icon"><use href="#${id}"></use></svg>`;
+    }
+
+    function giftImage(gift, includeReal, variant) {
+      if (variant === "main") {
+        return `<div class="gift-img override-thumb">活动<br>主图</div>`;
+      }
+      if (variant === "activity") {
+        return `<div class="gift-img override-thumb">活动<br>图</div>`;
+      }
+      if (includeReal) {
+        return `<div class="gift-img"><img src="${screenshotPath}" alt=""></div>`;
+      }
+      return `<div class="gift-img" style="--gift-bg:${gift.bg};--gift-color:${gift.color}">${gift.glyph}</div>`;
+    }
+
+    function activeBindingForGift(gift) {
+      return bound.find(item => item.code === gift.code);
+    }
+
+    function overrideSummary(item) {
+      const tags = [];
+      if (item.overrideMain) tags.push(`<span class="tag green">主图覆盖</span>`);
+      if (item.overrideActivity) tags.push(`<span class="tag green">活动图覆盖</span>`);
+      return tags.length ? `${tags.join(" ")}<span class="source-hint">仅当前活动生效</span>` : `<span class="tag gray">继承礼品库</span><span class="source-hint">多活动复用默认素材</span>`;
+    }
+
+    function renderOverrideFrame(kind, enabled) {
+      if (!enabled) return kind === "main" ? "继承礼品库主图" : "继承礼品库活动展示图";
+      return kind === "main" ? "当前活动专属主图" : "当前活动专属活动图";
+    }
+
+    function statusTag(status) {
+      if (status === "启用") return `<span class="tag green">启用</span>`;
+      if (status === "草稿") return `<span class="tag amber">草稿</span>`;
+      return `<span class="tag gray">停用</span>`;
+    }
+
+    function assetTag(text) {
+      if (text === "完整") return `<span class="tag green">完整</span>`;
+      if (text === "缺活动图") return `<span class="tag amber">缺活动图</span>`;
+      return `<span class="tag amber">${text}</span>`;
+    }
+
+    function renderGiftTable() {
+      const keyword = $("#keyword").value.trim().toLowerCase();
+      const type = $("#typeFilter").value;
+      const status = $("#statusFilter").value;
+      const brand = $("#brandFilter").value;
+      const rows = gifts.filter(g => {
+        const hitKeyword = !keyword || [g.code, g.name, g.brand, g.alias].join(" ").toLowerCase().includes(keyword);
+        return hitKeyword && (!type || g.type === type) && (!status || g.status === status) && (!brand || g.brand === brand);
+      });
+      $("#giftTable").innerHTML = rows.map((gift, index) => `
+        <tr>
+          <td>
+            <div class="gift-cell">
+              ${giftImage(gift, index === 0)}
+              <div class="gift-meta">
+                <strong>${gift.name}</strong>
+                <span>${gift.code}</span>
+              </div>
+            </div>
+          </td>
+          <td><span class="tag">${gift.type}</span></td>
+          <td>${gift.brand}</td>
+          <td>${assetTag(gift.assets)}</td>
+          <td>${gift.phone}</td>
+          <td>${statusTag(gift.status)}</td>
+          <td>${gift.updated}</td>
+          <td>
+            <div class="op">
+              <button class="link-btn" data-edit="${gift.code}">编辑</button>
+              <button class="link-btn" data-preview-gift="${gift.code}">预览</button>
+              <button class="link-btn" data-copy="${gift.code}">复制</button>
+            </div>
+          </td>
+        </tr>
+      `).join("") || `<tr><td colspan="8"><div class="empty-state">暂无匹配礼品</div></td></tr>`;
+      $("#statTotal").textContent = gifts.length;
+      $("#statActive").textContent = gifts.filter(g => g.status === "启用").length;
+      $("#statAssets").textContent = gifts.filter(g => g.assets !== "完整").length;
+    }
+
+    function renderActivityTable() {
+      $("#boundCount").textContent = `${bound.length} 个`;
+      $("#activityTable").innerHTML = bound.map(item => {
+        const gift = gifts.find(g => g.code === item.code);
+        const imageVariant = item.overrideMain ? "main" : "";
+        return `
+          <tr>
+            <td><input type="checkbox" ${item.checked ? "checked" : ""} data-bound-check="${gift.code}" /></td>
+            <td>
+              <div class="gift-cell">
+                ${giftImage(gift, gift.code === gifts[0].code && !item.overrideMain, imageVariant)}
+                <div class="gift-meta"><strong>${gift.name}</strong><span>${gift.code}</span></div>
+              </div>
+            </td>
+            <td>
+              <div class="row-tools">
+                <button class="btn icon-only" data-up="${gift.code}" title="上移">↑</button>
+                <strong>${item.order}</strong>
+                <button class="btn icon-only" data-down="${gift.code}" title="下移">↓</button>
+              </div>
+            </td>
+            <td>${overrideSummary(item)}</td>
+            <td>${item.time}</td>
+            <td><button class="switch ${item.active ? "on" : ""}" data-toggle-bound="${gift.code}" title="启停"></button></td>
+            <td>
+              <div class="op">
+                <button class="link-btn" data-preview-gift="${gift.code}">预览</button>
+                <button class="link-btn" data-override="${gift.code}">覆盖配置</button>
+                <button class="link-btn" data-remove="${gift.code}">移除</button>
+              </div>
+            </td>
+          </tr>
+        `;
+      }).join("");
+    }
+
+    function renderModalTable() {
+      const boundCodes = new Set(bound.map(item => item.code));
+      $("#modalGiftTable").innerHTML = gifts.map((gift, index) => `
+        <tr>
+          <td><input type="checkbox" data-modal-check="${gift.code}" ${boundCodes.has(gift.code) ? "disabled" : ""}></td>
+          <td>
+            <div class="gift-cell">
+              ${giftImage(gift, index === 0)}
+              <div class="gift-meta"><strong>${gift.name}</strong><span>${gift.code}</span></div>
+            </div>
+          </td>
+          <td><span class="tag">${gift.type}</span></td>
+          <td>${gift.brand}</td>
+          <td>${assetTag(gift.assets)}</td>
+          <td>${statusTag(gift.status)}</td>
+        </tr>
+      `).join("");
+    }
+
+    function renderPhone() {
+      const gift = selectedGift;
+      const activityBinding = activeBindingForGift(gift);
+      const content = $("#phoneContent");
+      if (currentPreview === "activity") {
+        const activityImage = activityBinding?.overrideActivity
+          ? `<div class="activity-override-card">当前活动<br>专属活动图</div>`
+          : gift.code === gifts[0].code
+            ? `<img src="${screenshotPath}" alt="">`
+            : gift.glyph;
+        content.innerHTML = `
+          <div class="hero">
+            <div class="hero-title">高活乳源<br>自然天成</div>
+            <div class="hero-sub">高乳脂 · 高蛋白</div>
+          </div>
+          <p class="phone-title">请选择赠品：</p>
+          <div class="mobile-card">
+            <h4>买 3 听　皇家美素佳儿 2、3 段 800g</h4>
+            <div class="mobile-product">${activityImage}</div>
+            <div class="mobile-caption">${gift.alias || gift.name}（颜色款式随机）</div>
+          </div>
+          <div style="text-align:center;color:#6e8697;font-size:12px">当前剩余 20 个礼品，先到先得</div>
+          <button class="redeem">去兑换</button>
+        `;
+      } else if (currentPreview === "mine") {
+        content.innerHTML = `
+          <div style="height:132px;background:linear-gradient(180deg,#9ccbf4,#e7f5ff);padding:18px 14px;color:#1261a6;font-weight:900;">
+            <div style="font-size:18px;">我的礼品</div>
+            <div style="margin-top:18px;background:rgba(255,255,255,.72);border-radius:18px;padding:10px;">实物礼品 · 3</div>
+          </div>
+          <div class="my-gifts-tabs"><span>活动赠品</span><span>红包礼品</span><span>实物礼品</span><span>虚拟礼品</span></div>
+          ${[gifts[0], gifts[1], gifts[2]].map((g, index) => `
+            <div class="gift-ticket">
+              ${giftImage(g, index === 0 && !activeBindingForGift(g)?.overrideMain, activeBindingForGift(g)?.overrideMain ? "main" : "")}
+              <div><div class="ticket-title">${g.name}</div><div class="ticket-line">活动名称：Y26 新版妈妈粉全国买赠</div><div class="ticket-line">截止时间：2026-09-09</div></div>
+              <div class="stamp">已过期</div>
+            </div>
+          `).join("")}
+        `;
+      } else {
+        content.innerHTML = `
+          <div class="detail-poster">
+            <h3>买赠礼品展示</h3>
+            <div class="play-box">${gift.code === gifts[0].code ? `<img src="${screenshotPath}" alt="" style="width:100%;height:100%;object-fit:cover;object-position:center;">` : gift.glyph}</div>
+            <div class="service-box">
+              <strong>${gift.name}</strong><br>
+              ${gift.spec}<br>
+              礼品服务商电话：${gift.phone}
+            </div>
+            <div style="position:absolute;left:18px;bottom:28px;font-size:28px;font-weight:900;color:#d26b00;">实物礼品</div>
+          </div>
+        `;
+      }
+    }
+
+    function switchPage(name) {
+      $$(".page").forEach(page => page.classList.remove("active"));
+      $(`#${name}Page`).classList.add("active");
+      $$(".tab").forEach(tab => tab.classList.toggle("active", tab.dataset.tab === name));
+      $$("[data-nav]").forEach(nav => nav.classList.toggle("active", nav.dataset.nav === name));
+      const titles = { library: "礼品库", activity: "活动礼品配置", logs: "操作记录" };
+      $("#pageTitle").textContent = titles[name];
+    }
+
+    function openDrawer(gift) {
+      selectedGift = gift || {
+        code: "GIFT_NEW_20260721",
+        name: "新建礼品",
+        alias: "",
+        type: "实物礼品",
+        brand: "",
+        spec: "",
+        phone: "",
+        status: "草稿",
+        assets: "缺活动图",
+        updated: "2026-07-21 12:00",
+        color: "#1767b3",
+        glyph: "新",
+        bg: "#e8f2ff"
+      };
+      $("#drawerTitle").textContent = gift ? "编辑礼品" : "新增礼品";
+      $("#formCode").value = selectedGift.code;
+      $("#formName").value = selectedGift.name;
+      $("#formType").value = selectedGift.type;
+      $("#formBrand").value = selectedGift.brand;
+      $("#formSpec").value = selectedGift.spec;
+      $("#formPhone").value = selectedGift.phone;
+      $("#formStatus").value = selectedGift.status;
+      $("#formAlias").value = selectedGift.alias || "";
+      $("#formVideo").value = gift ? "https://cdn.example.com/gift-video.mp4" : "";
+      $("#formNote").value = gift ? "历史活动复用礼品，活动内特殊文案请走覆盖配置。" : "";
+      $("#assetMain").innerHTML = gift && gift.code === gifts[0].code ? `<img src="${screenshotPath}" alt="">` : "通用缩略图";
+      $("#assetActivity").innerHTML = gift && gift.code === gifts[0].code ? `<img src="${screenshotPath}" alt="">` : "活动页卡片";
+      $("#drawerBackdrop").classList.add("show");
+      $("#giftDrawer").classList.add("show");
+      renderPhone();
+    }
+
+    function closeDrawer() {
+      $("#drawerBackdrop").classList.remove("show");
+      $("#giftDrawer").classList.remove("show");
+    }
+
+    function openModal() {
+      renderModalTable();
+      $("#modalBackdrop").classList.add("show");
+      $("#giftModal").classList.add("show");
+    }
+
+    function closeModal() {
+      $("#modalBackdrop").classList.remove("show");
+      $("#giftModal").classList.remove("show");
+    }
+
+    function openOverrideModal(code) {
+      currentOverrideCode = code;
+      const item = bound.find(row => row.code === code);
+      const gift = gifts.find(row => row.code === code);
+      selectedGift = gift;
+      $("#overrideActivityName").textContent = $("#activitySelect").value;
+      $("#overrideGiftName").textContent = gift.name;
+      $("#overrideGiftCode").textContent = gift.code;
+      $("#overrideMainFrame").textContent = renderOverrideFrame("main", item.overrideMain);
+      $("#overrideActivityFrame").textContent = renderOverrideFrame("activity", item.overrideActivity);
+      $("#modalBackdrop").classList.add("show");
+      $("#overrideModal").classList.add("show");
+      renderPhone();
+    }
+
+    function closeOverrideModal() {
+      $("#modalBackdrop").classList.remove("show");
+      $("#overrideModal").classList.remove("show");
+    }
+
+    function toast(text) {
+      $("#toastText").textContent = text;
+      $("#toast").classList.add("show");
+      clearTimeout(window.toastTimer);
+      window.toastTimer = setTimeout(() => $("#toast").classList.remove("show"), 1800);
+    }
+
+    document.addEventListener("click", (event) => {
+      const target = event.target.closest("button");
+      if (!target) return;
+
+      if (target.dataset.tab) switchPage(target.dataset.tab);
+      if (target.dataset.nav) switchPage(target.dataset.nav);
+      if (target.dataset.preview) {
+        currentPreview = target.dataset.preview;
+        $$("#previewSeg button").forEach(btn => btn.classList.toggle("active", btn === target));
+        renderPhone();
+      }
+      if (target.id === "newGiftBtn") openDrawer(null);
+      if (target.dataset.edit) openDrawer(gifts.find(g => g.code === target.dataset.edit));
+      if (target.dataset.previewGift) {
+        selectedGift = gifts.find(g => g.code === target.dataset.previewGift);
+        renderPhone();
+        toast("预览已更新");
+      }
+      if (target.dataset.copy) toast("已复制礼品 code");
+      if (target.hasAttribute("data-upload-video")) {
+        $("#assetVideo").innerHTML = `<span class="play-mark"></span><span>gift-demo-video.mp4</span>`;
+        toast("视频素材已选择");
+      }
+      if (target.id === "closeDrawerBtn" || target.id === "cancelDrawerBtn") closeDrawer();
+      if (target.id === "saveGiftBtn") {
+        selectedGift.name = $("#formName").value || selectedGift.name;
+        selectedGift.alias = $("#formAlias").value || selectedGift.alias;
+        selectedGift.status = $("#formStatus").value;
+        renderGiftTable();
+        renderActivityTable();
+        renderPhone();
+        toast("礼品资料已保存");
+      }
+      if (target.id === "addToActivityBtn") openModal();
+      if (target.id === "closeModalBtn" || target.id === "cancelModalBtn") closeModal();
+      if (target.id === "confirmAddBtn") {
+        const checked = $$("[data-modal-check]:checked").map(input => input.dataset.modalCheck);
+        checked.forEach(code => {
+          if (!bound.some(item => item.code === code)) {
+            bound.push({ code, order: bound.length + 1, overrideMain: false, overrideActivity: false, time: "跟随活动", active: true, checked: false });
+          }
+        });
+        renderActivityTable();
+        closeModal();
+        toast(checked.length ? "礼品已添加到活动" : "请选择礼品");
+      }
+      if (target.dataset.toggleBound) {
+        const item = bound.find(row => row.code === target.dataset.toggleBound);
+        item.active = !item.active;
+        renderActivityTable();
+        toast(item.active ? "活动礼品已启用" : "活动礼品已停用");
+      }
+      if (target.dataset.remove) {
+        bound = bound.filter(row => row.code !== target.dataset.remove).map((row, index) => ({ ...row, order: index + 1 }));
+        renderActivityTable();
+        toast("已从活动移除");
+      }
+      if (target.dataset.override) {
+        openOverrideModal(target.dataset.override);
+      }
+      if (target.hasAttribute("data-upload-override-main")) {
+        const item = bound.find(row => row.code === currentOverrideCode);
+        item.overrideMain = true;
+        $("#overrideMainFrame").textContent = renderOverrideFrame("main", true);
+        renderActivityTable();
+        renderPhone();
+        toast("当前活动主图已选择");
+      }
+      if (target.hasAttribute("data-upload-override-activity")) {
+        const item = bound.find(row => row.code === currentOverrideCode);
+        item.overrideActivity = true;
+        $("#overrideActivityFrame").textContent = renderOverrideFrame("activity", true);
+        renderActivityTable();
+        renderPhone();
+        toast("当前活动展示图已选择");
+      }
+      if (target.hasAttribute("data-reset-override-main")) {
+        const item = bound.find(row => row.code === currentOverrideCode);
+        item.overrideMain = false;
+        $("#overrideMainFrame").textContent = renderOverrideFrame("main", false);
+        renderActivityTable();
+        renderPhone();
+        toast("主图已恢复继承");
+      }
+      if (target.hasAttribute("data-reset-override-activity")) {
+        const item = bound.find(row => row.code === currentOverrideCode);
+        item.overrideActivity = false;
+        $("#overrideActivityFrame").textContent = renderOverrideFrame("activity", false);
+        renderActivityTable();
+        renderPhone();
+        toast("活动图已恢复继承");
+      }
+      if (target.id === "closeOverrideBtn" || target.id === "cancelOverrideBtn") {
+        closeOverrideModal();
+      }
+      if (target.id === "saveOverrideBtn") {
+        renderActivityTable();
+        renderPhone();
+        closeOverrideModal();
+        toast("当前活动素材已保存");
+      }
+      if (target.dataset.up || target.dataset.down) {
+        const code = target.dataset.up || target.dataset.down;
+        const index = bound.findIndex(row => row.code === code);
+        const next = target.dataset.up ? index - 1 : index + 1;
+        if (next >= 0 && next < bound.length) {
+          [bound[index], bound[next]] = [bound[next], bound[index]];
+          bound = bound.map((row, orderIndex) => ({ ...row, order: orderIndex + 1 }));
+          renderActivityTable();
+        }
+      }
+      if (target.id === "batchStopBtn") {
+        const checked = $$("[data-bound-check]:checked").map(input => input.dataset.boundCheck);
+        bound.forEach(row => { if (checked.includes(row.code)) row.active = false; });
+        renderActivityTable();
+        toast(checked.length ? "已批量停用" : "请先选择礼品");
+      }
+      if (target.id === "resetBtn") {
+        $("#keyword").value = "";
+        $("#typeFilter").value = "";
+        $("#statusFilter").value = "";
+        $("#brandFilter").value = "";
+        renderGiftTable();
+      }
+    });
+
+    document.addEventListener("change", (event) => {
+      if (event.target.matches("#keyword,#typeFilter,#statusFilter,#brandFilter")) renderGiftTable();
+      if (event.target.matches("[data-bound-check]")) {
+        const item = bound.find(row => row.code === event.target.dataset.boundCheck);
+        item.checked = event.target.checked;
+      }
+      if (event.target.id === "checkAll") {
+        bound.forEach(row => row.checked = event.target.checked);
+        renderActivityTable();
+      }
+    });
+
+    document.addEventListener("input", (event) => {
+      if (event.target.id === "keyword") renderGiftTable();
+    });
+
+    $("#drawerBackdrop").addEventListener("click", closeDrawer);
+    $("#modalBackdrop").addEventListener("click", () => {
+      closeModal();
+      closeOverrideModal();
+    });
+
+    $("#drawerTabs").addEventListener("click", (event) => {
+      const btn = event.target.closest("button");
+      if (!btn) return;
+      $$("#drawerTabs button").forEach(tab => tab.classList.toggle("active", tab === btn));
+      $$(".drawer-section").forEach(section => section.classList.toggle("active", section.dataset.sectionPanel === btn.dataset.section));
+    });
+
+    renderGiftTable();
+    renderActivityTable();
+    renderPhone();
+  </script>
+</body>
+</html>
