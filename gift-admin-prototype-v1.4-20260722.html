@@ -105,12 +105,6 @@
       overflow: auto;
     }
 
-    .nav-section {
-      margin: 14px 10px 7px;
-      color: #8292aa;
-      font-size: 12px;
-    }
-
     .nav-item {
       width: 100%;
       height: 38px;
@@ -133,6 +127,46 @@
 
     .nav-item.active {
       box-shadow: inset 3px 0 0 #42b2ff;
+    }
+
+    .nav-group {
+      display: grid;
+      gap: 6px;
+      margin-bottom: 12px;
+    }
+
+    .nav-parent {
+      min-height: 38px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 0 10px;
+      color: #ffffff;
+      font-size: 13px;
+      font-weight: 800;
+    }
+
+    .nav-parent svg {
+      width: 17px;
+      height: 17px;
+      flex: 0 0 auto;
+      stroke: currentColor;
+      stroke-width: 2;
+      fill: none;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    .nav-sub {
+      display: grid;
+      gap: 4px;
+      padding-left: 16px;
+    }
+
+    .nav-sub .nav-item {
+      height: 34px;
+      color: #aebbd0;
+      font-size: 13px;
     }
 
     .nav-item svg,
@@ -844,6 +878,10 @@
 
     .drawer.show { transform: translateX(0); }
 
+    #aiReviewDrawer {
+      width: 920px;
+    }
+
     .drawer-head,
     .modal-head {
       height: 62px;
@@ -1162,6 +1200,150 @@
     .page { display: none; }
     .page.active { display: block; }
 
+    .workspace.ai-mode {
+      grid-template-columns: minmax(900px, 1fr);
+    }
+
+    .workspace.ai-mode .right-preview {
+      display: none;
+    }
+
+    .ai-toolbar {
+      grid-template-columns: minmax(180px, 1fr) 130px 130px 130px 130px 130px auto;
+      align-items: end;
+    }
+
+    .ai-table {
+      min-width: 1180px;
+    }
+
+    .receipt-cell {
+      display: grid;
+      gap: 4px;
+      min-width: 136px;
+    }
+
+    .receipt-cell strong {
+      font-size: 13px;
+    }
+
+    .receipt-cell span {
+      color: var(--subtle);
+      font-size: 12px;
+    }
+
+    .confidence-bar {
+      width: 96px;
+      height: 8px;
+      border-radius: 999px;
+      background: #edf1f6;
+      overflow: hidden;
+    }
+
+    .confidence-bar i {
+      display: block;
+      height: 100%;
+      width: var(--confidence, 70%);
+      border-radius: inherit;
+      background: var(--bar-color, var(--green));
+    }
+
+    .review-layout {
+      display: grid;
+      grid-template-columns: 248px minmax(0, 1fr);
+      gap: 16px;
+      align-items: start;
+    }
+
+    .receipt-preview-box {
+      height: 380px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background:
+        repeating-linear-gradient(0deg, #fff 0 26px, #f8fafc 26px 27px);
+      padding: 18px 16px;
+      color: #39455a;
+      box-shadow: inset 0 0 0 8px #f8fafc;
+    }
+
+    .receipt-preview-box h3 {
+      margin: 0 0 16px;
+      text-align: center;
+      font-size: 15px;
+    }
+
+    .receipt-line {
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      border-bottom: 1px dashed #d8dee8;
+      padding: 9px 0;
+      font-size: 12px;
+    }
+
+    .compare-panel {
+      display: grid;
+      gap: 12px;
+    }
+
+    .review-detail-title {
+      margin: 0 0 10px;
+      color: #263249;
+      font-size: 14px;
+    }
+
+    .compare-row {
+      display: grid;
+      grid-template-columns: 86px minmax(180px, 1fr) minmax(180px, 1fr) 76px;
+      gap: 10px;
+      align-items: center;
+      padding: 10px;
+      border: 1px solid var(--line-soft);
+      border-radius: 8px;
+      background: #fff;
+    }
+
+    .compare-row label {
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 700;
+      white-space: nowrap;
+    }
+
+    .compare-value {
+      min-height: 34px;
+      display: flex;
+      align-items: center;
+      border: 1px solid var(--line-soft);
+      border-radius: 8px;
+      background: var(--panel-alt);
+      padding: 0 10px;
+      font-weight: 700;
+      white-space: nowrap;
+      overflow-x: auto;
+      scrollbar-width: none;
+    }
+
+    .compare-value::-webkit-scrollbar { display: none; }
+
+    .compare-row .input {
+      white-space: nowrap;
+    }
+
+    .audit-log {
+      display: grid;
+      gap: 8px;
+      margin-top: 14px;
+    }
+
+    .audit-log div {
+      border-left: 3px solid #d8e3f0;
+      padding-left: 10px;
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.45;
+    }
+
     .log-list {
       padding: 16px;
       display: grid;
@@ -1220,6 +1402,7 @@
       }
 
       .toolbar,
+      .ai-toolbar,
       .activity-card {
         grid-template-columns: 1fr;
       }
@@ -1238,7 +1421,9 @@
       }
 
       .form-grid,
-      .asset-grid {
+      .asset-grid,
+      .review-layout,
+      .compare-row {
         grid-template-columns: 1fr;
       }
     }
@@ -1258,6 +1443,7 @@
     <symbol id="i-log" viewBox="0 0 24 24"><path d="M3 3v18h18"/><path d="M7 14l3-3 3 2 5-6"/></symbol>
     <symbol id="i-bell" viewBox="0 0 24 24"><path d="M18 8a6 6 0 1 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9"/><path d="M13.7 21a2 2 0 0 1-3.4 0"/></symbol>
     <symbol id="i-filter" viewBox="0 0 24 24"><path d="M3 5h18"/><path d="M6 12h12"/><path d="M10 19h4"/></symbol>
+    <symbol id="i-scan" viewBox="0 0 24 24"><path d="M4 7V5a1 1 0 0 1 1-1h2"/><path d="M17 4h2a1 1 0 0 1 1 1v2"/><path d="M20 17v2a1 1 0 0 1-1 1h-2"/><path d="M7 20H5a1 1 0 0 1-1-1v-2"/><path d="M7 12h10"/></symbol>
   </svg>
 
   <div class="app">
@@ -1270,17 +1456,27 @@
         </div>
       </div>
       <nav class="nav" aria-label="后台导航">
-        <div class="nav-section">礼品中心</div>
-        <button class="nav-item active" data-nav="library"><svg><use href="#i-gift"/></svg>礼品库</button>
-        <button class="nav-item" data-nav="activity"><svg><use href="#i-calendar"/></svg>活动礼品配置</button>
-        <button class="nav-item" data-nav="logs"><svg><use href="#i-log"/></svg>操作记录</button>
+        <div class="nav-group">
+          <div class="nav-parent"><svg><use href="#i-gift"/></svg>赠品图管理</div>
+          <div class="nav-sub">
+            <button class="nav-item active" data-nav="library">礼品库</button>
+            <button class="nav-item" data-nav="activity">活动礼品配置</button>
+            <button class="nav-item" data-nav="logs">操作记录</button>
+          </div>
+        </div>
+        <div class="nav-group">
+          <div class="nav-parent"><svg><use href="#i-scan"/></svg>AI小票内容管理</div>
+          <div class="nav-sub">
+            <button class="nav-item" data-nav="aiReview">复核管理</button>
+          </div>
+        </div>
       </nav>
     </aside>
 
     <main class="main">
       <header class="topbar">
         <div class="crumb">
-          系统首页 / 礼品中心 /
+          系统首页 / <span id="pageGroup">赠品图管理</span> /
           <strong id="pageTitle">礼品库</strong>
         </div>
         <div class="top-actions">
@@ -1289,11 +1485,12 @@
         </div>
       </header>
 
-      <section class="workspace">
+      <section class="workspace" id="workspace">
         <div class="left-flow">
           <div class="tabs panel">
             <button class="tab active" data-tab="library"><svg class="icon"><use href="#i-gift"/></svg>礼品库</button>
             <button class="tab" data-tab="activity"><svg class="icon"><use href="#i-calendar"/></svg>活动礼品配置</button>
+            <button class="tab" data-tab="aiReview"><svg class="icon"><use href="#i-scan"/></svg>复核管理</button>
             <button class="tab" data-tab="logs"><svg class="icon"><use href="#i-log"/></svg>操作记录</button>
           </div>
 
@@ -1387,6 +1584,90 @@
                     </tr>
                   </thead>
                   <tbody id="activityTable"></tbody>
+                </table>
+              </div>
+            </div>
+          </section>
+
+          <section class="page" id="aiReviewPage">
+            <div class="panel">
+              <div class="stats">
+                <div class="stat"><span>待复核</span><strong id="aiPendingCount">0</strong></div>
+                <div class="stat"><span>异常小票</span><strong id="aiExceptionCount">0</strong></div>
+                <div class="stat"><span>今日识别</span><strong>128</strong></div>
+                <div class="stat"><span>自动通过率</span><strong>76%</strong></div>
+              </div>
+              <div class="toolbar ai-toolbar">
+                <div class="field">
+                  <label>门店名称 / 小票编号</label>
+                  <input class="input" id="aiKeyword" placeholder="输入门店、小票编号" />
+                </div>
+                <div class="field">
+                  <label>KA</label>
+                  <select class="select" id="aiKaFilter">
+                    <option value="">全部 KA</option>
+                    <option>大润发</option>
+                    <option>华润万家</option>
+                    <option>永辉</option>
+                    <option>世纪联华</option>
+                  </select>
+                </div>
+                <div class="field">
+                  <label>品牌</label>
+                  <select class="select" id="aiBrandFilter">
+                    <option value="">全部品牌</option>
+                    <option>美素佳儿</option>
+                    <option>皇家美素</option>
+                    <option>美素力</option>
+                  </select>
+                </div>
+                <div class="field">
+                  <label>校验状态</label>
+                  <select class="select" id="aiCheckFilter">
+                    <option value="">全部状态</option>
+                    <option>通过</option>
+                    <option>待确认</option>
+                    <option>异常</option>
+                  </select>
+                </div>
+                <div class="field">
+                  <label>复核状态</label>
+                  <select class="select" id="aiReviewFilter">
+                    <option value="">全部状态</option>
+                    <option>自动通过</option>
+                    <option>待复核</option>
+                    <option>已修正</option>
+                    <option>已驳回</option>
+                  </select>
+                </div>
+                <div class="field">
+                  <label>上传日期</label>
+                  <select class="select" id="aiDateFilter">
+                    <option value="">全部日期</option>
+                    <option>今天</option>
+                    <option>近 7 天</option>
+                    <option>近 30 天</option>
+                  </select>
+                </div>
+                <div class="btn-row"><button class="btn primary" id="aiSearchBtn"><svg class="icon"><use href="#i-search"/></svg>查询</button></div>
+              </div>
+              <div class="table-wrap">
+                <table class="ai-table" aria-label="AI识别复核列表">
+                  <thead>
+                    <tr>
+                      <th>小票编号 / 上传时间</th>
+                      <th>门店</th>
+                      <th>KA</th>
+                      <th>品牌</th>
+                      <th>日期</th>
+                      <th>数量</th>
+                      <th>AI置信度</th>
+                      <th>校验状态</th>
+                      <th>复核状态</th>
+                      <th>操作</th>
+                    </tr>
+                  </thead>
+                  <tbody id="aiReviewTable"></tbody>
                 </table>
               </div>
             </div>
@@ -1576,6 +1857,37 @@
     </div>
   </section>
 
+  <aside class="drawer" id="aiReviewDrawer" aria-label="AI识别复核详情抽屉">
+    <div class="drawer-head">
+      <h2 id="aiDrawerTitle">AI识别复核详情</h2>
+      <button class="btn icon-only" id="closeAiDrawerBtn" title="关闭"><svg class="icon"><use href="#i-x"/></svg></button>
+    </div>
+    <div class="drawer-body">
+      <div class="review-layout">
+        <div class="receipt-preview-box">
+          <h3>小票原图预览</h3>
+          <div class="receipt-line"><span>门店</span><strong id="receiptStoreText">-</strong></div>
+          <div class="receipt-line"><span>KA</span><strong id="receiptKaText">-</strong></div>
+          <div class="receipt-line"><span>品牌</span><strong id="receiptBrandText">-</strong></div>
+          <div class="receipt-line"><span>日期</span><strong id="receiptDateText">-</strong></div>
+          <div class="receipt-line"><span>数量</span><strong id="receiptQtyText">- 罐</strong></div>
+          <div class="receipt-line"><span>合计金额</span><strong>¥ 896.00</strong></div>
+          <div class="receipt-line"><span>上传人</span><strong>门店导购</strong></div>
+        </div>
+        <div>
+          <h3 class="review-detail-title">AI识别内容</h3>
+          <div class="compare-panel" id="aiComparePanel"></div>
+          <div class="audit-log" id="aiAuditLog"></div>
+        </div>
+      </div>
+    </div>
+    <div class="drawer-foot">
+      <button class="btn danger" id="aiRejectBtn">驳回</button>
+      <button class="btn" id="aiSaveBtn"><svg class="icon"><use href="#i-save"/></svg>保存修正</button>
+      <button class="btn primary" id="aiPassBtn">通过</button>
+    </div>
+  </aside>
+
   <div class="toast" id="toast"><svg class="icon"><use href="#i-save"/></svg><span id="toastText">已保存</span></div>
 
   <script>
@@ -1647,9 +1959,68 @@
     let currentPreview = "activity";
     let currentOverrideCode = null;
     let syncingActivityData = false;
+    let currentAiReceipt = null;
     let bound = [
       { code: gifts[0].code, overrideAlias: "凤凰平衡车活动款", overrideMain: true, overrideActivity: true },
       { code: gifts[1].code, overrideAlias: "", overrideMain: false, overrideActivity: false }
+    ];
+    const aiReceipts = [
+      {
+        id: "RCPT202607230018",
+        uploaded: "2026-07-23 10:42",
+        store: "大润发闵行店",
+        ka: "大润发",
+        brand: "美素佳儿",
+        date: "2026-07-23",
+        qty: "3",
+        confidence: 96,
+        checkStatus: "通过",
+        reviewStatus: "自动通过",
+        checks: ["门店命中标准名单", "KA 与门店关系匹配", "活动期内且数量满足规则"],
+        audit: ["10:42 系统自动识别完成", "10:42 命中自动通过规则"]
+      },
+      {
+        id: "RCPT202607230017",
+        uploaded: "2026-07-23 10:26",
+        store: "华润万家古美",
+        ka: "华润",
+        brand: "皇家美素",
+        date: "2026-07-23",
+        qty: "2",
+        confidence: 68,
+        checkStatus: "待确认",
+        reviewStatus: "待复核",
+        checks: ["门店疑似命中华润万家古美店", "KA 名称需修正为华润万家", "数量未满足 3 罐兑换规则"],
+        audit: ["10:26 系统识别完成", "10:26 数量规则异常，进入复核队列"]
+      },
+      {
+        id: "RCPT202607230016",
+        uploaded: "2026-07-23 09:58",
+        store: "永辉龙茗路",
+        ka: "永辉",
+        brand: "美素力",
+        date: "2026-08-02",
+        qty: "3",
+        confidence: 74,
+        checkStatus: "异常",
+        reviewStatus: "待复核",
+        checks: ["门店名称缺少“店”字但可疑似匹配", "小票日期不在当前活动范围内", "数量满足规则但需确认日期"],
+        audit: ["09:58 系统识别完成", "09:58 活动期校验失败，进入复核队列"]
+      },
+      {
+        id: "RCPT202607220089",
+        uploaded: "2026-07-22 18:14",
+        store: "世纪联华七宝店",
+        ka: "世纪联华",
+        brand: "美素佳儿",
+        date: "2026-07-22",
+        qty: "3",
+        confidence: 82,
+        checkStatus: "待确认",
+        reviewStatus: "已修正",
+        checks: ["人工已修正品牌别名", "门店与 KA 关系匹配", "数量满足规则"],
+        audit: ["18:14 系统识别完成", "18:26 运营修正品牌字段", "18:27 复核通过"]
+      }
     ];
 
     const $ = (selector) => document.querySelector(selector);
@@ -1770,6 +2141,106 @@
       }).join("");
     }
 
+    function aiStatusTag(text) {
+      if (text === "通过" || text === "自动通过" || text === "已修正") return `<span class="tag green">${text}</span>`;
+      if (text === "异常" || text === "已驳回") return `<span class="tag amber">${text}</span>`;
+      return `<span class="tag gray">${text}</span>`;
+    }
+
+    function confidenceMeta(score) {
+      if (score >= 90) return { color: "var(--green)", label: "高" };
+      if (score >= 75) return { color: "var(--amber)", label: "中" };
+      return { color: "var(--red)", label: "低" };
+    }
+
+    function renderAIReviewTable() {
+      const keyword = $("#aiKeyword").value.trim().toLowerCase();
+      const ka = $("#aiKaFilter").value;
+      const brand = $("#aiBrandFilter").value;
+      const check = $("#aiCheckFilter").value;
+      const review = $("#aiReviewFilter").value;
+      const rows = aiReceipts.filter(item => {
+        const hitKeyword = !keyword || [item.id, item.store].join(" ").toLowerCase().includes(keyword);
+        return hitKeyword
+          && (!ka || item.ka === ka)
+          && (!brand || item.brand === brand)
+          && (!check || item.checkStatus === check)
+          && (!review || item.reviewStatus === review);
+      });
+      $("#aiPendingCount").textContent = aiReceipts.filter(item => item.reviewStatus === "待复核").length;
+      $("#aiExceptionCount").textContent = aiReceipts.filter(item => item.checkStatus === "异常").length;
+      $("#aiReviewTable").innerHTML = rows.map(item => {
+        const confidence = confidenceMeta(item.confidence);
+        return `
+          <tr>
+            <td><div class="receipt-cell"><strong>${item.id}</strong><span>${item.uploaded}</span></div></td>
+            <td>${item.store}</td>
+            <td>${item.ka}</td>
+            <td>${item.brand}</td>
+            <td>${item.date}</td>
+            <td>${item.qty} 罐</td>
+            <td>
+              <div class="receipt-cell">
+                <strong>${item.confidence}% · ${confidence.label}</strong>
+                <div class="confidence-bar" style="--confidence:${item.confidence}%;--bar-color:${confidence.color}"><i></i></div>
+              </div>
+            </td>
+            <td>${aiStatusTag(item.checkStatus)}</td>
+            <td>${aiStatusTag(item.reviewStatus)}</td>
+            <td><div class="op"><button class="link-btn" data-ai-detail="${item.id}">编辑</button><button class="link-btn" data-ai-pass="${item.id}">通过</button></div></td>
+          </tr>
+        `;
+      }).join("") || `<tr><td colspan="10"><div class="empty-state">暂无匹配小票</div></td></tr>`;
+    }
+
+    function renderAICompare(receipt) {
+      const fields = [
+        ["门店名称", receipt.store, receipt.store === "华润万家古美" ? "华润万家古美店" : receipt.store, receipt.store.includes("古美") ? "待确认" : "通过"],
+        ["KA 名称", receipt.ka, receipt.ka === "华润" ? "华润万家" : receipt.ka, receipt.ka === "华润" ? "待确认" : "通过"],
+        ["奶粉品牌", receipt.brand, receipt.brand === "皇家美素" ? "皇家美素佳儿" : receipt.brand, receipt.brand.includes("皇家美素") ? "待确认" : "通过"],
+        ["验证日期", receipt.date, receipt.date, receipt.checkStatus === "异常" ? "异常" : "通过"],
+        ["数量", receipt.qty, receipt.qty, receipt.qty === "3" ? "通过" : "异常"]
+      ];
+      $("#aiComparePanel").innerHTML = fields.map(([label, aiValue, manualValue, status], index) => `
+        <div class="compare-row">
+          <label>${label}</label>
+          <div class="compare-value">AI：${aiValue}</div>
+          <input class="input" data-ai-field="${index}" value="${manualValue}" aria-label="${label}人工修正值" />
+          ${aiStatusTag(status)}
+        </div>
+      `).join("");
+      $("#aiAuditLog").innerHTML = receipt.audit.map(item => `<div>${item}</div>`).join("");
+    }
+
+    function openAIReviewDrawer(id) {
+      currentAiReceipt = aiReceipts.find(item => item.id === id);
+      if (!currentAiReceipt) return;
+      $("#aiDrawerTitle").textContent = `AI识别复核详情 · ${currentAiReceipt.id}`;
+      $("#receiptStoreText").textContent = currentAiReceipt.store;
+      $("#receiptKaText").textContent = currentAiReceipt.ka;
+      $("#receiptBrandText").textContent = currentAiReceipt.brand;
+      $("#receiptDateText").textContent = currentAiReceipt.date;
+      $("#receiptQtyText").textContent = `${currentAiReceipt.qty} 罐`;
+      renderAICompare(currentAiReceipt);
+      $("#drawerBackdrop").classList.add("show");
+      $("#aiReviewDrawer").classList.add("show");
+    }
+
+    function closeAIReviewDrawer() {
+      $("#drawerBackdrop").classList.remove("show");
+      $("#aiReviewDrawer").classList.remove("show");
+    }
+
+    function updateAIReceiptStatus(status, checkStatus) {
+      if (!currentAiReceipt) return;
+      currentAiReceipt.reviewStatus = status;
+      currentAiReceipt.checkStatus = checkStatus || currentAiReceipt.checkStatus;
+      currentAiReceipt.audit.push(`${new Date().toLocaleTimeString("zh-CN", { hour: "2-digit", minute: "2-digit" })} 活动运营${status}`);
+      renderAIReviewTable();
+      renderAICompare(currentAiReceipt);
+      toast(`小票已${status}`);
+    }
+
     function renderPhone() {
       const gift = selectedGift;
       const activityBinding = activeBindingForGift(gift);
@@ -1830,7 +2301,10 @@
       $(`#${name}Page`).classList.add("active");
       $$(".tab").forEach(tab => tab.classList.toggle("active", tab.dataset.tab === name));
       $$("[data-nav]").forEach(nav => nav.classList.toggle("active", nav.dataset.nav === name));
-      const titles = { library: "礼品库", activity: "活动礼品配置", logs: "操作记录" };
+      $("#workspace").classList.toggle("ai-mode", name === "aiReview");
+      const titles = { library: "礼品库", activity: "活动礼品配置", aiReview: "复核管理", logs: "操作记录" };
+      const groups = { library: "赠品图管理", activity: "赠品图管理", logs: "赠品图管理", aiReview: "AI小票内容管理" };
+      $("#pageGroup").textContent = groups[name];
       $("#pageTitle").textContent = titles[name];
     }
 
@@ -1923,6 +2397,15 @@
 
       if (target.dataset.tab) switchPage(target.dataset.tab);
       if (target.dataset.nav) switchPage(target.dataset.nav);
+      if (target.dataset.aiDetail) openAIReviewDrawer(target.dataset.aiDetail);
+      if (target.dataset.aiPass) {
+        currentAiReceipt = aiReceipts.find(item => item.id === target.dataset.aiPass);
+        updateAIReceiptStatus("自动通过", "通过");
+      }
+      if (target.id === "aiSearchBtn") {
+        renderAIReviewTable();
+        toast("筛选条件已应用");
+      }
       if (target.dataset.preview) {
         currentPreview = target.dataset.preview;
         $$("#previewSeg button").forEach(btn => btn.classList.toggle("active", btn === target));
@@ -1941,6 +2424,10 @@
         toast("视频素材已选择");
       }
       if (target.id === "closeDrawerBtn" || target.id === "cancelDrawerBtn") closeDrawer();
+      if (target.id === "closeAiDrawerBtn") closeAIReviewDrawer();
+      if (target.id === "aiRejectBtn") updateAIReceiptStatus("已驳回", "异常");
+      if (target.id === "aiSaveBtn") updateAIReceiptStatus("已修正", "待确认");
+      if (target.id === "aiPassBtn") updateAIReceiptStatus("自动通过", "通过");
       if (target.id === "saveGiftBtn") {
         selectedGift.name = $("#formName").value || selectedGift.name;
         selectedGift.alias = $("#formAlias").value || selectedGift.alias;
@@ -2012,13 +2499,18 @@
 
     document.addEventListener("change", (event) => {
       if (event.target.matches("#keyword,#typeFilter,#statusFilter,#brandFilter")) renderGiftTable();
+      if (event.target.matches("#aiKaFilter,#aiBrandFilter,#aiCheckFilter,#aiReviewFilter,#aiDateFilter")) renderAIReviewTable();
     });
 
     document.addEventListener("input", (event) => {
       if (event.target.id === "keyword") renderGiftTable();
+      if (event.target.id === "aiKeyword") renderAIReviewTable();
     });
 
-    $("#drawerBackdrop").addEventListener("click", closeDrawer);
+    $("#drawerBackdrop").addEventListener("click", () => {
+      closeDrawer();
+      closeAIReviewDrawer();
+    });
     $("#modalBackdrop").addEventListener("click", () => {
       closeOverrideModal();
     });
@@ -2032,6 +2524,7 @@
 
     renderGiftTable();
     renderActivityTable();
+    renderAIReviewTable();
     renderPhone();
   </script>
 </body>
