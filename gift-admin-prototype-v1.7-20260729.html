@@ -1103,35 +1103,6 @@
       overflow: auto;
     }
 
-    .pdf-preview-modal {
-      width: 980px;
-    }
-
-    .pdf-preview-modal .modal-head {
-      align-items: flex-start;
-      height: auto;
-      min-height: 62px;
-      padding-top: 13px;
-      padding-bottom: 12px;
-    }
-
-    .pdf-preview-modal .modal-head h2 {
-      margin-bottom: 4px;
-    }
-
-    .pdf-preview-modal .modal-body {
-      padding: 14px 16px 78px;
-    }
-
-    .pdf-frame {
-      display: block;
-      width: 100%;
-      height: min(72vh, 720px);
-      border: 1px solid var(--line);
-      border-radius: 8px;
-      background: #f5f7fb;
-    }
-
     .toast {
       position: fixed;
       right: 22px;
@@ -1694,15 +1665,6 @@
       .asset-grid {
         grid-template-columns: 1fr;
       }
-
-      .pdf-preview-modal .modal-body {
-        padding: 10px 12px 78px;
-      }
-
-      .pdf-frame {
-        height: calc(100vh - 190px);
-        min-height: 420px;
-      }
     }
   </style>
 </head>
@@ -1736,12 +1698,12 @@
         </div>
       </div>
       <nav class="nav" aria-label="后台导航">
-        <button class="nav-item nav-primary active" data-nav="library" data-nav-group="giftCenter"><svg><use href="#i-gift"/></svg>礼品中心</button>
-        <button class="nav-item nav-child active" data-nav="library" data-nav-group="giftCenter"><svg><use href="#i-gift"/></svg>礼品库</button>
-        <button class="nav-item nav-child" data-nav="activity" data-nav-group="giftCenter"><svg><use href="#i-calendar"/></svg>活动礼品配置</button>
+        <div class="nav-section">礼品中心</div>
+        <button class="nav-item nav-child active" data-nav="library"><svg><use href="#i-gift"/></svg>礼品库</button>
+        <button class="nav-item nav-child" data-nav="activity"><svg><use href="#i-calendar"/></svg>活动礼品配置</button>
         <button class="nav-item nav-primary" data-nav="banner"><svg><use href="#i-list"/></svg>会员服务轮播图管理</button>
-        <button class="nav-item nav-primary" data-nav="reports" data-nav-group="reports"><svg><use href="#i-file"/></svg>质检报告管理</button>
-        <button class="nav-item nav-child" data-nav="reportLogs" data-nav-group="reports"><svg><use href="#i-log"/></svg>操作记录</button>
+        <button class="nav-item nav-primary" data-nav="reports"><svg><use href="#i-file"/></svg>质检报告管理</button>
+        <button class="nav-item nav-child" data-nav="reportLogs"><svg><use href="#i-log"/></svg>操作记录</button>
       </nav>
     </aside>
 
@@ -2155,19 +2117,6 @@
   </aside>
 
   <div class="modal-backdrop" id="modalBackdrop"></div>
-
-  <section class="modal pdf-preview-modal" id="reportPdfModal" aria-label="PDF文件预览">
-    <div class="modal-head">
-      <div>
-        <h2 id="reportPdfTitle">PDF 文件预览</h2>
-        <div class="asset-tip" id="reportPdfMeta">-</div>
-      </div>
-      <button class="btn icon-only" id="closeReportPdfBtn" title="关闭"><svg class="icon"><use href="#i-x"/></svg></button>
-    </div>
-    <div class="modal-body">
-      <iframe class="pdf-frame" id="reportPdfFrame" title="PDF 文件预览"></iframe>
-    </div>
-  </section>
 
   <section class="modal" id="overrideModal" aria-label="活动素材自定义弹窗">
     <div class="modal-head">
@@ -2653,10 +2602,9 @@
           <td>${reportStatusTag(item.matched)}</td>
           <td>${reportSafe(item.operator)}</td>
           <td>${item.createdAt}</td>
-            <td>${item.updatedAt}</td>
-            <td>
-              <div class="op">
-              <button class="link-btn" data-report-preview="${item.id}">${iconUse("i-eye")}查看</button>
+          <td>${item.updatedAt}</td>
+          <td>
+            <div class="op">
               <button class="link-btn" data-report-rename="${item.id}">${iconUse("i-edit")}修改</button>
               <button class="link-btn" data-report-download="${item.id}">${iconUse("i-download")}下载</button>
               <button class="link-btn" data-report-delete="${item.id}">${iconUse("i-trash")}删除</button>
@@ -2700,7 +2648,6 @@
         toast("文件名已存在");
         return;
       }
-      if (!item.sourceName) item.sourceName = item.name;
       item.name = name;
       item.matched = reportFilenameBatch(name).toLowerCase() === item.detectedBatch.toLowerCase();
       item.operator = "活动运营";
@@ -2708,26 +2655,6 @@
       renderReportTable();
       closeReportRename();
       toast("文件名已更新");
-    }
-
-    function reportPreviewPath(item) {
-      return item.previewUrl || `../reports/${encodeURIComponent(item.sourceName || item.name)}`;
-    }
-
-    function openReportPreview(id) {
-      const item = reports.find(row => row.id === id);
-      if (!item) return;
-      $("#reportPdfTitle").textContent = item.name;
-      $("#reportPdfMeta").textContent = `${item.reportType} · 识别批次号 ${item.detectedBatch} · ${item.operator}`;
-      $("#reportPdfFrame").src = reportPreviewPath(item);
-      $("#modalBackdrop").classList.add("show");
-      $("#reportPdfModal").classList.add("show");
-    }
-
-    function closeReportPreview() {
-      $("#reportPdfFrame").src = "about:blank";
-      $("#reportPdfModal").classList.remove("show");
-      if (!$("#overrideModal").classList.contains("show")) $("#modalBackdrop").classList.remove("show");
     }
 
     function addReportsFromFiles(fileList) {
@@ -2750,8 +2677,7 @@
           matched: true,
           operator: "活动运营",
           createdAt: now,
-          updatedAt: now,
-          previewUrl: URL.createObjectURL(file)
+          updatedAt: now
         });
         added += 1;
       });
@@ -2928,11 +2854,7 @@
     function switchPage(name) {
       $$(".page").forEach(page => page.classList.remove("active"));
       $(`#${name}Page`).classList.add("active");
-      const navGroups = { giftCenter: ["library", "activity"], reports: ["reports", "reportLogs"] };
-      $$("[data-nav]").forEach(nav => {
-        const groupPages = navGroups[nav.dataset.navGroup] || [];
-        nav.classList.toggle("active", nav.dataset.nav === name || groupPages.includes(name));
-      });
+      $$("[data-nav]").forEach(nav => nav.classList.toggle("active", nav.dataset.nav === name));
       const titles = { library: "礼品库", activity: "活动礼品配置", banner: "会员服务轮播图管理", reports: "质检报告管理", reportLogs: "操作记录" };
       $("#pageTitle").textContent = titles[name];
       const isReportArea = ["reports", "reportLogs"].includes(name);
@@ -3104,10 +3026,6 @@
       const target = event.target.closest("button");
       if (!target) return;
 
-      if (target.dataset.reportPreview) {
-        openReportPreview(target.dataset.reportPreview);
-        return;
-      }
       if (target.dataset.reportRename) {
         openReportRename(target.dataset.reportRename);
         return;
@@ -3149,10 +3067,6 @@
       }
       if (["closeReportRenameBtn", "cancelReportRenameBtn"].includes(target.id)) {
         closeReportRename();
-        return;
-      }
-      if (target.id === "closeReportPdfBtn") {
-        closeReportPreview();
         return;
       }
       if (target.id === "saveReportRenameBtn") {
@@ -3316,7 +3230,6 @@
     $("#reportDrawerBackdrop").addEventListener("click", closeReportRename);
     $("#modalBackdrop").addEventListener("click", () => {
       closeOverrideModal();
-      closeReportPreview();
     });
 
     $("#drawerTabs").addEventListener("click", (event) => {
