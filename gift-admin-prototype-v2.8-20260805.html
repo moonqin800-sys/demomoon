@@ -329,8 +329,7 @@
 
     .input:focus,
     .select:focus,
-    .textarea:focus,
-    .rich-editor:focus {
+    .textarea:focus {
       border-color: var(--brand);
       box-shadow: 0 0 0 3px rgba(23,103,179,.12);
     }
@@ -1447,28 +1446,7 @@
     .privacy-table th:nth-child(5),
     .privacy-table td:nth-child(5) { width: 145px; }
     .privacy-table th:nth-child(7),
-    .privacy-table td:nth-child(7) { width: 250px; }
-
-    .privacy-history-modal {
-      width: 680px;
-    }
-
-    .privacy-history-modal .modal-foot {
-      justify-content: center;
-    }
-
-    .privacy-history-table {
-      min-width: 620px;
-    }
-
-    .privacy-history-table th:nth-child(1),
-    .privacy-history-table td:nth-child(1) { width: 170px; }
-    .privacy-history-table th:nth-child(2),
-    .privacy-history-table td:nth-child(2) { width: 190px; }
-    .privacy-history-table th:nth-child(3),
-    .privacy-history-table td:nth-child(3) { width: 100px; }
-    .privacy-history-table th:nth-child(4),
-    .privacy-history-table td:nth-child(4) { width: 160px; }
+    .privacy-table td:nth-child(7) { width: 180px; }
 
     .privacy-channel {
       display: grid;
@@ -1528,110 +1506,6 @@
 
     .confirm-message strong {
       color: #4b350b;
-    }
-
-    .pdf-upload-box {
-      min-height: 96px;
-      border: 1px dashed #b7c7da;
-      border-radius: 8px;
-      background: #f8fbff;
-      padding: 14px;
-      display: grid;
-      grid-template-columns: auto minmax(0, 1fr) auto;
-      gap: 12px;
-      align-items: center;
-    }
-
-    .pdf-file-mark {
-      width: 46px;
-      height: 54px;
-      border-radius: 8px;
-      background: #e9f2ff;
-      border: 1px solid #c9dbf3;
-      color: var(--brand);
-      display: grid;
-      place-items: center;
-      font-size: 13px;
-      font-weight: 800;
-      letter-spacing: 0;
-    }
-
-    .pdf-file-main {
-      min-width: 0;
-      display: grid;
-      gap: 5px;
-    }
-
-    .pdf-file-main strong {
-      color: var(--text);
-      font-size: 14px;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      white-space: nowrap;
-    }
-
-    .pdf-file-main span {
-      color: var(--subtle);
-      font-size: 12px;
-      line-height: 1.5;
-    }
-
-    .rich-editor-shell {
-      border: 1px solid var(--line);
-      border-radius: 8px;
-      background: #fff;
-      overflow: hidden;
-    }
-
-    .rich-editor-shell:focus-within {
-      border-color: var(--brand);
-      box-shadow: 0 0 0 3px rgba(23,103,179,.12);
-    }
-
-    .rich-toolbar {
-      min-height: 42px;
-      border-bottom: 1px solid var(--line-soft);
-      background: #f8fafc;
-      padding: 6px 8px;
-      display: flex;
-      gap: 6px;
-      align-items: center;
-      flex-wrap: wrap;
-    }
-
-    .rich-tool {
-      width: 32px;
-      height: 30px;
-      border: 1px solid transparent;
-      border-radius: 6px;
-      background: transparent;
-      color: var(--text);
-      display: inline-grid;
-      place-items: center;
-      cursor: pointer;
-      font-size: 13px;
-      font-weight: 700;
-    }
-
-    .rich-tool:hover,
-    .rich-tool:focus {
-      border-color: var(--line);
-      background: #fff;
-      outline: 0;
-    }
-
-    .rich-editor {
-      min-height: 126px;
-      padding: 10px 12px;
-      outline: 0;
-      line-height: 1.65;
-      color: var(--text);
-      overflow: auto;
-    }
-
-    .rich-editor:empty::before {
-      content: attr(data-placeholder);
-      color: var(--subtle);
     }
 
     .upload-frame {
@@ -1893,15 +1767,6 @@
       .report-actions {
         align-items: flex-start;
         flex-direction: column;
-      }
-
-      .pdf-upload-box {
-        grid-template-columns: auto minmax(0, 1fr);
-      }
-
-      .pdf-upload-box .btn {
-        grid-column: 1 / -1;
-        justify-content: center;
       }
 
       .tabs {
@@ -2530,29 +2395,12 @@
               <input class="input" id="privacyTitleInput" placeholder="如：会员服务小程序隐私政策" />
             </div>
             <div class="field full">
-              <label>条款正文 PDF 文件<span class="required">*</span></label>
-              <div class="pdf-upload-box">
-                <div class="pdf-file-mark">PDF</div>
-                <div class="pdf-file-main">
-                  <strong id="privacyPdfName">未上传 PDF 文件</strong>
-                  <span id="privacyPdfMeta">发布时按渠道、条款类型和版本号关联保存，前端条款页读取该 PDF 文件。</span>
-                </div>
-                <button class="btn" id="privacyPdfUploadBtn"><svg class="icon"><use href="#i-upload"/></svg>上传 PDF</button>
-                <input id="privacyPdfInput" type="file" accept=".pdf,application/pdf" hidden />
-              </div>
+              <label>条款正文<span class="required">*</span></label>
+              <textarea class="textarea" id="privacyContentInput" style="height:160px" placeholder="录入或粘贴条款正文，发布后按渠道和版本号留痕"></textarea>
             </div>
             <div class="field full">
               <label>老用户版本更新弹窗文案</label>
-              <div class="rich-editor-shell">
-                <div class="rich-toolbar" role="toolbar" aria-label="老用户版本更新弹窗文案编辑工具">
-                  <button class="rich-tool" data-rich-command="bold" title="加粗"><strong>B</strong></button>
-                  <button class="rich-tool" data-rich-command="italic" title="斜体"><em>I</em></button>
-                  <button class="rich-tool" data-rich-command="insertUnorderedList" title="无序列表">•</button>
-                  <button class="rich-tool" data-rich-command="insertOrderedList" title="有序列表">1.</button>
-                  <button class="rich-tool" data-rich-command="removeFormat" title="清除格式">Tx</button>
-                </div>
-                <div class="rich-editor" id="privacyPopupEditor" contenteditable="true" data-placeholder="用于存量用户进入对应渠道时低版本提醒"></div>
-              </div>
+              <textarea class="textarea" id="privacyPopupInput" placeholder="用于存量用户进入对应渠道时低版本提醒"></textarea>
             </div>
           </div>
         </div>
@@ -2578,34 +2426,6 @@
     <div class="modal-foot">
       <button class="btn" id="cancelPrivacyPublishBtn">取消</button>
       <button class="btn teal" id="confirmPrivacyPublishBtn"><svg class="icon"><use href="#i-save"/></svg>确认发布</button>
-    </div>
-  </section>
-
-  <section class="modal privacy-history-modal" id="privacyHistoryModal" aria-label="隐私条款历史版本弹窗">
-    <div class="modal-head">
-      <div>
-        <h2>历史版本</h2>
-        <div class="asset-tip" id="privacyHistoryMeta">-</div>
-      </div>
-      <button class="btn icon-only" id="closePrivacyHistoryBtn" title="关闭"><svg class="icon"><use href="#i-x"/></svg></button>
-    </div>
-    <div class="modal-body">
-      <div class="table-wrap">
-        <table class="privacy-history-table" aria-label="隐私条款历史版本列表">
-          <thead>
-            <tr>
-              <th>渠道</th>
-              <th>条款类型</th>
-              <th>版本</th>
-              <th>创建时间</th>
-            </tr>
-          </thead>
-          <tbody id="privacyHistoryTable"></tbody>
-        </table>
-      </div>
-    </div>
-    <div class="modal-foot">
-      <button class="btn primary" id="closePrivacyHistoryFootBtn">关闭</button>
     </div>
   </section>
 
@@ -2819,7 +2639,6 @@
 
     let currentPrivacyId = "PP-MEMBER-PRIVACY";
     let pendingPrivacyPublishId = null;
-    let tempPrivacyPdfName = "";
     let privacyPolicies = [
       {
         id: "PP-MEMBER-PRIVACY",
@@ -2833,9 +2652,8 @@
         scene: "会员服务小程序注册、存量会员进入小程序",
         owner: "法务审核 / 活动运营",
         title: "美素佳儿会员服务小程序隐私政策",
-        pdfName: "美素佳儿会员服务小程序隐私政策-V3.pdf",
         content: "适用于会员服务小程序注册、登录、权益领取、礼品查看等场景。系统需在用户勾选并注册成功后记录同意渠道、条款版本号、同意时间、OpenID/会员编号和来源页面。",
-        popup: "<p>我们更新了<strong>会员服务小程序隐私政策</strong>。为继续使用会员权益、礼品查询等服务，请阅读并确认最新版本。</p>",
+        popup: "我们更新了会员服务小程序隐私政策。为继续使用会员权益、礼品查询等服务，请阅读并确认最新版本。",
         history: [
           { version: "V3", time: "07-22 15:20", operator: "活动运营", note: "会员服务注册页条款更新" },
           { version: "V2", time: "07-03 18:10", operator: "管理员", note: "补充个人信息共享说明" },
@@ -2854,9 +2672,8 @@
         scene: "条款中心、注册页隐私政策关联阅读",
         owner: "法务审核 / 活动运营",
         title: "美素佳儿会员服务小程序个人信息共享清单",
-        pdfName: "美素佳儿会员服务小程序个人信息共享清单-V2.pdf",
         content: "展示会员服务小程序涉及的第三方共享对象、共享目的、共享字段和联系方式。前端条款中心需支持从隐私政策正文内跳转查看。",
-        popup: "<p>个人信息共享清单已更新，请确认后继续使用会员服务。</p>",
+        popup: "个人信息共享清单已更新，请确认后继续使用会员服务。",
         history: [
           { version: "V2", time: "07-21 11:40", operator: "活动运营", note: "补充共享清单" },
           { version: "V1", time: "05-26 10:00", operator: "系统", note: "初始化版本" }
@@ -2874,9 +2691,8 @@
         scene: "E-learning H5 新客注册、课程学习入口",
         owner: "法务审核 / 活动运营",
         title: "E-learning 隐私政策",
-        pdfName: "E-learning隐私政策-V2.pdf",
         content: "适用于 E-learning H5 注册及学习服务场景。系统按 E-learning 渠道展示对应条款，替代原统一外链，并在用户完成确认后记录 E-learning 渠道版本。",
-        popup: "<p><strong>E-learning 隐私政策</strong>已更新，请阅读并确认最新版本后继续学习。</p>",
+        popup: "E-learning 隐私政策已更新，请阅读并确认最新版本后继续学习。",
         history: [
           { version: "V2", time: "06-18 17:25", operator: "活动运营", note: "未成年人信息保护整改" },
           { version: "V1", time: "05-26 10:00", operator: "系统", note: "初始化版本" }
@@ -2894,9 +2710,8 @@
         scene: "iDream 买赠注册、老用户活动访问",
         owner: "法务审核 / 活动运营",
         title: "iDream 儿童个人信息处理规则",
-        pdfName: "iDream儿童个人信息处理规则-V2.pdf",
         content: "适用于 iDream 买赠活动中涉及儿童个人信息处理的注册与活动访问场景。系统需保留监护人确认记录，并与 iDream 渠道版本号绑定。",
-        popup: "<p>iDream 儿童个人信息处理规则已更新，请阅读并确认。</p>",
+        popup: "iDream 儿童个人信息处理规则已更新，请阅读并确认。",
         history: [
           { version: "V2", time: "06-18 17:18", operator: "活动运营", note: "儿童信息处理规则更新" },
           { version: "V1", time: "05-26 10:00", operator: "系统", note: "初始化版本" }
@@ -2914,9 +2729,8 @@
         scene: "E-learning 条款中心、隐私政策关联阅读",
         owner: "活动运营",
         title: "E-learning 个人信息收集清单",
-        pdfName: "E-learning个人信息收集清单-V2.pdf",
         content: "补充 E-learning 注册、课程学习、活动参与过程中收集的个人信息字段、使用目的和保存期限。当前为草稿，发布后自动成为 V3。",
-        popup: "<p>E-learning 个人信息收集清单已更新，请确认最新版本。</p>",
+        popup: "E-learning 个人信息收集清单已更新，请确认最新版本。",
         history: [
           { version: "V2", time: "06-18 17:25", operator: "活动运营", note: "补充收集字段说明" },
           { version: "V1", time: "05-26 10:00", operator: "系统", note: "初始化版本" }
@@ -3191,17 +3005,6 @@
       return `V${current + 1}`;
     }
 
-    function defaultPrivacyPdfName(item) {
-      const title = (item.title || `${item.channelName}${item.typeName}`).replace(/[\\/:*?"<>|]/g, "");
-      return `${title}-${item.version || "V0"}.pdf`;
-    }
-
-    function setPrivacyPdfDisplay(item) {
-      const fileName = tempPrivacyPdfName || item.pdfName || defaultPrivacyPdfName(item);
-      $("#privacyPdfName").textContent = fileName;
-      $("#privacyPdfMeta").textContent = `当前关联：${item.channelName} / ${item.typeName} / ${item.version}`;
-    }
-
     function filteredPrivacyPolicies() {
       const keyword = $("#privacyKeyword")?.value.trim().toLowerCase() || "";
       const channel = $("#privacyChannelFilter")?.value || "";
@@ -3244,7 +3047,6 @@
             <div class="op">
               <button class="link-btn" data-policy-edit="${item.id}">${iconUse("i-edit")}编辑</button>
               <button class="link-btn" data-policy-publish="${item.id}">${iconUse("i-save")}发布</button>
-              <button class="link-btn" data-policy-history="${item.id}">${iconUse("i-log")}历史版本</button>
             </div>
           </td>
         </tr>
@@ -3262,7 +3064,7 @@
 
     function closePrivacyModal() {
       $("#privacyModal").classList.remove("show");
-      if (!$("#privacyPublishConfirmModal").classList.contains("show") && !$("#privacyHistoryModal").classList.contains("show") && !$("#overrideModal").classList.contains("show") && !$("#reportPdfModal").classList.contains("show")) {
+      if (!$("#privacyPublishConfirmModal").classList.contains("show") && !$("#overrideModal").classList.contains("show") && !$("#reportPdfModal").classList.contains("show")) {
         $("#modalBackdrop").classList.remove("show");
       }
     }
@@ -3280,42 +3082,7 @@
     function closePrivacyPublishConfirm() {
       $("#privacyPublishConfirmModal").classList.remove("show");
       pendingPrivacyPublishId = null;
-      if (!$("#privacyModal").classList.contains("show") && !$("#privacyHistoryModal").classList.contains("show") && !$("#overrideModal").classList.contains("show") && !$("#reportPdfModal").classList.contains("show")) {
-        $("#modalBackdrop").classList.remove("show");
-      }
-    }
-
-    function privacyHistoryCreatedAt(row, item) {
-      if (row.createdAt) return row.createdAt;
-      if (/^\d{2}-\d{2}/.test(row.time || "")) return `${item.updatedAt.slice(0, 4)}-${row.time}`;
-      return row.time || item.updatedAt;
-    }
-
-    function renderPrivacyHistoryTable(item) {
-      const rows = item.history && item.history.length
-        ? item.history
-        : [{ version: item.version, time: item.updatedAt.slice(5, 16) }];
-      $("#privacyHistoryMeta").textContent = `${item.channelName} / ${item.typeName}`;
-      $("#privacyHistoryTable").innerHTML = rows.map(row => `
-        <tr>
-          <td>${reportSafe(item.channelName)}</td>
-          <td>${privacyTypeTag(item.type)}</td>
-          <td><strong>${reportSafe(row.version)}</strong></td>
-          <td>${reportSafe(privacyHistoryCreatedAt(row, item))}</td>
-        </tr>
-      `).join("");
-    }
-
-    function openPrivacyHistoryModal(id = currentPrivacyId) {
-      currentPrivacyId = id;
-      renderPrivacyHistoryTable(activePrivacyPolicy());
-      $("#modalBackdrop").classList.add("show");
-      $("#privacyHistoryModal").classList.add("show");
-    }
-
-    function closePrivacyHistoryModal() {
-      $("#privacyHistoryModal").classList.remove("show");
-      if (!$("#privacyModal").classList.contains("show") && !$("#privacyPublishConfirmModal").classList.contains("show") && !$("#overrideModal").classList.contains("show") && !$("#reportPdfModal").classList.contains("show")) {
+      if (!$("#privacyModal").classList.contains("show") && !$("#overrideModal").classList.contains("show") && !$("#reportPdfModal").classList.contains("show")) {
         $("#modalBackdrop").classList.remove("show");
       }
     }
@@ -3323,14 +3090,13 @@
     function renderPrivacyEditor() {
       if (!$("#privacyFormChannel")) return;
       const item = activePrivacyPolicy();
-      tempPrivacyPdfName = item.pdfName || defaultPrivacyPdfName(item);
       $("#privacyFormChannel").value = item.channel;
       $("#privacyFormType").value = item.type;
       $("#privacyCurrentVersion").value = item.version;
       $("#privacyNextVersion").value = nextPrivacyVersion(item);
       $("#privacyTitleInput").value = item.title;
-      setPrivacyPdfDisplay(item);
-      $("#privacyPopupEditor").innerHTML = item.popup || "";
+      $("#privacyContentInput").value = item.content;
+      $("#privacyPopupInput").value = item.popup;
     }
 
     function savePrivacyForm(asDraft = true, showToast = true) {
@@ -3340,9 +3106,8 @@
       item.type = $("#privacyFormType").value;
       item.typeName = privacyTypeText(item.type);
       item.title = $("#privacyTitleInput").value.trim() || item.title;
-      item.pdfName = tempPrivacyPdfName || item.pdfName || defaultPrivacyPdfName(item);
-      item.content = `PDF文件：${item.pdfName}`;
-      item.popup = $("#privacyPopupEditor").innerHTML.trim();
+      item.content = $("#privacyContentInput").value.trim() || item.content;
+      item.popup = $("#privacyPopupInput").value.trim();
       item.status = asDraft ? "草稿" : item.status;
       item.updatedAt = reportNow();
       renderPrivacyTable();
@@ -3382,9 +3147,8 @@
         scene: "会员服务小程序注册、条款中心",
         owner: "活动运营",
         title: "会员服务小程序服务协议",
-        pdfName: "会员服务小程序服务协议-草稿.pdf",
-        content: "PDF文件：会员服务小程序服务协议-草稿.pdf",
-        popup: "<p>服务协议已更新，请阅读并确认。</p>",
+        content: "请录入服务协议正文。发布后系统自动生成 V1，并在用户注册同意记录中保留渠道、版本号和同意时间。",
+        popup: "服务协议已更新，请阅读并确认。",
         history: []
       };
       privacyPolicies.unshift(next);
@@ -3887,14 +3651,12 @@
     }
 
     document.addEventListener("click", (event) => {
-      const policyAction = event.target.closest("[data-policy-edit],[data-policy-publish],[data-policy-history]");
+      const policyAction = event.target.closest("[data-policy-edit],[data-policy-publish]");
       if (policyAction) {
-        currentPrivacyId = policyAction.dataset.policyEdit || policyAction.dataset.policyPublish || policyAction.dataset.policyHistory;
+        currentPrivacyId = policyAction.dataset.policyEdit || policyAction.dataset.policyPublish;
         if (policyAction.dataset.policyPublish) {
           renderPrivacyEditor();
           openPrivacyPublishConfirm(policyAction.dataset.policyPublish);
-        } else if (policyAction.dataset.policyHistory) {
-          openPrivacyHistoryModal(policyAction.dataset.policyHistory);
         } else {
           openPrivacyModal(policyAction.dataset.policyEdit, "编辑隐私条款");
           toast("隐私条款配置已载入");
@@ -3969,14 +3731,6 @@
 
       const target = event.target.closest("button");
       if (!target) return;
-
-      if (target.dataset.richCommand) {
-        event.preventDefault();
-        const editor = $("#privacyPopupEditor");
-        editor.focus();
-        document.execCommand(target.dataset.richCommand, false, null);
-        return;
-      }
 
       if (target.dataset.reportPreview) {
         openReportPreview(target.dataset.reportPreview);
@@ -4076,19 +3830,12 @@
       if (target.id === "uploadBannerBtn") {
         toast("原型中模拟上传，真实后台接入素材上传服务");
       }
-      if (target.id === "privacyPdfUploadBtn") {
-        $("#privacyPdfInput").click();
-        return;
-      }
       if (target.id === "newPrivacyDraftBtn") createPrivacyDraft();
       if (target.id === "savePrivacyDraftBtn") savePrivacyForm(true);
       if (target.id === "publishPrivacyEditorBtn") openPrivacyPublishConfirm();
       if (target.id === "confirmPrivacyPublishBtn") publishPrivacyVersion(pendingPrivacyPublishId || currentPrivacyId);
       if (target.id === "closePrivacyPublishConfirmBtn" || target.id === "cancelPrivacyPublishBtn") {
         closePrivacyPublishConfirm();
-      }
-      if (target.id === "closePrivacyHistoryBtn" || target.id === "closePrivacyHistoryFootBtn") {
-        closePrivacyHistoryModal();
       }
       if (target.id === "closePrivacyModalBtn" || target.id === "cancelPrivacyModalBtn") {
         closePrivacyModal();
@@ -4207,15 +3954,6 @@
         addReportsFromFiles(event.target.files);
         event.target.value = "";
       }
-      if (event.target.id === "privacyPdfInput") {
-        const file = event.target.files && event.target.files[0];
-        if (file) {
-          tempPrivacyPdfName = /\.pdf$/i.test(file.name) ? file.name : `${file.name}.pdf`;
-          setPrivacyPdfDisplay(activePrivacyPolicy());
-          toast("PDF 文件已选择");
-        }
-        event.target.value = "";
-      }
     });
 
     document.addEventListener("input", (event) => {
@@ -4230,7 +3968,6 @@
     $("#reportDrawerBackdrop").addEventListener("click", closeReportRename);
     $("#modalBackdrop").addEventListener("click", () => {
       closePrivacyPublishConfirm();
-      closePrivacyHistoryModal();
       closePrivacyModal();
       closeOverrideModal();
       closeReportPreview();

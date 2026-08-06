@@ -1447,28 +1447,7 @@
     .privacy-table th:nth-child(5),
     .privacy-table td:nth-child(5) { width: 145px; }
     .privacy-table th:nth-child(7),
-    .privacy-table td:nth-child(7) { width: 250px; }
-
-    .privacy-history-modal {
-      width: 680px;
-    }
-
-    .privacy-history-modal .modal-foot {
-      justify-content: center;
-    }
-
-    .privacy-history-table {
-      min-width: 620px;
-    }
-
-    .privacy-history-table th:nth-child(1),
-    .privacy-history-table td:nth-child(1) { width: 170px; }
-    .privacy-history-table th:nth-child(2),
-    .privacy-history-table td:nth-child(2) { width: 190px; }
-    .privacy-history-table th:nth-child(3),
-    .privacy-history-table td:nth-child(3) { width: 100px; }
-    .privacy-history-table th:nth-child(4),
-    .privacy-history-table td:nth-child(4) { width: 160px; }
+    .privacy-table td:nth-child(7) { width: 180px; }
 
     .privacy-channel {
       display: grid;
@@ -2581,34 +2560,6 @@
     </div>
   </section>
 
-  <section class="modal privacy-history-modal" id="privacyHistoryModal" aria-label="隐私条款历史版本弹窗">
-    <div class="modal-head">
-      <div>
-        <h2>历史版本</h2>
-        <div class="asset-tip" id="privacyHistoryMeta">-</div>
-      </div>
-      <button class="btn icon-only" id="closePrivacyHistoryBtn" title="关闭"><svg class="icon"><use href="#i-x"/></svg></button>
-    </div>
-    <div class="modal-body">
-      <div class="table-wrap">
-        <table class="privacy-history-table" aria-label="隐私条款历史版本列表">
-          <thead>
-            <tr>
-              <th>渠道</th>
-              <th>条款类型</th>
-              <th>版本</th>
-              <th>创建时间</th>
-            </tr>
-          </thead>
-          <tbody id="privacyHistoryTable"></tbody>
-        </table>
-      </div>
-    </div>
-    <div class="modal-foot">
-      <button class="btn primary" id="closePrivacyHistoryFootBtn">关闭</button>
-    </div>
-  </section>
-
   <section class="modal pdf-preview-modal" id="reportPdfModal" aria-label="PDF文件预览">
     <div class="modal-head">
       <div>
@@ -3244,7 +3195,6 @@
             <div class="op">
               <button class="link-btn" data-policy-edit="${item.id}">${iconUse("i-edit")}编辑</button>
               <button class="link-btn" data-policy-publish="${item.id}">${iconUse("i-save")}发布</button>
-              <button class="link-btn" data-policy-history="${item.id}">${iconUse("i-log")}历史版本</button>
             </div>
           </td>
         </tr>
@@ -3262,7 +3212,7 @@
 
     function closePrivacyModal() {
       $("#privacyModal").classList.remove("show");
-      if (!$("#privacyPublishConfirmModal").classList.contains("show") && !$("#privacyHistoryModal").classList.contains("show") && !$("#overrideModal").classList.contains("show") && !$("#reportPdfModal").classList.contains("show")) {
+      if (!$("#privacyPublishConfirmModal").classList.contains("show") && !$("#overrideModal").classList.contains("show") && !$("#reportPdfModal").classList.contains("show")) {
         $("#modalBackdrop").classList.remove("show");
       }
     }
@@ -3280,42 +3230,7 @@
     function closePrivacyPublishConfirm() {
       $("#privacyPublishConfirmModal").classList.remove("show");
       pendingPrivacyPublishId = null;
-      if (!$("#privacyModal").classList.contains("show") && !$("#privacyHistoryModal").classList.contains("show") && !$("#overrideModal").classList.contains("show") && !$("#reportPdfModal").classList.contains("show")) {
-        $("#modalBackdrop").classList.remove("show");
-      }
-    }
-
-    function privacyHistoryCreatedAt(row, item) {
-      if (row.createdAt) return row.createdAt;
-      if (/^\d{2}-\d{2}/.test(row.time || "")) return `${item.updatedAt.slice(0, 4)}-${row.time}`;
-      return row.time || item.updatedAt;
-    }
-
-    function renderPrivacyHistoryTable(item) {
-      const rows = item.history && item.history.length
-        ? item.history
-        : [{ version: item.version, time: item.updatedAt.slice(5, 16) }];
-      $("#privacyHistoryMeta").textContent = `${item.channelName} / ${item.typeName}`;
-      $("#privacyHistoryTable").innerHTML = rows.map(row => `
-        <tr>
-          <td>${reportSafe(item.channelName)}</td>
-          <td>${privacyTypeTag(item.type)}</td>
-          <td><strong>${reportSafe(row.version)}</strong></td>
-          <td>${reportSafe(privacyHistoryCreatedAt(row, item))}</td>
-        </tr>
-      `).join("");
-    }
-
-    function openPrivacyHistoryModal(id = currentPrivacyId) {
-      currentPrivacyId = id;
-      renderPrivacyHistoryTable(activePrivacyPolicy());
-      $("#modalBackdrop").classList.add("show");
-      $("#privacyHistoryModal").classList.add("show");
-    }
-
-    function closePrivacyHistoryModal() {
-      $("#privacyHistoryModal").classList.remove("show");
-      if (!$("#privacyModal").classList.contains("show") && !$("#privacyPublishConfirmModal").classList.contains("show") && !$("#overrideModal").classList.contains("show") && !$("#reportPdfModal").classList.contains("show")) {
+      if (!$("#privacyModal").classList.contains("show") && !$("#overrideModal").classList.contains("show") && !$("#reportPdfModal").classList.contains("show")) {
         $("#modalBackdrop").classList.remove("show");
       }
     }
@@ -3887,14 +3802,12 @@
     }
 
     document.addEventListener("click", (event) => {
-      const policyAction = event.target.closest("[data-policy-edit],[data-policy-publish],[data-policy-history]");
+      const policyAction = event.target.closest("[data-policy-edit],[data-policy-publish]");
       if (policyAction) {
-        currentPrivacyId = policyAction.dataset.policyEdit || policyAction.dataset.policyPublish || policyAction.dataset.policyHistory;
+        currentPrivacyId = policyAction.dataset.policyEdit || policyAction.dataset.policyPublish;
         if (policyAction.dataset.policyPublish) {
           renderPrivacyEditor();
           openPrivacyPublishConfirm(policyAction.dataset.policyPublish);
-        } else if (policyAction.dataset.policyHistory) {
-          openPrivacyHistoryModal(policyAction.dataset.policyHistory);
         } else {
           openPrivacyModal(policyAction.dataset.policyEdit, "编辑隐私条款");
           toast("隐私条款配置已载入");
@@ -4087,9 +4000,6 @@
       if (target.id === "closePrivacyPublishConfirmBtn" || target.id === "cancelPrivacyPublishBtn") {
         closePrivacyPublishConfirm();
       }
-      if (target.id === "closePrivacyHistoryBtn" || target.id === "closePrivacyHistoryFootBtn") {
-        closePrivacyHistoryModal();
-      }
       if (target.id === "closePrivacyModalBtn" || target.id === "cancelPrivacyModalBtn") {
         closePrivacyModal();
       }
@@ -4230,7 +4140,6 @@
     $("#reportDrawerBackdrop").addEventListener("click", closeReportRename);
     $("#modalBackdrop").addEventListener("click", () => {
       closePrivacyPublishConfirm();
-      closePrivacyHistoryModal();
       closePrivacyModal();
       closeOverrideModal();
       closeReportPreview();
