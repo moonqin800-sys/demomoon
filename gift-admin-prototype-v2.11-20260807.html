@@ -2032,15 +2032,15 @@
         </div>
       </div>
       <nav class="nav" aria-label="后台导航">
-        <button class="nav-item nav-primary" data-nav="library" data-nav-group="giftCenter"><svg><use href="#i-gift"/></svg>礼品中心</button>
-        <button class="nav-item nav-child" data-nav="library" data-nav-group="giftCenter"><svg><use href="#i-gift"/></svg>礼品库</button>
+        <button class="nav-item nav-primary active" data-nav="library" data-nav-group="giftCenter"><svg><use href="#i-gift"/></svg>礼品中心</button>
+        <button class="nav-item nav-child active" data-nav="library" data-nav-group="giftCenter"><svg><use href="#i-gift"/></svg>礼品库</button>
         <button class="nav-item nav-child" data-nav="activity" data-nav-group="giftCenter"><svg><use href="#i-calendar"/></svg>活动礼品配置</button>
         <button class="nav-item nav-primary" data-nav="activityManage"><svg><use href="#i-calendar"/></svg>活动管理</button>
         <button class="nav-item nav-primary" data-nav="banner"><svg><use href="#i-list"/></svg>会员服务轮播图管理</button>
         <button class="nav-item nav-primary" data-nav="reports" data-nav-group="reports"><svg><use href="#i-file"/></svg>质检报告管理</button>
         <button class="nav-item nav-child" data-nav="reportLogs" data-nav-group="reports"><svg><use href="#i-log"/></svg>操作记录</button>
-        <button class="nav-item nav-primary active" data-nav="privacy" data-nav-group="privacy"><svg><use href="#i-file"/></svg>隐私条款管理</button>
-        <button class="nav-item nav-child active" data-nav="privacy" data-nav-group="privacy"><svg><use href="#i-edit"/></svg>隐私条款维护</button>
+        <button class="nav-item nav-primary" data-nav="privacy" data-nav-group="privacy"><svg><use href="#i-file"/></svg>隐私条款管理</button>
+        <button class="nav-item nav-child" data-nav="privacy" data-nav-group="privacy"><svg><use href="#i-edit"/></svg>隐私条款维护</button>
         <button class="nav-item nav-child" data-nav="privacyRecords" data-nav-group="privacy"><svg><use href="#i-log"/></svg>隐私条款记录</button>
       </nav>
     </aside>
@@ -2048,8 +2048,8 @@
     <main class="main">
       <header class="topbar">
         <div class="crumb" id="breadcrumb">
-          系统首页 / 隐私条款管理 /
-          <strong id="pageTitle">隐私条款维护</strong>
+          系统首页 / 礼品中心 /
+          <strong id="pageTitle">礼品库</strong>
         </div>
         <div class="top-actions">
           <button class="btn icon-only" title="通知"><svg class="icon"><use href="#i-bell"/></svg></button>
@@ -2057,9 +2057,9 @@
         </div>
       </header>
 
-      <section class="workspace reports-mode">
+      <section class="workspace">
         <div class="left-flow">
-          <section class="page" id="libraryPage">
+          <section class="page active" id="libraryPage">
             <div class="panel">
               <div class="toolbar">
                 <div class="field">
@@ -2286,7 +2286,7 @@
             </div>
           </section>
 
-          <section class="page active" id="privacyPage">
+          <section class="page" id="privacyPage">
             <div class="panel">
               <div class="toolbar privacy-toolbar">
                 <div class="field">
@@ -4080,7 +4080,7 @@
       const params = new URLSearchParams(window.location.search);
       const queryPage = params.get("nav") || params.get("page");
       const hashPage = window.location.hash.replace(/^#/, "");
-      return allowedPages.has(queryPage) ? queryPage : allowedPages.has(hashPage) ? hashPage : "privacy";
+      return allowedPages.has(queryPage) ? queryPage : allowedPages.has(hashPage) ? hashPage : "library";
     }
 
     function switchPage(name) {
