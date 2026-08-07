@@ -2032,15 +2032,15 @@
         </div>
       </div>
       <nav class="nav" aria-label="后台导航">
-        <button class="nav-item nav-primary" data-nav="library" data-nav-group="giftCenter"><svg><use href="#i-gift"/></svg>礼品中心</button>
-        <button class="nav-item nav-child" data-nav="library" data-nav-group="giftCenter"><svg><use href="#i-gift"/></svg>礼品库</button>
+        <button class="nav-item nav-primary active" data-nav="library" data-nav-group="giftCenter"><svg><use href="#i-gift"/></svg>礼品中心</button>
+        <button class="nav-item nav-child active" data-nav="library" data-nav-group="giftCenter"><svg><use href="#i-gift"/></svg>礼品库</button>
         <button class="nav-item nav-child" data-nav="activity" data-nav-group="giftCenter"><svg><use href="#i-calendar"/></svg>活动礼品配置</button>
         <button class="nav-item nav-primary" data-nav="activityManage"><svg><use href="#i-calendar"/></svg>活动管理</button>
         <button class="nav-item nav-primary" data-nav="banner"><svg><use href="#i-list"/></svg>会员服务轮播图管理</button>
         <button class="nav-item nav-primary" data-nav="reports" data-nav-group="reports"><svg><use href="#i-file"/></svg>质检报告管理</button>
         <button class="nav-item nav-child" data-nav="reportLogs" data-nav-group="reports"><svg><use href="#i-log"/></svg>操作记录</button>
-        <button class="nav-item nav-primary active" data-nav="privacy" data-nav-group="privacy"><svg><use href="#i-file"/></svg>隐私条款管理</button>
-        <button class="nav-item nav-child active" data-nav="privacy" data-nav-group="privacy"><svg><use href="#i-edit"/></svg>隐私条款维护</button>
+        <button class="nav-item nav-primary" data-nav="privacy" data-nav-group="privacy"><svg><use href="#i-file"/></svg>隐私条款管理</button>
+        <button class="nav-item nav-child" data-nav="privacy" data-nav-group="privacy"><svg><use href="#i-edit"/></svg>隐私条款维护</button>
         <button class="nav-item nav-child" data-nav="privacyRecords" data-nav-group="privacy"><svg><use href="#i-log"/></svg>隐私条款记录</button>
       </nav>
     </aside>
@@ -2048,8 +2048,8 @@
     <main class="main">
       <header class="topbar">
         <div class="crumb" id="breadcrumb">
-          系统首页 / 隐私条款管理 /
-          <strong id="pageTitle">隐私条款维护</strong>
+          系统首页 / 礼品中心 /
+          <strong id="pageTitle">礼品库</strong>
         </div>
         <div class="top-actions">
           <button class="btn icon-only" title="通知"><svg class="icon"><use href="#i-bell"/></svg></button>
@@ -2057,9 +2057,9 @@
         </div>
       </header>
 
-      <section class="workspace reports-mode">
+      <section class="workspace">
         <div class="left-flow">
-          <section class="page" id="libraryPage">
+          <section class="page active" id="libraryPage">
             <div class="panel">
               <div class="toolbar">
                 <div class="field">
@@ -2286,7 +2286,7 @@
             </div>
           </section>
 
-          <section class="page active" id="privacyPage">
+          <section class="page" id="privacyPage">
             <div class="panel">
               <div class="toolbar privacy-toolbar">
                 <div class="field">
@@ -2627,11 +2627,11 @@
                 <option value="service">服务协议</option>
               </select>
             </div>
-            <div class="field" data-privacy-version-field>
+            <div class="field">
               <label>当前发布版本</label>
               <input class="input" id="privacyCurrentVersion" readonly />
             </div>
-            <div class="field" data-privacy-version-field>
+            <div class="field">
               <label>本次发布版本号</label>
               <input class="input" id="privacyNextVersion" readonly />
             </div>
@@ -2645,7 +2645,7 @@
                 <div class="pdf-file-mark">PDF</div>
                 <div class="pdf-file-main">
                   <strong id="privacyPdfName">未上传 PDF 文件</strong>
-                  <span id="privacyPdfMeta">发布时按渠道、条款类型关联保存，隐私政策类型额外关联版本号。</span>
+                  <span id="privacyPdfMeta">发布时按渠道、条款类型和版本号关联保存，前端条款页读取该 PDF 文件。</span>
                 </div>
                 <button class="btn" id="privacyPdfUploadBtn"><svg class="icon"><use href="#i-upload"/></svg>上传 PDF</button>
                 <input id="privacyPdfInput" type="file" accept=".pdf,application/pdf" hidden />
@@ -3506,47 +3506,20 @@
       return privacyPolicies.find(item => item.id === currentPrivacyId) || privacyPolicies[0];
     }
 
-    function isPrivacyVersioned(type) {
-      return type === "privacy";
-    }
-
-    function privacyDisplayVersion(item, value = item.version) {
-      return isPrivacyVersioned(item.type) ? (value || "V0") : "-";
-    }
-
     function nextPrivacyVersion(item) {
-      if (!isPrivacyVersioned(item.type)) return "";
       const current = Number(String(item.version || "V0").replace(/\D/g, "")) || 0;
       return `V${current + 1}`;
     }
 
     function defaultPrivacyPdfName(item) {
       const title = (item.title || `${item.channelName}${item.typeName}`).replace(/[\\/:*?"<>|]/g, "");
-      const version = isPrivacyVersioned(item.type) ? `-${item.version || "V0"}` : "";
-      return `${title}${version}.pdf`;
+      return `${title}-${item.version || "V0"}.pdf`;
     }
 
     function setPrivacyPdfDisplay(item) {
       const fileName = tempPrivacyPdfName || item.pdfName || defaultPrivacyPdfName(item);
       $("#privacyPdfName").textContent = fileName;
-      const formChannel = $("#privacyFormChannel")?.value || item.channel;
-      const formType = $("#privacyFormType")?.value || item.type;
-      const channelName = privacyChannelText(formChannel);
-      const typeName = privacyTypeText(formType);
-      const versionText = isPrivacyVersioned(formType) ? ` / ${item.version || "V0"}` : "";
-      $("#privacyPdfMeta").textContent = `当前关联：${channelName} / ${typeName}${versionText}`;
-    }
-
-    function syncPrivacyVersionFields(item = activePrivacyPolicy()) {
-      const formType = $("#privacyFormType")?.value || item.type;
-      const showVersion = isPrivacyVersioned(formType);
-      $$("[data-privacy-version-field]").forEach(field => {
-        field.style.display = showVersion ? "" : "none";
-      });
-      $("#privacyCurrentVersion").value = showVersion ? (item.version || "V0") : "";
-      $("#privacyNextVersion").value = showVersion ? nextPrivacyVersion({ ...item, type: formType }) : "";
-      $("#publishPrivacyEditorBtn").innerHTML = `${iconUse("i-save")}${showVersion ? "发布新版本" : "发布"}`;
-      setPrivacyPdfDisplay({ ...item, type: formType, typeName: privacyTypeText(formType) });
+      $("#privacyPdfMeta").textContent = `当前关联：${item.channelName} / ${item.typeName} / ${item.version}`;
     }
 
     function filteredPrivacyPolicies() {
@@ -3583,10 +3556,7 @@
             </div>
           </td>
           <td>${privacyTypeTag(item.type)}</td>
-          <td>
-            <strong>${privacyDisplayVersion(item)}</strong>
-            ${isPrivacyVersioned(item.type) ? `<span class="source-hint">下次 ${nextPrivacyVersion(item)}</span>` : ""}
-          </td>
+          <td><strong>${item.version}</strong><span class="source-hint">下次 ${nextPrivacyVersion(item)}</span></td>
           <td>${privacyStatusTag(item.status)}</td>
           <td>${item.updatedAt}</td>
           <td>${reportSafe(item.scene)}</td>
@@ -3621,16 +3591,8 @@
       pendingPrivacyPublishId = id;
       currentPrivacyId = id;
       const item = activePrivacyPolicy();
-      const editingInModal = $("#privacyModal").classList.contains("show");
-      const confirmChannel = editingInModal ? $("#privacyFormChannel").value : item.channel;
-      const confirmType = editingInModal ? $("#privacyFormType").value : item.type;
-      const channelName = privacyChannelText(confirmChannel);
-      const typeName = privacyTypeText(confirmType);
-      const nextVersion = nextPrivacyVersion({ ...item, type: confirmType });
-      const versionNote = isPrivacyVersioned(confirmType)
-        ? `发布后系统将自动生成 <strong>${nextVersion}</strong>，并作为该渠道当前最新条款版本。`
-        : "该条款类型不维护版本号，发布后仅更新对应渠道的当前有效文件。";
-      $("#privacyPublishConfirmText").innerHTML = `确认发布 <strong>${reportSafe(channelName)} / ${reportSafe(typeName)}</strong> 吗？<br>${versionNote}`;
+      const nextVersion = nextPrivacyVersion(item);
+      $("#privacyPublishConfirmText").innerHTML = `确认发布 <strong>${reportSafe(item.channelName)} / ${reportSafe(item.typeName)}</strong> 吗？<br>发布后系统将自动生成 <strong>${nextVersion}</strong>，并作为该渠道当前最新条款版本。`;
       $("#modalBackdrop").classList.add("show");
       $("#privacyPublishConfirmModal").classList.add("show");
     }
@@ -3658,7 +3620,7 @@
         <tr>
           <td>${reportSafe(item.channelName)}</td>
           <td>${privacyTypeTag(item.type)}</td>
-          <td><strong>${reportSafe(privacyDisplayVersion(item, row.version))}</strong></td>
+          <td><strong>${reportSafe(row.version)}</strong></td>
           <td>${reportSafe(privacyHistoryCreatedAt(row, item))}</td>
         </tr>
       `).join("");
@@ -3684,8 +3646,10 @@
       tempPrivacyPdfName = item.pdfName || defaultPrivacyPdfName(item);
       $("#privacyFormChannel").value = item.channel;
       $("#privacyFormType").value = item.type;
+      $("#privacyCurrentVersion").value = item.version;
+      $("#privacyNextVersion").value = nextPrivacyVersion(item);
       $("#privacyTitleInput").value = item.title;
-      syncPrivacyVersionFields(item);
+      setPrivacyPdfDisplay(item);
     }
 
     function savePrivacyForm(asDraft = true, showToast = true) {
@@ -3694,7 +3658,6 @@
       item.channelName = privacyChannelText(item.channel);
       item.type = $("#privacyFormType").value;
       item.typeName = privacyTypeText(item.type);
-      item.version = isPrivacyVersioned(item.type) ? (item.version || "V0") : "";
       item.title = $("#privacyTitleInput").value.trim() || item.title;
       item.pdfName = tempPrivacyPdfName || item.pdfName || defaultPrivacyPdfName(item);
       item.content = `PDF文件：${item.pdfName}`;
@@ -3713,15 +3676,15 @@
       savePrivacyForm(false, false);
       const item = activePrivacyPolicy();
       const version = nextPrivacyVersion(item);
-      if (isPrivacyVersioned(item.type)) item.version = version;
+      item.version = version;
       item.status = "已发布";
       item.updatedAt = reportNow();
-      item.history.unshift({ version: isPrivacyVersioned(item.type) ? version : "", time: item.updatedAt.slice(5, 16), operator: "活动运营", note: `${item.channelName}${item.typeName}发布` });
+      item.history.unshift({ version, time: item.updatedAt.slice(5, 16), operator: "活动运营", note: `${item.channelName}${item.typeName}发布` });
       renderPrivacyTable();
       renderPrivacyEditor();
       closePrivacyPublishConfirm();
       closePrivacyModal();
-      toast(isPrivacyVersioned(item.type) ? `发布成功，版本号已自动生成 ${version}` : "发布成功");
+      toast(`发布成功，版本号已自动生成 ${version}`);
     }
 
     function createPrivacyDraft() {
@@ -3729,16 +3692,17 @@
         id: `PP-${Date.now()}`,
         channel: "member",
         channelName: "会员服务小程序",
-        type: "privacy",
-        typeName: "隐私政策",
+        type: "service",
+        typeName: "服务协议",
         version: "V0",
         status: "草稿",
         updatedAt: reportNow(),
         scene: "会员服务小程序注册、条款中心",
         owner: "活动运营",
-        title: "会员服务小程序隐私政策",
-        pdfName: "会员服务小程序隐私政策-V0.pdf",
-        content: "PDF文件：会员服务小程序隐私政策-V0.pdf",
+        title: "会员服务小程序服务协议",
+        pdfName: "会员服务小程序服务协议-草稿.pdf",
+        content: "PDF文件：会员服务小程序服务协议-草稿.pdf",
+        popup: "<p>服务协议已更新，请阅读并确认。</p>",
         history: []
       };
       privacyPolicies.unshift(next);
@@ -4116,7 +4080,7 @@
       const params = new URLSearchParams(window.location.search);
       const queryPage = params.get("nav") || params.get("page");
       const hashPage = window.location.hash.replace(/^#/, "");
-      return allowedPages.has(queryPage) ? queryPage : allowedPages.has(hashPage) ? hashPage : "privacy";
+      return allowedPages.has(queryPage) ? queryPage : allowedPages.has(hashPage) ? hashPage : "library";
     }
 
     function switchPage(name) {
@@ -4577,7 +4541,6 @@
       if (event.target.matches("#bannerKeyword,#bannerStatusFilter,#bannerTypeFilter")) renderBannerTable();
       if (event.target.matches("#activityManageKeyword,#activityManageEndAfter")) renderActivityManageTable();
       if (event.target.matches("#privacyKeyword,#privacyChannelFilter,#privacyTypeFilter,#privacyStatusFilter")) renderPrivacyTable();
-      if (event.target.matches("#privacyFormType,#privacyFormChannel")) syncPrivacyVersionFields(activePrivacyPolicy());
       if (event.target.matches("#privacyRecordChannelFilter,#privacyRecordTypeFilter,#privacyRecordDateFilter")) renderPrivacyRecordTable();
       if (event.target.matches("[data-report-select]")) {
         if (event.target.checked) selectedReportIds.add(event.target.dataset.reportSelect);

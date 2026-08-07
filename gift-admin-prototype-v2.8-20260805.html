@@ -329,8 +329,7 @@
 
     .input:focus,
     .select:focus,
-    .textarea:focus,
-    .rich-editor:focus {
+    .textarea:focus {
       border-color: var(--brand);
       box-shadow: 0 0 0 3px rgba(23,103,179,.12);
     }
@@ -1436,74 +1435,6 @@
     .privacy-record-table th:nth-child(6),
     .privacy-record-table td:nth-child(6) { width: 170px; }
 
-    .activity-manage-toolbar {
-      grid-template-columns: minmax(220px, 1.2fr) minmax(160px, .9fr) auto;
-    }
-
-    .activity-manage-table {
-      min-width: 1520px;
-    }
-
-    .activity-manage-table th:nth-child(1),
-    .activity-manage-table td:nth-child(1) { width: 70px; }
-    .activity-manage-table th:nth-child(2),
-    .activity-manage-table td:nth-child(2) { width: 180px; }
-    .activity-manage-table th:nth-child(3),
-    .activity-manage-table td:nth-child(3) { width: 180px; }
-    .activity-manage-table th:nth-child(4),
-    .activity-manage-table td:nth-child(4) { width: 120px; }
-    .activity-manage-table th:nth-child(5),
-    .activity-manage-table td:nth-child(5) { width: 120px; }
-    .activity-manage-table th:nth-child(6),
-    .activity-manage-table td:nth-child(6) { width: 140px; }
-    .activity-manage-table th:nth-child(7),
-    .activity-manage-table td:nth-child(7) { width: 150px; }
-    .activity-manage-table th:nth-child(8),
-    .activity-manage-table td:nth-child(8) { width: 120px; }
-    .activity-manage-table th:nth-child(9),
-    .activity-manage-table td:nth-child(9) { width: 130px; }
-    .activity-manage-table th:nth-child(10),
-    .activity-manage-table td:nth-child(10) { width: 260px; }
-    .activity-manage-table th:nth-child(11),
-    .activity-manage-table td:nth-child(11) { width: 220px; }
-
-    .activity-manage-intro {
-      display: block;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      white-space: nowrap;
-    }
-
-    .activity-manage-ops {
-      display: flex;
-      gap: 6px;
-      flex-wrap: wrap;
-      white-space: nowrap;
-    }
-
-    .activity-mini-btn {
-      min-height: 24px;
-      padding: 0 9px;
-      border: 0;
-      border-radius: 2px;
-      color: #fff;
-      font-size: 12px;
-      font-weight: 700;
-      line-height: 24px;
-    }
-
-    .activity-mini-btn.teal { background: #17a2a4; }
-    .activity-mini-btn.orange { background: #f6a000; }
-    .activity-mini-btn.blue { background: #2c7be5; }
-
-    .activity-manage-modal {
-      width: 1120px;
-    }
-
-    .activity-manage-modal .modal-foot {
-      justify-content: center;
-    }
-
     .privacy-table th:nth-child(1),
     .privacy-table td:nth-child(1) { width: 150px; }
     .privacy-table th:nth-child(2),
@@ -1515,28 +1446,7 @@
     .privacy-table th:nth-child(5),
     .privacy-table td:nth-child(5) { width: 145px; }
     .privacy-table th:nth-child(7),
-    .privacy-table td:nth-child(7) { width: 250px; }
-
-    .privacy-history-modal {
-      width: 680px;
-    }
-
-    .privacy-history-modal .modal-foot {
-      justify-content: center;
-    }
-
-    .privacy-history-table {
-      min-width: 620px;
-    }
-
-    .privacy-history-table th:nth-child(1),
-    .privacy-history-table td:nth-child(1) { width: 170px; }
-    .privacy-history-table th:nth-child(2),
-    .privacy-history-table td:nth-child(2) { width: 190px; }
-    .privacy-history-table th:nth-child(3),
-    .privacy-history-table td:nth-child(3) { width: 100px; }
-    .privacy-history-table th:nth-child(4),
-    .privacy-history-table td:nth-child(4) { width: 160px; }
+    .privacy-table td:nth-child(7) { width: 180px; }
 
     .privacy-channel {
       display: grid;
@@ -1596,110 +1506,6 @@
 
     .confirm-message strong {
       color: #4b350b;
-    }
-
-    .pdf-upload-box {
-      min-height: 96px;
-      border: 1px dashed #b7c7da;
-      border-radius: 8px;
-      background: #f8fbff;
-      padding: 14px;
-      display: grid;
-      grid-template-columns: auto minmax(0, 1fr) auto;
-      gap: 12px;
-      align-items: center;
-    }
-
-    .pdf-file-mark {
-      width: 46px;
-      height: 54px;
-      border-radius: 8px;
-      background: #e9f2ff;
-      border: 1px solid #c9dbf3;
-      color: var(--brand);
-      display: grid;
-      place-items: center;
-      font-size: 13px;
-      font-weight: 800;
-      letter-spacing: 0;
-    }
-
-    .pdf-file-main {
-      min-width: 0;
-      display: grid;
-      gap: 5px;
-    }
-
-    .pdf-file-main strong {
-      color: var(--text);
-      font-size: 14px;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      white-space: nowrap;
-    }
-
-    .pdf-file-main span {
-      color: var(--subtle);
-      font-size: 12px;
-      line-height: 1.5;
-    }
-
-    .rich-editor-shell {
-      border: 1px solid var(--line);
-      border-radius: 8px;
-      background: #fff;
-      overflow: hidden;
-    }
-
-    .rich-editor-shell:focus-within {
-      border-color: var(--brand);
-      box-shadow: 0 0 0 3px rgba(23,103,179,.12);
-    }
-
-    .rich-toolbar {
-      min-height: 42px;
-      border-bottom: 1px solid var(--line-soft);
-      background: #f8fafc;
-      padding: 6px 8px;
-      display: flex;
-      gap: 6px;
-      align-items: center;
-      flex-wrap: wrap;
-    }
-
-    .rich-tool {
-      width: 32px;
-      height: 30px;
-      border: 1px solid transparent;
-      border-radius: 6px;
-      background: transparent;
-      color: var(--text);
-      display: inline-grid;
-      place-items: center;
-      cursor: pointer;
-      font-size: 13px;
-      font-weight: 700;
-    }
-
-    .rich-tool:hover,
-    .rich-tool:focus {
-      border-color: var(--line);
-      background: #fff;
-      outline: 0;
-    }
-
-    .rich-editor {
-      min-height: 126px;
-      padding: 10px 12px;
-      outline: 0;
-      line-height: 1.65;
-      color: var(--text);
-      overflow: auto;
-    }
-
-    .rich-editor:empty::before {
-      content: attr(data-placeholder);
-      color: var(--subtle);
     }
 
     .upload-frame {
@@ -1947,7 +1753,6 @@
       .toolbar,
       .activity-header,
       .activity-card,
-      .activity-manage-toolbar,
       .banner-toolbar,
       .banner-config,
       .check-strip,
@@ -1962,15 +1767,6 @@
       .report-actions {
         align-items: flex-start;
         flex-direction: column;
-      }
-
-      .pdf-upload-box {
-        grid-template-columns: auto minmax(0, 1fr);
-      }
-
-      .pdf-upload-box .btn {
-        grid-column: 1 / -1;
-        justify-content: center;
       }
 
       .tabs {
@@ -2032,15 +1828,14 @@
         </div>
       </div>
       <nav class="nav" aria-label="后台导航">
-        <button class="nav-item nav-primary" data-nav="library" data-nav-group="giftCenter"><svg><use href="#i-gift"/></svg>礼品中心</button>
-        <button class="nav-item nav-child" data-nav="library" data-nav-group="giftCenter"><svg><use href="#i-gift"/></svg>礼品库</button>
+        <button class="nav-item nav-primary active" data-nav="library" data-nav-group="giftCenter"><svg><use href="#i-gift"/></svg>礼品中心</button>
+        <button class="nav-item nav-child active" data-nav="library" data-nav-group="giftCenter"><svg><use href="#i-gift"/></svg>礼品库</button>
         <button class="nav-item nav-child" data-nav="activity" data-nav-group="giftCenter"><svg><use href="#i-calendar"/></svg>活动礼品配置</button>
-        <button class="nav-item nav-primary" data-nav="activityManage"><svg><use href="#i-calendar"/></svg>活动管理</button>
         <button class="nav-item nav-primary" data-nav="banner"><svg><use href="#i-list"/></svg>会员服务轮播图管理</button>
         <button class="nav-item nav-primary" data-nav="reports" data-nav-group="reports"><svg><use href="#i-file"/></svg>质检报告管理</button>
         <button class="nav-item nav-child" data-nav="reportLogs" data-nav-group="reports"><svg><use href="#i-log"/></svg>操作记录</button>
-        <button class="nav-item nav-primary active" data-nav="privacy" data-nav-group="privacy"><svg><use href="#i-file"/></svg>隐私条款管理</button>
-        <button class="nav-item nav-child active" data-nav="privacy" data-nav-group="privacy"><svg><use href="#i-edit"/></svg>隐私条款维护</button>
+        <button class="nav-item nav-primary" data-nav="privacy" data-nav-group="privacy"><svg><use href="#i-file"/></svg>隐私条款管理</button>
+        <button class="nav-item nav-child" data-nav="privacy" data-nav-group="privacy"><svg><use href="#i-edit"/></svg>隐私条款维护</button>
         <button class="nav-item nav-child" data-nav="privacyRecords" data-nav-group="privacy"><svg><use href="#i-log"/></svg>隐私条款记录</button>
       </nav>
     </aside>
@@ -2048,8 +1843,8 @@
     <main class="main">
       <header class="topbar">
         <div class="crumb" id="breadcrumb">
-          系统首页 / 隐私条款管理 /
-          <strong id="pageTitle">隐私条款维护</strong>
+          系统首页 / 礼品中心 /
+          <strong id="pageTitle">礼品库</strong>
         </div>
         <div class="top-actions">
           <button class="btn icon-only" title="通知"><svg class="icon"><use href="#i-bell"/></svg></button>
@@ -2057,9 +1852,9 @@
         </div>
       </header>
 
-      <section class="workspace reports-mode">
+      <section class="workspace">
         <div class="left-flow">
-          <section class="page" id="libraryPage">
+          <section class="page active" id="libraryPage">
             <div class="panel">
               <div class="toolbar">
                 <div class="field">
@@ -2149,46 +1944,6 @@
                     </tr>
                   </thead>
                   <tbody id="activityTable"></tbody>
-                </table>
-              </div>
-            </div>
-          </section>
-
-          <section class="page" id="activityManagePage">
-            <div class="panel">
-              <div class="toolbar activity-manage-toolbar">
-                <div class="field">
-                  <label>关键词</label>
-                  <input class="input" id="activityManageKeyword" placeholder="活动名称 / 活动代码" />
-                </div>
-                <div class="field">
-                  <label>结束时间晚于</label>
-                  <input class="input" id="activityManageEndAfter" type="date" />
-                </div>
-                <div class="btn-row">
-                  <button class="btn primary" id="queryActivityManageBtn"><svg class="icon"><use href="#i-search"/></svg>查询</button>
-                  <button class="btn" id="exportActivityManageBtn"><svg class="icon"><use href="#i-download"/></svg>导出(Excel)</button>
-                </div>
-              </div>
-
-              <div class="table-wrap">
-                <table class="activity-manage-table" aria-label="活动管理列表">
-                  <thead>
-                    <tr>
-                      <th>ID</th>
-                      <th>活动名称</th>
-                      <th>活动代码</th>
-                      <th>开始时间</th>
-                      <th>结束时间</th>
-                      <th>物流填写截止天数</th>
-                      <th>物流填写结束时间</th>
-                      <th>活动类型</th>
-                      <th>活动品牌</th>
-                      <th>活动简介</th>
-                      <th>操作</th>
-                    </tr>
-                  </thead>
-                  <tbody id="activityManageTable"></tbody>
                 </table>
               </div>
             </div>
@@ -2286,7 +2041,7 @@
             </div>
           </section>
 
-          <section class="page active" id="privacyPage">
+          <section class="page" id="privacyPage">
             <div class="panel">
               <div class="toolbar privacy-toolbar">
                 <div class="field">
@@ -2627,11 +2382,11 @@
                 <option value="service">服务协议</option>
               </select>
             </div>
-            <div class="field" data-privacy-version-field>
+            <div class="field">
               <label>当前发布版本</label>
               <input class="input" id="privacyCurrentVersion" readonly />
             </div>
-            <div class="field" data-privacy-version-field>
+            <div class="field">
               <label>本次发布版本号</label>
               <input class="input" id="privacyNextVersion" readonly />
             </div>
@@ -2640,16 +2395,12 @@
               <input class="input" id="privacyTitleInput" placeholder="如：会员服务小程序隐私政策" />
             </div>
             <div class="field full">
-              <label>条款正文 PDF 文件<span class="required">*</span></label>
-              <div class="pdf-upload-box">
-                <div class="pdf-file-mark">PDF</div>
-                <div class="pdf-file-main">
-                  <strong id="privacyPdfName">未上传 PDF 文件</strong>
-                  <span id="privacyPdfMeta">发布时按渠道、条款类型关联保存，隐私政策类型额外关联版本号。</span>
-                </div>
-                <button class="btn" id="privacyPdfUploadBtn"><svg class="icon"><use href="#i-upload"/></svg>上传 PDF</button>
-                <input id="privacyPdfInput" type="file" accept=".pdf,application/pdf" hidden />
-              </div>
+              <label>条款正文<span class="required">*</span></label>
+              <textarea class="textarea" id="privacyContentInput" style="height:160px" placeholder="录入或粘贴条款正文，发布后按渠道和版本号留痕"></textarea>
+            </div>
+            <div class="field full">
+              <label>老用户版本更新弹窗文案</label>
+              <textarea class="textarea" id="privacyPopupInput" placeholder="用于存量用户进入对应渠道时低版本提醒"></textarea>
             </div>
           </div>
         </div>
@@ -2675,126 +2426,6 @@
     <div class="modal-foot">
       <button class="btn" id="cancelPrivacyPublishBtn">取消</button>
       <button class="btn teal" id="confirmPrivacyPublishBtn"><svg class="icon"><use href="#i-save"/></svg>确认发布</button>
-    </div>
-  </section>
-
-  <section class="modal privacy-history-modal" id="privacyHistoryModal" aria-label="隐私条款历史版本弹窗">
-    <div class="modal-head">
-      <div>
-        <h2>历史版本</h2>
-        <div class="asset-tip" id="privacyHistoryMeta">-</div>
-      </div>
-      <button class="btn icon-only" id="closePrivacyHistoryBtn" title="关闭"><svg class="icon"><use href="#i-x"/></svg></button>
-    </div>
-    <div class="modal-body">
-      <div class="table-wrap">
-        <table class="privacy-history-table" aria-label="隐私条款历史版本列表">
-          <thead>
-            <tr>
-              <th>渠道</th>
-              <th>条款类型</th>
-              <th>版本</th>
-              <th>创建时间</th>
-            </tr>
-          </thead>
-          <tbody id="privacyHistoryTable"></tbody>
-        </table>
-      </div>
-    </div>
-    <div class="modal-foot">
-      <button class="btn primary" id="closePrivacyHistoryFootBtn">关闭</button>
-    </div>
-  </section>
-
-  <section class="modal activity-manage-modal" id="activityManageModal" aria-label="活动管理编辑弹窗">
-    <div class="modal-head">
-      <h2 id="activityManageModalTitle">编辑活动</h2>
-      <button class="btn icon-only" id="closeActivityManageModalBtn" title="关闭"><svg class="icon"><use href="#i-x"/></svg></button>
-    </div>
-    <div class="modal-body">
-      <div class="form-grid">
-        <div class="field">
-          <label>活动名称<span class="required">*</span></label>
-          <input class="input" id="activityManageName" />
-        </div>
-        <div class="field">
-          <label>活动代码<span class="required">*</span></label>
-          <input class="input" id="activityManageCode" />
-        </div>
-        <div class="field">
-          <label>活动分类<span class="required">*</span></label>
-          <select class="select" id="activityManageCategory">
-            <option value="">请选择</option>
-            <option value="buyfree_cam">买赠活动</option>
-            <option value="newuser_take">新客活动</option>
-            <option value="crm_cam">CRM 活动</option>
-            <option value="brand_cam">品牌活动</option>
-          </select>
-        </div>
-        <div class="field">
-          <label>活动类型<span class="required">*</span></label>
-          <input class="input" id="activityManageType" placeholder="如 buyfree_cam" />
-        </div>
-        <div class="field">
-          <label>开始时间<span class="required">*</span></label>
-          <input class="input" id="activityManageStartAt" type="date" />
-        </div>
-        <div class="field">
-          <label>截止时间<span class="required">*</span></label>
-          <input class="input" id="activityManageEndAt" type="date" />
-        </div>
-        <div class="field">
-          <label>物流填写截止天数</label>
-          <input class="input" id="activityManageLogisticsDays" type="number" min="0" placeholder="如 46" />
-        </div>
-        <div class="field">
-          <label>物流填写结束时间</label>
-          <input class="input" id="activityManageLogisticsEndAt" type="date" />
-        </div>
-        <div class="field">
-          <label>注册隐私条款渠道<span class="required">*</span></label>
-          <select class="select" id="activityManagePrivacyChannel">
-            <option value="">请选择</option>
-            <option value="member">会员服务小程序</option>
-            <option value="elearning">E-learning</option>
-            <option value="idream">iDream</option>
-            <option value="momclass">妈妈班</option>
-            <option value="roadshow">路演</option>
-          </select>
-        </div>
-        <div class="field">
-          <label>工作时间开始</label>
-          <input class="input" id="activityManageWorkStart" type="date" />
-        </div>
-        <div class="field">
-          <label>工作时间结束</label>
-          <input class="input" id="activityManageWorkEnd" type="date" />
-        </div>
-        <div class="field">
-          <label>物流关键字</label>
-          <input class="input" id="activityManageLogisticsKeyword" placeholder="物流关键字" />
-        </div>
-        <div class="field">
-          <label>抽奖关键字</label>
-          <input class="input" id="activityManageDrawKeyword" placeholder="抽奖关键字" />
-        </div>
-        <div class="field full">
-          <label>活动简介</label>
-          <textarea class="textarea" id="activityManageIntro" placeholder="请输入内容"></textarea>
-        </div>
-        <div class="field full">
-          <label>操作手册</label>
-          <div class="upload-frame">
-            <button class="btn" id="activityManageUploadBtn"><svg class="icon"><use href="#i-upload"/></svg>上传附件</button>
-            <div class="asset-tip" id="activityManageAttachmentName">未上传附件</div>
-            <div class="asset-tip">用于活动配置中的说明文件、操作手册或内部附件留存。</div>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="modal-foot">
-      <button class="btn" id="cancelActivityManageModalBtn">取消</button>
-      <button class="btn primary" id="saveActivityManageBtn"><svg class="icon"><use href="#i-save"/></svg>确认保存</button>
     </div>
   </section>
 
@@ -3006,23 +2637,8 @@
       }
     ];
 
-    let currentActivityManageId = "1651";
-    let activityManageItems = [
-      { id: "1651", name: "RKA无导门店买赠活动", code: "B_RKAMDMD_A_260801", startAt: "2026-08-01", endAt: "2026-09-01", logisticsDeadlineDays: "", logisticsEndAt: "", type: "buyfree_cam", brand: "所有", intro: "", category: "buyfree_cam", privacyChannel: "member", workStart: "", workEnd: "", logisticsKeyword: "", drawKeyword: "", attachmentName: "活动说明.pdf" },
-      { id: "1650", name: "尊悦新客复购扫码活动", code: "NT_ZYXKFGS_Z_260801", startAt: "2026-08-01", endAt: "2028-12-31", logisticsDeadlineDays: "", logisticsEndAt: "", type: "newuser_take", brand: "ZY", intro: "", category: "newuser_take", privacyChannel: "elearning", workStart: "", workEnd: "", logisticsKeyword: "", drawKeyword: "", attachmentName: "活动手册.pdf" },
-      { id: "1649", name: "美素佳儿8月CRM会员活动", code: "CR_MSJF8YC_A_260813", startAt: "2026-08-13", endAt: "2026-09-30", logisticsDeadlineDays: "", logisticsEndAt: "", type: "crm_cam", brand: "所有", intro: "美素佳儿8月CRM会员活动，重点围绕会员扫码与复购激励。", category: "crm_cam", privacyChannel: "member", workStart: "", workEnd: "", logisticsKeyword: "", drawKeyword: "", attachmentName: "CRM活动说明.pdf" },
-      { id: "1648", name: "旺翔头号玩家超打怪", code: "CR_WYTHWJQ_260707", startAt: "2026-07-07", endAt: "2027-08-31", logisticsDeadlineDays: "", logisticsEndAt: "", type: "crm_cam", brand: "旺翔", intro: "", category: "crm_cam", privacyChannel: "roadshow", workStart: "", workEnd: "", logisticsKeyword: "", drawKeyword: "", attachmentName: "活动说明.pdf" },
-      { id: "1647", name: "NKA联合 Smart UGC", code: "CR_NKALGSM_A_260624", startAt: "2026-06-24", endAt: "2027-12-31", logisticsDeadlineDays: "", logisticsEndAt: "", type: "crm_cam", brand: "所有", intro: "NKA联合 Smart UGC", category: "crm_cam", privacyChannel: "idream", workStart: "", workEnd: "", logisticsKeyword: "", drawKeyword: "", attachmentName: "UGC活动手册.pdf" },
-      { id: "1646", name: "RKA联合 Smart UGC", code: "CR_RKALGSM_P_260601", startAt: "2026-06-01", endAt: "2027-12-31", logisticsDeadlineDays: "", logisticsEndAt: "", type: "crm_cam", brand: "皇家", intro: "RKA联合 Smart UGC", category: "crm_cam", privacyChannel: "member", workStart: "", workEnd: "", logisticsKeyword: "", drawKeyword: "", attachmentName: "活动说明.pdf" },
-      { id: "1645", name: "源悦 Smart UGC", code: "CR_YYSmart_N_260601", startAt: "2026-06-01", endAt: "2027-06-30", logisticsDeadlineDays: "", logisticsEndAt: "", type: "crm_cam", brand: "源悦", intro: "源悦 Smart UGC", category: "crm_cam", privacyChannel: "momclass", workStart: "", workEnd: "", logisticsKeyword: "", drawKeyword: "", attachmentName: "活动手册.pdf" },
-      { id: "1643", name: "EMD KOS活动", code: "CR_EMDKOSH_P_260506", startAt: "2026-05-06", endAt: "2026-12-31", logisticsDeadlineDays: "", logisticsEndAt: "", type: "crm_cam", brand: "皇家", intro: "EMD-KOS活动草案", category: "crm_cam", privacyChannel: "roadshow", workStart: "", workEnd: "", logisticsKeyword: "", drawKeyword: "", attachmentName: "活动说明.pdf" },
-      { id: "1642", name: "Friso皇家美素佳儿...", code: "B_BDCYMMP_P_260501", startAt: "2026-08-01", endAt: "2026-09-01", logisticsDeadlineDays: "46", logisticsEndAt: "2026-09-01", type: "buyfree_cam", brand: "pura", intro: "#idreamstokedit#", category: "buyfree_cam", privacyChannel: "member", workStart: "", workEnd: "", logisticsKeyword: "", drawKeyword: "", attachmentName: "操作手册.pdf" },
-      { id: "1641", name: "爱婴岛跨境买赠活动", code: "B_AYDKJMZ_V_260401", startAt: "2026-04-01", endAt: "2027-01-01", logisticsDeadlineDays: "", logisticsEndAt: "", type: "buyfree_cam", brand: "NL", intro: "", category: "buyfree_cam", privacyChannel: "elearning", workStart: "", workEnd: "", logisticsKeyword: "", drawKeyword: "", attachmentName: "活动说明.pdf" }
-    ];
-
     let currentPrivacyId = "PP-MEMBER-PRIVACY";
     let pendingPrivacyPublishId = null;
-    let tempPrivacyPdfName = "";
     let privacyPolicies = [
       {
         id: "PP-MEMBER-PRIVACY",
@@ -3036,9 +2652,8 @@
         scene: "会员服务小程序注册、存量会员进入小程序",
         owner: "法务审核 / 活动运营",
         title: "美素佳儿会员服务小程序隐私政策",
-        pdfName: "美素佳儿会员服务小程序隐私政策-V3.pdf",
         content: "适用于会员服务小程序注册、登录、权益领取、礼品查看等场景。系统需在用户勾选并注册成功后记录同意渠道、条款版本号、同意时间、OpenID/会员编号和来源页面。",
-        popup: "<p>我们更新了<strong>会员服务小程序隐私政策</strong>。为继续使用会员权益、礼品查询等服务，请阅读并确认最新版本。</p>",
+        popup: "我们更新了会员服务小程序隐私政策。为继续使用会员权益、礼品查询等服务，请阅读并确认最新版本。",
         history: [
           { version: "V3", time: "07-22 15:20", operator: "活动运营", note: "会员服务注册页条款更新" },
           { version: "V2", time: "07-03 18:10", operator: "管理员", note: "补充个人信息共享说明" },
@@ -3057,9 +2672,8 @@
         scene: "条款中心、注册页隐私政策关联阅读",
         owner: "法务审核 / 活动运营",
         title: "美素佳儿会员服务小程序个人信息共享清单",
-        pdfName: "美素佳儿会员服务小程序个人信息共享清单-V2.pdf",
         content: "展示会员服务小程序涉及的第三方共享对象、共享目的、共享字段和联系方式。前端条款中心需支持从隐私政策正文内跳转查看。",
-        popup: "<p>个人信息共享清单已更新，请确认后继续使用会员服务。</p>",
+        popup: "个人信息共享清单已更新，请确认后继续使用会员服务。",
         history: [
           { version: "V2", time: "07-21 11:40", operator: "活动运营", note: "补充共享清单" },
           { version: "V1", time: "05-26 10:00", operator: "系统", note: "初始化版本" }
@@ -3077,9 +2691,8 @@
         scene: "E-learning H5 新客注册、课程学习入口",
         owner: "法务审核 / 活动运营",
         title: "E-learning 隐私政策",
-        pdfName: "E-learning隐私政策-V2.pdf",
         content: "适用于 E-learning H5 注册及学习服务场景。系统按 E-learning 渠道展示对应条款，替代原统一外链，并在用户完成确认后记录 E-learning 渠道版本。",
-        popup: "<p><strong>E-learning 隐私政策</strong>已更新，请阅读并确认最新版本后继续学习。</p>",
+        popup: "E-learning 隐私政策已更新，请阅读并确认最新版本后继续学习。",
         history: [
           { version: "V2", time: "06-18 17:25", operator: "活动运营", note: "未成年人信息保护整改" },
           { version: "V1", time: "05-26 10:00", operator: "系统", note: "初始化版本" }
@@ -3097,9 +2710,8 @@
         scene: "iDream 买赠注册、老用户活动访问",
         owner: "法务审核 / 活动运营",
         title: "iDream 儿童个人信息处理规则",
-        pdfName: "iDream儿童个人信息处理规则-V2.pdf",
         content: "适用于 iDream 买赠活动中涉及儿童个人信息处理的注册与活动访问场景。系统需保留监护人确认记录，并与 iDream 渠道版本号绑定。",
-        popup: "<p>iDream 儿童个人信息处理规则已更新，请阅读并确认。</p>",
+        popup: "iDream 儿童个人信息处理规则已更新，请阅读并确认。",
         history: [
           { version: "V2", time: "06-18 17:18", operator: "活动运营", note: "儿童信息处理规则更新" },
           { version: "V1", time: "05-26 10:00", operator: "系统", note: "初始化版本" }
@@ -3117,9 +2729,8 @@
         scene: "E-learning 条款中心、隐私政策关联阅读",
         owner: "活动运营",
         title: "E-learning 个人信息收集清单",
-        pdfName: "E-learning个人信息收集清单-V2.pdf",
         content: "补充 E-learning 注册、课程学习、活动参与过程中收集的个人信息字段、使用目的和保存期限。当前为草稿，发布后自动成为 V3。",
-        popup: "<p>E-learning 个人信息收集清单已更新，请确认最新版本。</p>",
+        popup: "E-learning 个人信息收集清单已更新，请确认最新版本。",
         history: [
           { version: "V2", time: "06-18 17:25", operator: "活动运营", note: "补充收集字段说明" },
           { version: "V1", time: "05-26 10:00", operator: "系统", note: "初始化版本" }
@@ -3353,123 +2964,6 @@
       $("#bannerPayload").textContent = JSON.stringify(payload, null, 2);
     }
 
-    function currentActivityManage() {
-      return activityManageItems.find(item => item.id === currentActivityManageId) || activityManageItems[0];
-    }
-
-    function activityManageCategoryText(value) {
-      return {
-        buyfree_cam: "买赠活动",
-        newuser_take: "新客活动",
-        crm_cam: "CRM 活动",
-        brand_cam: "品牌活动"
-      }[value] || value;
-    }
-
-    function filteredActivityManageItems() {
-      const keyword = $("#activityManageKeyword")?.value.trim().toLowerCase() || "";
-      const endAfter = $("#activityManageEndAfter")?.value || "";
-      return activityManageItems.filter(item => {
-        const keywordHit = !keyword || [item.name, item.code].join(" ").toLowerCase().includes(keyword);
-        const endHit = !endAfter || item.endAt >= endAfter;
-        return keywordHit && endHit;
-      });
-    }
-
-    function renderActivityManageTable() {
-      if (!$("#activityManageTable")) return;
-      const rows = filteredActivityManageItems();
-      $("#activityManageTable").innerHTML = rows.map(item => `
-        <tr>
-          <td>${reportSafe(item.id)}</td>
-          <td>${reportSafe(item.name)}</td>
-          <td>${reportSafe(item.code)}</td>
-          <td>${reportSafe(item.startAt)}</td>
-          <td>${reportSafe(item.endAt)}</td>
-          <td>${reportSafe(item.logisticsDeadlineDays || "-")}</td>
-          <td>${reportSafe(item.logisticsEndAt || "-")}</td>
-          <td>${reportSafe(item.type)}</td>
-          <td>${reportSafe(item.brand)}</td>
-          <td><span class="activity-manage-intro" title="${reportSafe(item.intro || "-")}">${reportSafe(item.intro || "-")}</span></td>
-          <td>
-            <div class="activity-manage-ops">
-              <button class="activity-mini-btn teal" data-activitymanage-edit="${item.id}">编辑</button>
-              <button class="activity-mini-btn orange" data-activitymanage-config="${item.id}">活动配置</button>
-              <button class="activity-mini-btn blue" data-activitymanage-bind="${item.id}">礼品绑定</button>
-            </div>
-          </td>
-        </tr>
-      `).join("") || `<tr><td colspan="11"><div class="empty-state">暂无匹配活动</div></td></tr>`;
-    }
-
-    function renderActivityManageEditor() {
-      const item = currentActivityManage();
-      $("#activityManageModalTitle").textContent = `编辑活动 - ${item.name}`;
-      $("#activityManageName").value = item.name || "";
-      $("#activityManageCode").value = item.code || "";
-      $("#activityManageCategory").value = item.category || "";
-      $("#activityManageType").value = item.type || "";
-      $("#activityManageStartAt").value = item.startAt || "";
-      $("#activityManageEndAt").value = item.endAt || "";
-      $("#activityManageLogisticsDays").value = item.logisticsDeadlineDays || "";
-      $("#activityManageLogisticsEndAt").value = item.logisticsEndAt || "";
-      $("#activityManagePrivacyChannel").value = item.privacyChannel || "";
-      $("#activityManageWorkStart").value = item.workStart || "";
-      $("#activityManageWorkEnd").value = item.workEnd || "";
-      $("#activityManageLogisticsKeyword").value = item.logisticsKeyword || "";
-      $("#activityManageDrawKeyword").value = item.drawKeyword || "";
-      $("#activityManageIntro").value = item.intro || "";
-      $("#activityManageAttachmentName").textContent = item.attachmentName || "未上传附件";
-    }
-
-    function openActivityManageModal(id, title = "编辑活动") {
-      currentActivityManageId = id;
-      $("#activityManageModalTitle").textContent = title;
-      renderActivityManageEditor();
-      $("#modalBackdrop").classList.add("show");
-      $("#activityManageModal").classList.add("show");
-    }
-
-    function closeActivityManageModal() {
-      $("#activityManageModal").classList.remove("show");
-      if (!$("#privacyModal").classList.contains("show") && !$("#privacyPublishConfirmModal").classList.contains("show") && !$("#privacyHistoryModal").classList.contains("show") && !$("#overrideModal").classList.contains("show") && !$("#reportPdfModal").classList.contains("show")) {
-        $("#modalBackdrop").classList.remove("show");
-      }
-    }
-
-    function saveActivityManageForm() {
-      const item = currentActivityManage();
-      const name = $("#activityManageName").value.trim();
-      const code = $("#activityManageCode").value.trim();
-      const category = $("#activityManageCategory").value;
-      const type = $("#activityManageType").value.trim();
-      const startAt = $("#activityManageStartAt").value;
-      const endAt = $("#activityManageEndAt").value;
-      const privacyChannel = $("#activityManagePrivacyChannel").value;
-      if (!name || !code || !category || !type || !startAt || !endAt || !privacyChannel) {
-        toast("请补全必填项");
-        return;
-      }
-      item.name = name;
-      item.code = code;
-      item.category = category;
-      item.type = type;
-      item.startAt = startAt;
-      item.endAt = endAt;
-      item.logisticsDeadlineDays = $("#activityManageLogisticsDays").value.trim();
-      item.logisticsEndAt = $("#activityManageLogisticsEndAt").value;
-      item.privacyChannel = privacyChannel;
-      item.workStart = $("#activityManageWorkStart").value;
-      item.workEnd = $("#activityManageWorkEnd").value;
-      item.logisticsKeyword = $("#activityManageLogisticsKeyword").value.trim();
-      item.drawKeyword = $("#activityManageDrawKeyword").value.trim();
-      item.intro = $("#activityManageIntro").value.trim();
-      item.attachmentName = item.attachmentName || $("#activityManageAttachmentName").textContent || "未上传附件";
-      renderActivityManageTable();
-      closeActivityManageModal();
-      toast("活动已保存");
-    }
-
     function privacyTypeText(type) {
       return {
         privacy: "隐私政策",
@@ -3506,47 +3000,9 @@
       return privacyPolicies.find(item => item.id === currentPrivacyId) || privacyPolicies[0];
     }
 
-    function isPrivacyVersioned(type) {
-      return type === "privacy";
-    }
-
-    function privacyDisplayVersion(item, value = item.version) {
-      return isPrivacyVersioned(item.type) ? (value || "V0") : "-";
-    }
-
     function nextPrivacyVersion(item) {
-      if (!isPrivacyVersioned(item.type)) return "";
       const current = Number(String(item.version || "V0").replace(/\D/g, "")) || 0;
       return `V${current + 1}`;
-    }
-
-    function defaultPrivacyPdfName(item) {
-      const title = (item.title || `${item.channelName}${item.typeName}`).replace(/[\\/:*?"<>|]/g, "");
-      const version = isPrivacyVersioned(item.type) ? `-${item.version || "V0"}` : "";
-      return `${title}${version}.pdf`;
-    }
-
-    function setPrivacyPdfDisplay(item) {
-      const fileName = tempPrivacyPdfName || item.pdfName || defaultPrivacyPdfName(item);
-      $("#privacyPdfName").textContent = fileName;
-      const formChannel = $("#privacyFormChannel")?.value || item.channel;
-      const formType = $("#privacyFormType")?.value || item.type;
-      const channelName = privacyChannelText(formChannel);
-      const typeName = privacyTypeText(formType);
-      const versionText = isPrivacyVersioned(formType) ? ` / ${item.version || "V0"}` : "";
-      $("#privacyPdfMeta").textContent = `当前关联：${channelName} / ${typeName}${versionText}`;
-    }
-
-    function syncPrivacyVersionFields(item = activePrivacyPolicy()) {
-      const formType = $("#privacyFormType")?.value || item.type;
-      const showVersion = isPrivacyVersioned(formType);
-      $$("[data-privacy-version-field]").forEach(field => {
-        field.style.display = showVersion ? "" : "none";
-      });
-      $("#privacyCurrentVersion").value = showVersion ? (item.version || "V0") : "";
-      $("#privacyNextVersion").value = showVersion ? nextPrivacyVersion({ ...item, type: formType }) : "";
-      $("#publishPrivacyEditorBtn").innerHTML = `${iconUse("i-save")}${showVersion ? "发布新版本" : "发布"}`;
-      setPrivacyPdfDisplay({ ...item, type: formType, typeName: privacyTypeText(formType) });
     }
 
     function filteredPrivacyPolicies() {
@@ -3583,10 +3039,7 @@
             </div>
           </td>
           <td>${privacyTypeTag(item.type)}</td>
-          <td>
-            <strong>${privacyDisplayVersion(item)}</strong>
-            ${isPrivacyVersioned(item.type) ? `<span class="source-hint">下次 ${nextPrivacyVersion(item)}</span>` : ""}
-          </td>
+          <td><strong>${item.version}</strong><span class="source-hint">下次 ${nextPrivacyVersion(item)}</span></td>
           <td>${privacyStatusTag(item.status)}</td>
           <td>${item.updatedAt}</td>
           <td>${reportSafe(item.scene)}</td>
@@ -3594,7 +3047,6 @@
             <div class="op">
               <button class="link-btn" data-policy-edit="${item.id}">${iconUse("i-edit")}编辑</button>
               <button class="link-btn" data-policy-publish="${item.id}">${iconUse("i-save")}发布</button>
-              <button class="link-btn" data-policy-history="${item.id}">${iconUse("i-log")}历史版本</button>
             </div>
           </td>
         </tr>
@@ -3612,7 +3064,7 @@
 
     function closePrivacyModal() {
       $("#privacyModal").classList.remove("show");
-      if (!$("#activityManageModal").classList.contains("show") && !$("#privacyPublishConfirmModal").classList.contains("show") && !$("#privacyHistoryModal").classList.contains("show") && !$("#overrideModal").classList.contains("show") && !$("#reportPdfModal").classList.contains("show")) {
+      if (!$("#privacyPublishConfirmModal").classList.contains("show") && !$("#overrideModal").classList.contains("show") && !$("#reportPdfModal").classList.contains("show")) {
         $("#modalBackdrop").classList.remove("show");
       }
     }
@@ -3621,16 +3073,8 @@
       pendingPrivacyPublishId = id;
       currentPrivacyId = id;
       const item = activePrivacyPolicy();
-      const editingInModal = $("#privacyModal").classList.contains("show");
-      const confirmChannel = editingInModal ? $("#privacyFormChannel").value : item.channel;
-      const confirmType = editingInModal ? $("#privacyFormType").value : item.type;
-      const channelName = privacyChannelText(confirmChannel);
-      const typeName = privacyTypeText(confirmType);
-      const nextVersion = nextPrivacyVersion({ ...item, type: confirmType });
-      const versionNote = isPrivacyVersioned(confirmType)
-        ? `发布后系统将自动生成 <strong>${nextVersion}</strong>，并作为该渠道当前最新条款版本。`
-        : "该条款类型不维护版本号，发布后仅更新对应渠道的当前有效文件。";
-      $("#privacyPublishConfirmText").innerHTML = `确认发布 <strong>${reportSafe(channelName)} / ${reportSafe(typeName)}</strong> 吗？<br>${versionNote}`;
+      const nextVersion = nextPrivacyVersion(item);
+      $("#privacyPublishConfirmText").innerHTML = `确认发布 <strong>${reportSafe(item.channelName)} / ${reportSafe(item.typeName)}</strong> 吗？<br>发布后系统将自动生成 <strong>${nextVersion}</strong>，并作为该渠道当前最新条款版本。`;
       $("#modalBackdrop").classList.add("show");
       $("#privacyPublishConfirmModal").classList.add("show");
     }
@@ -3638,42 +3082,7 @@
     function closePrivacyPublishConfirm() {
       $("#privacyPublishConfirmModal").classList.remove("show");
       pendingPrivacyPublishId = null;
-      if (!$("#activityManageModal").classList.contains("show") && !$("#privacyModal").classList.contains("show") && !$("#privacyHistoryModal").classList.contains("show") && !$("#overrideModal").classList.contains("show") && !$("#reportPdfModal").classList.contains("show")) {
-        $("#modalBackdrop").classList.remove("show");
-      }
-    }
-
-    function privacyHistoryCreatedAt(row, item) {
-      if (row.createdAt) return row.createdAt;
-      if (/^\d{2}-\d{2}/.test(row.time || "")) return `${item.updatedAt.slice(0, 4)}-${row.time}`;
-      return row.time || item.updatedAt;
-    }
-
-    function renderPrivacyHistoryTable(item) {
-      const rows = item.history && item.history.length
-        ? item.history
-        : [{ version: item.version, time: item.updatedAt.slice(5, 16) }];
-      $("#privacyHistoryMeta").textContent = `${item.channelName} / ${item.typeName}`;
-      $("#privacyHistoryTable").innerHTML = rows.map(row => `
-        <tr>
-          <td>${reportSafe(item.channelName)}</td>
-          <td>${privacyTypeTag(item.type)}</td>
-          <td><strong>${reportSafe(privacyDisplayVersion(item, row.version))}</strong></td>
-          <td>${reportSafe(privacyHistoryCreatedAt(row, item))}</td>
-        </tr>
-      `).join("");
-    }
-
-    function openPrivacyHistoryModal(id = currentPrivacyId) {
-      currentPrivacyId = id;
-      renderPrivacyHistoryTable(activePrivacyPolicy());
-      $("#modalBackdrop").classList.add("show");
-      $("#privacyHistoryModal").classList.add("show");
-    }
-
-    function closePrivacyHistoryModal() {
-      $("#privacyHistoryModal").classList.remove("show");
-      if (!$("#activityManageModal").classList.contains("show") && !$("#privacyModal").classList.contains("show") && !$("#privacyPublishConfirmModal").classList.contains("show") && !$("#overrideModal").classList.contains("show") && !$("#reportPdfModal").classList.contains("show")) {
+      if (!$("#privacyModal").classList.contains("show") && !$("#overrideModal").classList.contains("show") && !$("#reportPdfModal").classList.contains("show")) {
         $("#modalBackdrop").classList.remove("show");
       }
     }
@@ -3681,11 +3090,13 @@
     function renderPrivacyEditor() {
       if (!$("#privacyFormChannel")) return;
       const item = activePrivacyPolicy();
-      tempPrivacyPdfName = item.pdfName || defaultPrivacyPdfName(item);
       $("#privacyFormChannel").value = item.channel;
       $("#privacyFormType").value = item.type;
+      $("#privacyCurrentVersion").value = item.version;
+      $("#privacyNextVersion").value = nextPrivacyVersion(item);
       $("#privacyTitleInput").value = item.title;
-      syncPrivacyVersionFields(item);
+      $("#privacyContentInput").value = item.content;
+      $("#privacyPopupInput").value = item.popup;
     }
 
     function savePrivacyForm(asDraft = true, showToast = true) {
@@ -3694,10 +3105,9 @@
       item.channelName = privacyChannelText(item.channel);
       item.type = $("#privacyFormType").value;
       item.typeName = privacyTypeText(item.type);
-      item.version = isPrivacyVersioned(item.type) ? (item.version || "V0") : "";
       item.title = $("#privacyTitleInput").value.trim() || item.title;
-      item.pdfName = tempPrivacyPdfName || item.pdfName || defaultPrivacyPdfName(item);
-      item.content = `PDF文件：${item.pdfName}`;
+      item.content = $("#privacyContentInput").value.trim() || item.content;
+      item.popup = $("#privacyPopupInput").value.trim();
       item.status = asDraft ? "草稿" : item.status;
       item.updatedAt = reportNow();
       renderPrivacyTable();
@@ -3713,15 +3123,15 @@
       savePrivacyForm(false, false);
       const item = activePrivacyPolicy();
       const version = nextPrivacyVersion(item);
-      if (isPrivacyVersioned(item.type)) item.version = version;
+      item.version = version;
       item.status = "已发布";
       item.updatedAt = reportNow();
-      item.history.unshift({ version: isPrivacyVersioned(item.type) ? version : "", time: item.updatedAt.slice(5, 16), operator: "活动运营", note: `${item.channelName}${item.typeName}发布` });
+      item.history.unshift({ version, time: item.updatedAt.slice(5, 16), operator: "活动运营", note: `${item.channelName}${item.typeName}发布` });
       renderPrivacyTable();
       renderPrivacyEditor();
       closePrivacyPublishConfirm();
       closePrivacyModal();
-      toast(isPrivacyVersioned(item.type) ? `发布成功，版本号已自动生成 ${version}` : "发布成功");
+      toast(`发布成功，版本号已自动生成 ${version}`);
     }
 
     function createPrivacyDraft() {
@@ -3729,16 +3139,16 @@
         id: `PP-${Date.now()}`,
         channel: "member",
         channelName: "会员服务小程序",
-        type: "privacy",
-        typeName: "隐私政策",
+        type: "service",
+        typeName: "服务协议",
         version: "V0",
         status: "草稿",
         updatedAt: reportNow(),
         scene: "会员服务小程序注册、条款中心",
         owner: "活动运营",
-        title: "会员服务小程序隐私政策",
-        pdfName: "会员服务小程序隐私政策-V0.pdf",
-        content: "PDF文件：会员服务小程序隐私政策-V0.pdf",
+        title: "会员服务小程序服务协议",
+        content: "请录入服务协议正文。发布后系统自动生成 V1，并在用户注册同意记录中保留渠道、版本号和同意时间。",
+        popup: "服务协议已更新，请阅读并确认。",
         history: []
       };
       privacyPolicies.unshift(next);
@@ -3911,9 +3321,7 @@
     function closeReportPreview() {
       $("#reportPdfFrame").src = "about:blank";
       $("#reportPdfModal").classList.remove("show");
-      if (!$("#activityManageModal").classList.contains("show") && !$("#privacyModal").classList.contains("show") && !$("#privacyPublishConfirmModal").classList.contains("show") && !$("#privacyHistoryModal").classList.contains("show") && !$("#overrideModal").classList.contains("show")) {
-        $("#modalBackdrop").classList.remove("show");
-      }
+      if (!$("#overrideModal").classList.contains("show")) $("#modalBackdrop").classList.remove("show");
     }
 
     function addReportsFromFiles(fileList) {
@@ -4112,11 +3520,11 @@
     }
 
     function initialPageFromUrl() {
-      const allowedPages = new Set(["library", "activity", "activityManage", "banner", "privacy", "privacyRecords", "reports", "reportLogs"]);
+      const allowedPages = new Set(["library", "activity", "banner", "privacy", "privacyRecords", "reports", "reportLogs"]);
       const params = new URLSearchParams(window.location.search);
       const queryPage = params.get("nav") || params.get("page");
       const hashPage = window.location.hash.replace(/^#/, "");
-      return allowedPages.has(queryPage) ? queryPage : allowedPages.has(hashPage) ? hashPage : "privacy";
+      return allowedPages.has(queryPage) ? queryPage : allowedPages.has(hashPage) ? hashPage : "library";
     }
 
     function switchPage(name) {
@@ -4130,11 +3538,10 @@
         const childHit = !isPrimary && nav.dataset.nav === name;
         nav.classList.toggle("active", primaryHit || childHit);
       });
-      const titles = { library: "礼品库", activity: "活动礼品配置", activityManage: "活动管理", banner: "会员服务轮播图管理", privacy: "隐私条款维护", privacyRecords: "隐私条款记录", reports: "质检报告管理", reportLogs: "操作记录" };
+      const titles = { library: "礼品库", activity: "活动礼品配置", banner: "会员服务轮播图管理", privacy: "隐私条款维护", privacyRecords: "隐私条款记录", reports: "质检报告管理", reportLogs: "操作记录" };
       const breadcrumbPaths = {
         library: ["系统首页", "礼品中心", "礼品库"],
         activity: ["系统首页", "礼品中心", "活动礼品配置"],
-        activityManage: ["系统首页", "活动管理"],
         banner: ["系统首页", "会员服务轮播图管理"],
         privacy: ["系统首页", "隐私条款管理", "隐私条款维护"],
         privacyRecords: ["系统首页", "隐私条款管理", "隐私条款记录"],
@@ -4143,7 +3550,7 @@
       };
       const path = breadcrumbPaths[name] || breadcrumbPaths.library;
       $("#breadcrumb").innerHTML = `${path.slice(0, -1).join(" / ")} / <strong id="pageTitle">${path[path.length - 1]}</strong>`;
-      const isReportArea = ["activityManage", "reports", "reportLogs", "privacy", "privacyRecords"].includes(name);
+      const isReportArea = ["reports", "reportLogs", "privacy", "privacyRecords"].includes(name);
       $(".workspace").classList.toggle("reports-mode", isReportArea);
       if (isReportArea) {
         $("#previewSeg").style.display = "none";
@@ -4216,9 +3623,7 @@
     }
 
     function closeOverrideModal() {
-      if (!$("#activityManageModal").classList.contains("show") && !$("#privacyModal").classList.contains("show") && !$("#privacyPublishConfirmModal").classList.contains("show") && !$("#privacyHistoryModal").classList.contains("show") && !$("#reportPdfModal").classList.contains("show")) {
-        $("#modalBackdrop").classList.remove("show");
-      }
+      $("#modalBackdrop").classList.remove("show");
       $("#overrideModal").classList.remove("show");
     }
 
@@ -4246,30 +3651,12 @@
     }
 
     document.addEventListener("click", (event) => {
-      const activityManageAction = event.target.closest("[data-activitymanage-edit],[data-activitymanage-config],[data-activitymanage-bind]");
-      if (activityManageAction) {
-        const id = activityManageAction.dataset.activitymanageEdit || activityManageAction.dataset.activitymanageConfig || activityManageAction.dataset.activitymanageBind;
-        currentActivityManageId = id;
-        if (activityManageAction.dataset.activitymanageEdit) {
-          openActivityManageModal(id, "编辑活动");
-        } else if (activityManageAction.dataset.activitymanageConfig) {
-          switchPage("activity");
-          toast("已切换到活动礼品配置");
-        } else if (activityManageAction.dataset.activitymanageBind) {
-          switchPage("activity");
-          toast("请在活动礼品配置中完成礼品绑定");
-        }
-        return;
-      }
-
-      const policyAction = event.target.closest("[data-policy-edit],[data-policy-publish],[data-policy-history]");
+      const policyAction = event.target.closest("[data-policy-edit],[data-policy-publish]");
       if (policyAction) {
-        currentPrivacyId = policyAction.dataset.policyEdit || policyAction.dataset.policyPublish || policyAction.dataset.policyHistory;
+        currentPrivacyId = policyAction.dataset.policyEdit || policyAction.dataset.policyPublish;
         if (policyAction.dataset.policyPublish) {
           renderPrivacyEditor();
           openPrivacyPublishConfirm(policyAction.dataset.policyPublish);
-        } else if (policyAction.dataset.policyHistory) {
-          openPrivacyHistoryModal(policyAction.dataset.policyHistory);
         } else {
           openPrivacyModal(policyAction.dataset.policyEdit, "编辑隐私条款");
           toast("隐私条款配置已载入");
@@ -4443,10 +3830,6 @@
       if (target.id === "uploadBannerBtn") {
         toast("原型中模拟上传，真实后台接入素材上传服务");
       }
-      if (target.id === "privacyPdfUploadBtn") {
-        $("#privacyPdfInput").click();
-        return;
-      }
       if (target.id === "newPrivacyDraftBtn") createPrivacyDraft();
       if (target.id === "savePrivacyDraftBtn") savePrivacyForm(true);
       if (target.id === "publishPrivacyEditorBtn") openPrivacyPublishConfirm();
@@ -4454,30 +3837,8 @@
       if (target.id === "closePrivacyPublishConfirmBtn" || target.id === "cancelPrivacyPublishBtn") {
         closePrivacyPublishConfirm();
       }
-      if (target.id === "closePrivacyHistoryBtn" || target.id === "closePrivacyHistoryFootBtn") {
-        closePrivacyHistoryModal();
-      }
       if (target.id === "closePrivacyModalBtn" || target.id === "cancelPrivacyModalBtn") {
         closePrivacyModal();
-      }
-      if (target.id === "queryActivityManageBtn") {
-        renderActivityManageTable();
-        toast("查询完成");
-      }
-      if (target.id === "exportActivityManageBtn") {
-        toast(`已导出 ${filteredActivityManageItems().length} 条活动`);
-      }
-      if (target.id === "saveActivityManageBtn") {
-        saveActivityManageForm();
-      }
-      if (target.id === "closeActivityManageModalBtn" || target.id === "cancelActivityManageModalBtn") {
-        closeActivityManageModal();
-      }
-      if (target.id === "activityManageUploadBtn") {
-        const item = currentActivityManage();
-        item.attachmentName = "活动附件.pdf";
-        $("#activityManageAttachmentName").textContent = item.attachmentName;
-        toast("附件已选择");
       }
       if (target.id === "queryPrivacyRecordsBtn") {
         renderPrivacyRecordTable();
@@ -4575,9 +3936,7 @@
     document.addEventListener("change", (event) => {
       if (event.target.matches("#keyword,#typeFilter,#statusFilter,#brandFilter")) renderGiftTable();
       if (event.target.matches("#bannerKeyword,#bannerStatusFilter,#bannerTypeFilter")) renderBannerTable();
-      if (event.target.matches("#activityManageKeyword,#activityManageEndAfter")) renderActivityManageTable();
       if (event.target.matches("#privacyKeyword,#privacyChannelFilter,#privacyTypeFilter,#privacyStatusFilter")) renderPrivacyTable();
-      if (event.target.matches("#privacyFormType,#privacyFormChannel")) syncPrivacyVersionFields(activePrivacyPolicy());
       if (event.target.matches("#privacyRecordChannelFilter,#privacyRecordTypeFilter,#privacyRecordDateFilter")) renderPrivacyRecordTable();
       if (event.target.matches("[data-report-select]")) {
         if (event.target.checked) selectedReportIds.add(event.target.dataset.reportSelect);
@@ -4595,21 +3954,11 @@
         addReportsFromFiles(event.target.files);
         event.target.value = "";
       }
-      if (event.target.id === "privacyPdfInput") {
-        const file = event.target.files && event.target.files[0];
-        if (file) {
-          tempPrivacyPdfName = /\.pdf$/i.test(file.name) ? file.name : `${file.name}.pdf`;
-          setPrivacyPdfDisplay(activePrivacyPolicy());
-          toast("PDF 文件已选择");
-        }
-        event.target.value = "";
-      }
     });
 
     document.addEventListener("input", (event) => {
       if (event.target.id === "keyword") renderGiftTable();
       if (event.target.id === "bannerKeyword") renderBannerTable();
-      if (event.target.id === "activityManageKeyword") renderActivityManageTable();
       if (event.target.id === "privacyKeyword") renderPrivacyTable();
       if (event.target.id === "privacyRecordKeyword" || event.target.id === "privacyRecordVersionFilter") renderPrivacyRecordTable();
       if (event.target.id === "reportKeyword") renderReportTable();
@@ -4618,9 +3967,7 @@
     $("#drawerBackdrop").addEventListener("click", closeDrawer);
     $("#reportDrawerBackdrop").addEventListener("click", closeReportRename);
     $("#modalBackdrop").addEventListener("click", () => {
-      closeActivityManageModal();
       closePrivacyPublishConfirm();
-      closePrivacyHistoryModal();
       closePrivacyModal();
       closeOverrideModal();
       closeReportPreview();
@@ -4635,7 +3982,6 @@
 
     renderGiftTable();
     renderActivityTable();
-    renderActivityManageTable();
     renderBannerTable();
     renderBannerEditor();
     renderPrivacyTable();
