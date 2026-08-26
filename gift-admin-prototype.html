@@ -1496,6 +1496,98 @@
     .activity-mini-btn.orange { background: #f6a000; }
     .activity-mini-btn.blue { background: #2c7be5; }
 
+    .new-user-account-toolbar {
+      grid-template-columns: minmax(170px, 1fr) minmax(150px, .85fr) minmax(150px, .85fr) minmax(130px, .7fr) minmax(130px, .7fr) minmax(140px, .75fr) minmax(140px, .75fr) minmax(140px, .75fr);
+    }
+
+    .new-user-account-actions {
+      display: flex;
+      gap: 8px;
+      padding: 14px 16px 0;
+      flex-wrap: wrap;
+    }
+
+    .new-user-account-table {
+      min-width: 1960px;
+    }
+
+    .new-user-account-table th:nth-child(1),
+    .new-user-account-table td:nth-child(1) { width: 70px; }
+    .new-user-account-table th:nth-child(2),
+    .new-user-account-table td:nth-child(2) { width: 180px; }
+    .new-user-account-table th:nth-child(3),
+    .new-user-account-table td:nth-child(3) { width: 190px; }
+    .new-user-account-table th:nth-child(4),
+    .new-user-account-table td:nth-child(4) { width: 105px; }
+    .new-user-account-table th:nth-child(5),
+    .new-user-account-table td:nth-child(5) { width: 180px; }
+    .new-user-account-table th:nth-child(6),
+    .new-user-account-table td:nth-child(6) { width: 130px; }
+    .new-user-account-table th:nth-child(7),
+    .new-user-account-table td:nth-child(7) { width: 140px; }
+    .new-user-account-table th:nth-child(8),
+    .new-user-account-table td:nth-child(8) { width: 120px; }
+    .new-user-account-table th:nth-child(9),
+    .new-user-account-table td:nth-child(9) { width: 90px; }
+    .new-user-account-table th:nth-child(10),
+    .new-user-account-table td:nth-child(10) { width: 150px; }
+    .new-user-account-table th:nth-child(11),
+    .new-user-account-table td:nth-child(11),
+    .new-user-account-table th:nth-child(12),
+    .new-user-account-table td:nth-child(12),
+    .new-user-account-table th:nth-child(13),
+    .new-user-account-table td:nth-child(13),
+    .new-user-account-table th:nth-child(14),
+    .new-user-account-table td:nth-child(14),
+    .new-user-account-table th:nth-child(16),
+    .new-user-account-table td:nth-child(16) { width: 165px; }
+    .new-user-account-table th:nth-child(15),
+    .new-user-account-table td:nth-child(15) { width: 130px; }
+    .new-user-account-table th:nth-child(17),
+    .new-user-account-table td:nth-child(17) { width: 110px; }
+    .new-user-account-table th:nth-child(18),
+    .new-user-account-table td:nth-child(18) { width: 150px; }
+
+    .new-user-account-pager {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 0 16px 16px;
+      color: var(--muted);
+      font-size: 12px;
+      flex-wrap: wrap;
+    }
+
+    .pager-buttons {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .pager-buttons button,
+    .pager-buttons span {
+      min-width: 28px;
+      height: 28px;
+      display: inline-grid;
+      place-items: center;
+      border-radius: 6px;
+      color: var(--muted);
+      background: #fff;
+      border: 1px solid var(--line);
+      font-weight: 700;
+    }
+
+    .pager-buttons button.active {
+      color: #fff;
+      background: var(--teal);
+      border-color: var(--teal);
+    }
+
+    .new-user-account-modal {
+      width: 780px;
+    }
+
     .activity-manage-modal {
       width: 1120px;
     }
@@ -1948,6 +2040,7 @@
       .activity-header,
       .activity-card,
       .activity-manage-toolbar,
+      .new-user-account-toolbar,
       .banner-toolbar,
       .banner-config,
       .check-strip,
@@ -1957,6 +2050,12 @@
       .report-toolbar,
       .report-summary {
         grid-template-columns: 1fr;
+      }
+
+      .new-user-account-actions,
+      .new-user-account-pager {
+        align-items: flex-start;
+        flex-direction: column;
       }
 
       .report-actions {
@@ -2016,6 +2115,7 @@
     <symbol id="i-log" viewBox="0 0 24 24"><path d="M3 3v18h18"/><path d="M7 14l3-3 3 2 5-6"/></symbol>
     <symbol id="i-bell" viewBox="0 0 24 24"><path d="M18 8a6 6 0 1 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9"/><path d="M13.7 21a2 2 0 0 1-3.4 0"/></symbol>
     <symbol id="i-filter" viewBox="0 0 24 24"><path d="M3 5h18"/><path d="M6 12h12"/><path d="M10 19h4"/></symbol>
+    <symbol id="i-user-check" viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 0 0-4-4H7a4 4 0 0 0-4 4v2"/><circle cx="9.5" cy="7" r="4"/><path d="m16 11 2 2 4-4"/></symbol>
     <symbol id="i-file" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8Z"/><path d="M14 2v6h6"/><path d="M8 13h8"/><path d="M8 17h6"/></symbol>
     <symbol id="i-download" viewBox="0 0 24 24"><path d="M12 3v12"/><path d="m7 10 5 5 5-5"/><path d="M4 21h16"/></symbol>
     <symbol id="i-trash" viewBox="0 0 24 24"><path d="M4 7h16"/><path d="M10 11v6"/><path d="M14 11v6"/><path d="m6 7 1 14h10l1-14"/><path d="M9 7V4h6v3"/></symbol>
@@ -2036,6 +2136,7 @@
         <button class="nav-item nav-child" data-nav="library" data-nav-group="giftCenter"><svg><use href="#i-gift"/></svg>礼品库</button>
         <button class="nav-item nav-child" data-nav="activity" data-nav-group="giftCenter"><svg><use href="#i-calendar"/></svg>活动礼品配置</button>
         <button class="nav-item nav-primary" data-nav="activityManage"><svg><use href="#i-calendar"/></svg>活动管理</button>
+        <button class="nav-item nav-primary" data-nav="newUserAccount"><svg><use href="#i-user-check"/></svg>新客无人账号管理</button>
         <button class="nav-item nav-primary" data-nav="banner"><svg><use href="#i-list"/></svg>会员服务轮播图管理</button>
         <button class="nav-item nav-primary" data-nav="reports" data-nav-group="reports"><svg><use href="#i-file"/></svg>质检报告管理</button>
         <button class="nav-item nav-child" data-nav="reportLogs" data-nav-group="reports"><svg><use href="#i-log"/></svg>操作记录</button>
@@ -2190,6 +2291,108 @@
                   </thead>
                   <tbody id="activityManageTable"></tbody>
                 </table>
+              </div>
+            </div>
+          </section>
+
+          <section class="page" id="newUserAccountPage">
+            <div class="panel">
+              <div class="toolbar new-user-account-toolbar">
+                <div class="field">
+                  <label>活动名称</label>
+                  <select class="select" id="newUserActivityFilter">
+                    <option value="">全部活动</option>
+                    <option value="NT_Y25MRMD_A_250301">Y25 无人门店新学员活动</option>
+                    <option value="NT_Y26NUSTORE_A_260801">Y26 无人门店新客活动</option>
+                  </select>
+                </div>
+                <div class="field">
+                  <label>用户名称</label>
+                  <input class="input" id="newUserNameFilter" placeholder="用户名称 / 登录名称" />
+                </div>
+                <div class="field">
+                  <label>门店代码</label>
+                  <input class="input" id="newUserStoreCodeFilter" placeholder="门店代码" />
+                </div>
+                <div class="field">
+                  <label>状态</label>
+                  <select class="select" id="newUserStatusFilter">
+                    <option value="">全部状态</option>
+                    <option>启用</option>
+                    <option>禁用</option>
+                  </select>
+                </div>
+                <div class="field">
+                  <label>审核状态</label>
+                  <select class="select" id="newUserReviewStatusFilter">
+                    <option value="">全部</option>
+                    <option>待审核</option>
+                    <option>审核通过</option>
+                    <option>审核驳回</option>
+                  </select>
+                </div>
+                <div class="field">
+                  <label>创建时间</label>
+                  <input class="input" id="newUserCreatedAtFilter" type="date" />
+                </div>
+                <div class="field">
+                  <label>开始时间</label>
+                  <input class="input" id="newUserStartAtFilter" type="date" />
+                </div>
+                <div class="field">
+                  <label>结束时间</label>
+                  <input class="input" id="newUserEndAtFilter" type="date" />
+                </div>
+                <div class="btn-row">
+                  <button class="btn primary" id="queryNewUserAccountBtn"><svg class="icon"><use href="#i-search"/></svg>查询</button>
+                  <button class="btn" id="resetNewUserAccountBtn">重置</button>
+                </div>
+              </div>
+
+              <div class="new-user-account-actions">
+                <button class="btn primary" id="importNewUserAccountBtn"><svg class="icon"><use href="#i-upload"/></svg>追加导入(Excel)</button>
+                <button class="btn" id="exportNewUserAccountBtn"><svg class="icon"><use href="#i-download"/></svg>导出(Excel)</button>
+                <button class="btn" id="downloadNewUserTemplateBtn"><svg class="icon"><use href="#i-download"/></svg>模板下载</button>
+              </div>
+
+              <div class="table-wrap">
+                <table class="new-user-account-table" aria-label="新客无人账号管理列表">
+                  <thead>
+                    <tr>
+                      <th>Id</th>
+                      <th>活动code</th>
+                      <th>活动名称</th>
+                      <th>门店code</th>
+                      <th>门店名称</th>
+                      <th>用户code</th>
+                      <th>登录名称</th>
+                      <th>登录密码</th>
+                      <th>状态</th>
+                      <th>备注</th>
+                      <th>开始时间</th>
+                      <th>结束时间</th>
+                      <th>更新时间</th>
+                      <th>创建时间</th>
+                      <th>审核手机号</th>
+                      <th>审核时间</th>
+                      <th>审核状态</th>
+                      <th>操作</th>
+                    </tr>
+                  </thead>
+                  <tbody id="newUserAccountTable"></tbody>
+                </table>
+              </div>
+              <div class="new-user-account-pager">
+                <div class="pager-buttons">
+                  <span>‹</span>
+                  <button class="active">1</button>
+                  <button>2</button>
+                  <button>3</button>
+                  <span>...</span>
+                  <button>248</button>
+                  <span>›</span>
+                </div>
+                <div id="newUserAccountPageInfo">共 0 条，10 条/页</div>
               </div>
             </div>
           </section>
@@ -2798,6 +3001,53 @@
     </div>
   </section>
 
+  <section class="modal new-user-account-modal" id="newUserAccountModal" aria-label="新客无人账号有效时间编辑弹窗">
+    <div class="modal-head">
+      <h2 id="newUserAccountModalTitle">编辑有效时间</h2>
+      <button class="btn icon-only" id="closeNewUserAccountModalBtn" title="关闭"><svg class="icon"><use href="#i-x"/></svg></button>
+    </div>
+    <div class="modal-body">
+      <div class="form-grid">
+        <div class="field">
+          <label>登录名称</label>
+          <input class="input" id="newUserAccountLoginName" readonly />
+        </div>
+        <div class="field">
+          <label>门店代码</label>
+          <input class="input" id="newUserAccountStoreCode" readonly />
+        </div>
+        <div class="field full">
+          <label>门店名称</label>
+          <input class="input" id="newUserAccountStoreName" readonly />
+        </div>
+        <div class="field">
+          <label>开始时间<span class="required">*</span></label>
+          <input class="input" id="newUserAccountStartAt" type="datetime-local" />
+        </div>
+        <div class="field">
+          <label>结束时间<span class="required">*</span></label>
+          <input class="input" id="newUserAccountEndAt" type="datetime-local" />
+        </div>
+        <div class="field">
+          <label>状态</label>
+          <input class="input" id="newUserAccountStatus" readonly />
+        </div>
+        <div class="field">
+          <label>审核状态</label>
+          <input class="input" id="newUserAccountReviewStatus" readonly />
+        </div>
+        <div class="field full">
+          <label>备注</label>
+          <input class="input" id="newUserAccountRemark" readonly />
+        </div>
+      </div>
+    </div>
+    <div class="modal-foot">
+      <button class="btn" id="cancelNewUserAccountModalBtn">取消</button>
+      <button class="btn primary" id="saveNewUserAccountBtn"><svg class="icon"><use href="#i-save"/></svg>确认保存</button>
+    </div>
+  </section>
+
   <section class="modal pdf-preview-modal" id="reportPdfModal" aria-label="PDF文件预览">
     <div class="modal-head">
       <div>
@@ -3018,6 +3268,21 @@
       { id: "1643", name: "EMD KOS活动", code: "CR_EMDKOSH_P_260506", startAt: "2026-05-06", endAt: "2026-12-31", logisticsDeadlineDays: "", logisticsEndAt: "", type: "crm_cam", brand: "皇家", intro: "EMD-KOS活动草案", category: "crm_cam", privacyChannel: "roadshow", workStart: "", workEnd: "", logisticsKeyword: "", drawKeyword: "", attachmentName: "活动说明.pdf" },
       { id: "1642", name: "Friso皇家美素佳儿...", code: "B_BDCYMMP_P_260501", startAt: "2026-08-01", endAt: "2026-09-01", logisticsDeadlineDays: "46", logisticsEndAt: "2026-09-01", type: "buyfree_cam", brand: "pura", intro: "#idreamstokedit#", category: "buyfree_cam", privacyChannel: "member", workStart: "", workEnd: "", logisticsKeyword: "", drawKeyword: "", attachmentName: "操作手册.pdf" },
       { id: "1641", name: "爱婴岛跨境买赠活动", code: "B_AYDKJMZ_V_260401", startAt: "2026-04-01", endAt: "2027-01-01", logisticsDeadlineDays: "", logisticsEndAt: "", type: "buyfree_cam", brand: "NL", intro: "", category: "buyfree_cam", privacyChannel: "elearning", workStart: "", workEnd: "", logisticsKeyword: "", drawKeyword: "", attachmentName: "活动说明.pdf" }
+    ];
+
+    let currentNewUserAccountId = "2547";
+    let newUserAccounts = [
+      { id: "2547", activityCode: "NT_Y25MRMD_A_250301", activityName: "Y25 无人门店新学员活动", storeCode: "10088836", storeName: "健雅儿临高购物公园店", userCode: "", loginName: "VCCR10088836", loginPassword: "88888888", status: "启用", remark: "0731开启（1店1码）", startAt: "2026-07-31 20:31:05", endAt: "2026-12-31 23:59:59", updatedAt: "2026-08-23 22:11:57", createdAt: "2026-07-31 20:31:05", reviewerPhone: "15818484353", reviewedAt: "", reviewStatus: "待审核" },
+      { id: "2548", activityCode: "NT_Y25MRMD_A_250301", activityName: "Y25 无人门店新学员活动", storeCode: "30006040", storeName: "健雅儿三亚妇幼店", userCode: "", loginName: "VCCR30006040", loginPassword: "88888888", status: "启用", remark: "0731开启（1店1码）", startAt: "2026-07-31 20:31:05", endAt: "2026-12-31 23:59:59", updatedAt: "2026-08-23 22:20:35", createdAt: "2026-07-31 20:31:05", reviewerPhone: "15818484353", reviewedAt: "", reviewStatus: "待审核" },
+      { id: "2549", activityCode: "NT_Y25MRMD_A_250301", activityName: "Y25 无人门店新学员活动", storeCode: "80004833", storeName: "健雅儿儋州东坡店", userCode: "", loginName: "VCCR80004833", loginPassword: "88888888", status: "启用", remark: "0731开启（1店1码）", startAt: "2026-07-31 20:31:05", endAt: "2026-12-31 23:59:59", updatedAt: "2026-08-23 22:10:28", createdAt: "2026-07-31 20:31:05", reviewerPhone: "15818484353", reviewedAt: "", reviewStatus: "审核通过" },
+      { id: "2550", activityCode: "NT_Y25MRMD_A_250301", activityName: "Y25 无人门店新学员活动", storeCode: "80026365", storeName: "健雅儿琼海东风店", userCode: "", loginName: "VCCR80026365", loginPassword: "88888888", status: "启用", remark: "0731开启（1店1码）", startAt: "2026-07-31 20:31:05", endAt: "2026-12-31 23:59:59", updatedAt: "2026-08-23 22:22:32", createdAt: "2026-07-31 20:31:05", reviewerPhone: "15818484353", reviewedAt: "", reviewStatus: "待审核" },
+      { id: "2551", activityCode: "NT_Y25MRMD_A_250301", activityName: "Y25 无人门店新学员活动", storeCode: "80004798", storeName: "健雅儿儋州人民中路店", userCode: "", loginName: "VCCR80004798", loginPassword: "88888888", status: "启用", remark: "0731开启（1店1码）", startAt: "2026-07-31 20:31:05", endAt: "2026-12-31 23:59:59", updatedAt: "2026-08-23 22:08:45", createdAt: "2026-07-31 20:31:05", reviewerPhone: "15818484353", reviewedAt: "", reviewStatus: "待审核" },
+      { id: "2552", activityCode: "NT_Y25MRMD_A_250301", activityName: "Y25 无人门店新学员活动", storeCode: "80004801", storeName: "健雅儿儋州白马井店", userCode: "", loginName: "VCCR80004801", loginPassword: "88888888", status: "启用", remark: "0731开启（1店1码）", startAt: "2026-07-31 20:31:05", endAt: "2026-12-31 23:59:59", updatedAt: "2026-08-23 22:09:19", createdAt: "2026-07-31 20:31:05", reviewerPhone: "15818484353", reviewedAt: "", reviewStatus: "审核通过" },
+      { id: "2553", activityCode: "NT_Y25MRMD_A_250301", activityName: "Y25 无人门店新学员活动", storeCode: "80004802", storeName: "健雅儿儋州农垦医院店", userCode: "", loginName: "VCCR80004802", loginPassword: "88888888", status: "启用", remark: "0731开启（1店1码）", startAt: "2026-07-31 20:31:05", endAt: "2026-12-31 23:59:59", updatedAt: "2026-08-23 22:09:34", createdAt: "2026-07-31 20:31:05", reviewerPhone: "15818484353", reviewedAt: "", reviewStatus: "待审核" },
+      { id: "2554", activityCode: "NT_Y25MRMD_A_250301", activityName: "Y25 无人门店新学员活动", storeCode: "80004803", storeName: "健雅儿儋州洋浦华浦路店", userCode: "", loginName: "VCCR80004803", loginPassword: "88888888", status: "启用", remark: "0731开启（1店1码）", startAt: "2026-07-31 20:31:05", endAt: "2026-12-31 23:59:59", updatedAt: "2026-08-23 22:09:54", createdAt: "2026-07-31 20:31:05", reviewerPhone: "15818484353", reviewedAt: "", reviewStatus: "待审核" },
+      { id: "2555", activityCode: "NT_Y25MRMD_A_250301", activityName: "Y25 无人门店新学员活动", storeCode: "80004804", storeName: "健雅儿儋州八一店", userCode: "", loginName: "VCCR80004804", loginPassword: "88888888", status: "启用", remark: "0731开启（1店1码）", startAt: "2026-07-31 20:31:05", endAt: "2026-12-31 23:59:59", updatedAt: "2026-08-23 22:10:10", createdAt: "2026-07-31 20:31:05", reviewerPhone: "15818484353", reviewedAt: "", reviewStatus: "审核驳回" },
+      { id: "2556", activityCode: "NT_Y25MRMD_A_250301", activityName: "Y25 无人门店新学员活动", storeCode: "80004812", storeName: "健雅儿东方万达店", userCode: "", loginName: "VCCR80004812", loginPassword: "88888888", status: "启用", remark: "0731开启（1店1码）", startAt: "2026-07-31 20:31:05", endAt: "2026-12-31 23:59:59", updatedAt: "2026-08-23 22:14:04", createdAt: "2026-07-31 20:31:05", reviewerPhone: "15818484353", reviewedAt: "", reviewStatus: "待审核" },
+      { id: "2557", activityCode: "NT_Y26NUSTORE_A_260801", activityName: "Y26 无人门店新客活动", storeCode: "80005201", storeName: "健雅儿海口国贸店", userCode: "U80005201", loginName: "VCCR80005201", loginPassword: "88888888", status: "禁用", remark: "测试门店暂不启用", startAt: "2026-08-01 00:00:00", endAt: "2026-10-31 23:59:59", updatedAt: "2026-08-24 10:18:16", createdAt: "2026-08-01 09:00:00", reviewerPhone: "15818484353", reviewedAt: "2026-08-01 11:30:00", reviewStatus: "审核通过" }
     ];
 
     let currentPrivacyId = "PP-MEMBER-PRIVACY";
@@ -3432,7 +3697,7 @@
 
     function closeActivityManageModal() {
       $("#activityManageModal").classList.remove("show");
-      if (!$("#privacyModal").classList.contains("show") && !$("#privacyPublishConfirmModal").classList.contains("show") && !$("#privacyHistoryModal").classList.contains("show") && !$("#overrideModal").classList.contains("show") && !$("#reportPdfModal").classList.contains("show")) {
+      if (!$("#newUserAccountModal").classList.contains("show") && !$("#privacyModal").classList.contains("show") && !$("#privacyPublishConfirmModal").classList.contains("show") && !$("#privacyHistoryModal").classList.contains("show") && !$("#overrideModal").classList.contains("show") && !$("#reportPdfModal").classList.contains("show")) {
         $("#modalBackdrop").classList.remove("show");
       }
     }
@@ -3468,6 +3733,182 @@
       renderActivityManageTable();
       closeActivityManageModal();
       toast("活动已保存");
+    }
+
+    function currentNewUserAccount() {
+      return newUserAccounts.find(item => item.id === currentNewUserAccountId) || newUserAccounts[0];
+    }
+
+    function newUserStatusTag(status) {
+      return status === "启用" ? `<span class="tag green">启用</span>` : `<span class="tag gray">禁用</span>`;
+    }
+
+    function newUserReviewStatusTag(status) {
+      if (status === "审核通过") return `<span class="tag green">审核通过</span>`;
+      if (status === "审核驳回") return `<span class="tag amber">审核驳回</span>`;
+      return `<span class="tag gray">待审核</span>`;
+    }
+
+    function dateTimeToInput(value) {
+      return String(value || "").replace(" ", "T").slice(0, 16);
+    }
+
+    function inputToDateTime(value) {
+      return value ? `${value.replace("T", " ")}:00` : "";
+    }
+
+    function filteredNewUserAccounts() {
+      const activityCode = $("#newUserActivityFilter")?.value || "";
+      const userName = $("#newUserNameFilter")?.value.trim().toLowerCase() || "";
+      const storeCode = $("#newUserStoreCodeFilter")?.value.trim().toLowerCase() || "";
+      const status = $("#newUserStatusFilter")?.value || "";
+      const reviewStatus = $("#newUserReviewStatusFilter")?.value || "";
+      const createdAt = $("#newUserCreatedAtFilter")?.value || "";
+      const startAt = $("#newUserStartAtFilter")?.value || "";
+      const endAt = $("#newUserEndAtFilter")?.value || "";
+      return newUserAccounts.filter(item => {
+        const userHit = !userName || [item.userCode, item.loginName, item.storeName].join(" ").toLowerCase().includes(userName);
+        const storeHit = !storeCode || String(item.storeCode).toLowerCase().includes(storeCode);
+        const createdHit = !createdAt || item.createdAt.startsWith(createdAt);
+        const startHit = !startAt || item.startAt.slice(0, 10) >= startAt;
+        const endHit = !endAt || item.endAt.slice(0, 10) <= endAt;
+        return (!activityCode || item.activityCode === activityCode)
+          && userHit
+          && storeHit
+          && (!status || item.status === status)
+          && (!reviewStatus || item.reviewStatus === reviewStatus)
+          && createdHit
+          && startHit
+          && endHit;
+      });
+    }
+
+    function renderNewUserAccountTable() {
+      if (!$("#newUserAccountTable")) return;
+      const rows = filteredNewUserAccounts();
+      $("#newUserAccountTable").innerHTML = rows.map(item => `
+        <tr>
+          <td>${reportSafe(item.id)}</td>
+          <td>${reportSafe(item.activityCode)}</td>
+          <td>${reportSafe(item.activityName)}</td>
+          <td>${reportSafe(item.storeCode)}</td>
+          <td>${reportSafe(item.storeName)}</td>
+          <td>${reportSafe(item.userCode || "-")}</td>
+          <td><strong>${reportSafe(item.loginName)}</strong></td>
+          <td>${reportSafe(item.loginPassword)}</td>
+          <td>${newUserStatusTag(item.status)}</td>
+          <td>${reportSafe(item.remark || "-")}</td>
+          <td>${reportSafe(item.startAt || "-")}</td>
+          <td>${reportSafe(item.endAt || "-")}</td>
+          <td>${reportSafe(item.updatedAt)}</td>
+          <td>${reportSafe(item.createdAt)}</td>
+          <td>${reportSafe(item.reviewerPhone || "-")}</td>
+          <td>${reportSafe(item.reviewedAt || "-")}</td>
+          <td>${newUserReviewStatusTag(item.reviewStatus)}</td>
+          <td>
+            <div class="activity-manage-ops">
+              <button class="activity-mini-btn teal" data-newuser-edit="${item.id}">编辑</button>
+              <button class="activity-mini-btn blue" data-newuser-disable="${item.id}">${item.status === "启用" ? "禁用" : "启用"}</button>
+              <button class="activity-mini-btn orange" data-newuser-reset="${item.id}">重置</button>
+            </div>
+          </td>
+        </tr>
+      `).join("") || `<tr><td colspan="18"><div class="empty-state">暂无匹配新客无人账号</div></td></tr>`;
+      $("#newUserAccountPageInfo").textContent = `共 ${rows.length || 0} 条，10 条/页`;
+    }
+
+    function openNewUserAccountModal(id) {
+      currentNewUserAccountId = id;
+      const item = currentNewUserAccount();
+      $("#newUserAccountModalTitle").textContent = `编辑有效时间 - ${item.loginName}`;
+      $("#newUserAccountLoginName").value = item.loginName;
+      $("#newUserAccountStoreCode").value = item.storeCode;
+      $("#newUserAccountStoreName").value = item.storeName;
+      $("#newUserAccountStartAt").value = dateTimeToInput(item.startAt);
+      $("#newUserAccountEndAt").value = dateTimeToInput(item.endAt);
+      $("#newUserAccountStatus").value = item.status;
+      $("#newUserAccountReviewStatus").value = item.reviewStatus;
+      $("#newUserAccountRemark").value = item.remark || "";
+      $("#modalBackdrop").classList.add("show");
+      $("#newUserAccountModal").classList.add("show");
+    }
+
+    function closeNewUserAccountModal() {
+      $("#newUserAccountModal").classList.remove("show");
+      if (!$("#activityManageModal").classList.contains("show") && !$("#privacyModal").classList.contains("show") && !$("#privacyPublishConfirmModal").classList.contains("show") && !$("#privacyHistoryModal").classList.contains("show") && !$("#overrideModal").classList.contains("show") && !$("#reportPdfModal").classList.contains("show")) {
+        $("#modalBackdrop").classList.remove("show");
+      }
+    }
+
+    function saveNewUserAccountForm() {
+      const item = currentNewUserAccount();
+      const startAt = inputToDateTime($("#newUserAccountStartAt").value);
+      const endAt = inputToDateTime($("#newUserAccountEndAt").value);
+      if (!startAt || !endAt) {
+        toast("请填写开始时间和结束时间");
+        return;
+      }
+      if (startAt > endAt) {
+        toast("结束时间不能早于开始时间");
+        return;
+      }
+      item.startAt = startAt;
+      item.endAt = endAt;
+      item.updatedAt = reportNow();
+      renderNewUserAccountTable();
+      closeNewUserAccountModal();
+      toast("有效时间已保存");
+    }
+
+    function resetNewUserAccountFilters() {
+      $("#newUserActivityFilter").value = "";
+      $("#newUserNameFilter").value = "";
+      $("#newUserStoreCodeFilter").value = "";
+      $("#newUserStatusFilter").value = "";
+      $("#newUserReviewStatusFilter").value = "";
+      $("#newUserCreatedAtFilter").value = "";
+      $("#newUserStartAtFilter").value = "";
+      $("#newUserEndAtFilter").value = "";
+      renderNewUserAccountTable();
+    }
+
+    function csvCell(value) {
+      const text = String(value ?? "");
+      return `"${text.replace(/"/g, '""')}"`;
+    }
+
+    function exportNewUserAccounts() {
+      const headers = ["Id", "活动code", "活动名称", "门店code", "门店名称", "用户code", "登录名称", "登录密码", "状态", "备注", "开始时间", "结束时间", "更新时间", "创建时间", "审核手机号", "审核时间", "审核状态"];
+      const rows = filteredNewUserAccounts().map(item => [
+        item.id,
+        item.activityCode,
+        item.activityName,
+        item.storeCode,
+        item.storeName,
+        item.userCode,
+        item.loginName,
+        item.loginPassword,
+        item.status,
+        item.remark,
+        item.startAt,
+        item.endAt,
+        item.updatedAt,
+        item.createdAt,
+        item.reviewerPhone,
+        item.reviewedAt,
+        item.reviewStatus
+      ]);
+      const csv = [headers, ...rows].map(row => row.map(csvCell).join(",")).join("\n");
+      const blob = new Blob([`\uFEFF${csv}`], { type: "text/csv;charset=utf-8" });
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement("a");
+      link.href = url;
+      link.download = "新客无人账号管理.csv";
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      URL.revokeObjectURL(url);
+      toast(`已导出 ${rows.length} 条账号，包含开始时间、结束时间`);
     }
 
     function privacyTypeText(type) {
@@ -3622,7 +4063,7 @@
 
     function closePrivacyModal() {
       $("#privacyModal").classList.remove("show");
-      if (!$("#activityManageModal").classList.contains("show") && !$("#privacyPublishConfirmModal").classList.contains("show") && !$("#privacyHistoryModal").classList.contains("show") && !$("#overrideModal").classList.contains("show") && !$("#reportPdfModal").classList.contains("show")) {
+      if (!$("#activityManageModal").classList.contains("show") && !$("#newUserAccountModal").classList.contains("show") && !$("#privacyPublishConfirmModal").classList.contains("show") && !$("#privacyHistoryModal").classList.contains("show") && !$("#overrideModal").classList.contains("show") && !$("#reportPdfModal").classList.contains("show")) {
         $("#modalBackdrop").classList.remove("show");
       }
     }
@@ -3648,7 +4089,7 @@
     function closePrivacyPublishConfirm() {
       $("#privacyPublishConfirmModal").classList.remove("show");
       pendingPrivacyPublishId = null;
-      if (!$("#activityManageModal").classList.contains("show") && !$("#privacyModal").classList.contains("show") && !$("#privacyHistoryModal").classList.contains("show") && !$("#overrideModal").classList.contains("show") && !$("#reportPdfModal").classList.contains("show")) {
+      if (!$("#activityManageModal").classList.contains("show") && !$("#newUserAccountModal").classList.contains("show") && !$("#privacyModal").classList.contains("show") && !$("#privacyHistoryModal").classList.contains("show") && !$("#overrideModal").classList.contains("show") && !$("#reportPdfModal").classList.contains("show")) {
         $("#modalBackdrop").classList.remove("show");
       }
     }
@@ -3683,7 +4124,7 @@
 
     function closePrivacyHistoryModal() {
       $("#privacyHistoryModal").classList.remove("show");
-      if (!$("#activityManageModal").classList.contains("show") && !$("#privacyModal").classList.contains("show") && !$("#privacyPublishConfirmModal").classList.contains("show") && !$("#overrideModal").classList.contains("show") && !$("#reportPdfModal").classList.contains("show")) {
+      if (!$("#activityManageModal").classList.contains("show") && !$("#newUserAccountModal").classList.contains("show") && !$("#privacyModal").classList.contains("show") && !$("#privacyPublishConfirmModal").classList.contains("show") && !$("#overrideModal").classList.contains("show") && !$("#reportPdfModal").classList.contains("show")) {
         $("#modalBackdrop").classList.remove("show");
       }
     }
@@ -3921,7 +4362,7 @@
     function closeReportPreview() {
       $("#reportPdfFrame").src = "about:blank";
       $("#reportPdfModal").classList.remove("show");
-      if (!$("#activityManageModal").classList.contains("show") && !$("#privacyModal").classList.contains("show") && !$("#privacyPublishConfirmModal").classList.contains("show") && !$("#privacyHistoryModal").classList.contains("show") && !$("#overrideModal").classList.contains("show")) {
+      if (!$("#activityManageModal").classList.contains("show") && !$("#newUserAccountModal").classList.contains("show") && !$("#privacyModal").classList.contains("show") && !$("#privacyPublishConfirmModal").classList.contains("show") && !$("#privacyHistoryModal").classList.contains("show") && !$("#overrideModal").classList.contains("show")) {
         $("#modalBackdrop").classList.remove("show");
       }
     }
@@ -4122,7 +4563,7 @@
     }
 
     function initialPageFromUrl() {
-      const allowedPages = new Set(["library", "activity", "activityManage", "banner", "privacy", "privacyRecords", "reports", "reportLogs"]);
+      const allowedPages = new Set(["library", "activity", "activityManage", "newUserAccount", "banner", "privacy", "privacyRecords", "reports", "reportLogs"]);
       const params = new URLSearchParams(window.location.search);
       const queryPage = params.get("nav") || params.get("page");
       const hashPage = window.location.hash.replace(/^#/, "");
@@ -4140,11 +4581,12 @@
         const childHit = !isPrimary && nav.dataset.nav === name;
         nav.classList.toggle("active", primaryHit || childHit);
       });
-      const titles = { library: "礼品库", activity: "活动礼品配置", activityManage: "活动管理", banner: "会员服务轮播图管理", privacy: "隐私条款维护", privacyRecords: "隐私条款记录", reports: "质检报告管理", reportLogs: "操作记录" };
+      const titles = { library: "礼品库", activity: "活动礼品配置", activityManage: "活动管理", newUserAccount: "新客无人账号管理", banner: "会员服务轮播图管理", privacy: "隐私条款维护", privacyRecords: "隐私条款记录", reports: "质检报告管理", reportLogs: "操作记录" };
       const breadcrumbPaths = {
         library: ["系统首页", "礼品中心", "礼品库"],
         activity: ["系统首页", "礼品中心", "活动礼品配置"],
         activityManage: ["系统首页", "活动管理"],
+        newUserAccount: ["系统首页", "新客无人账号管理"],
         banner: ["系统首页", "会员服务轮播图管理"],
         privacy: ["系统首页", "隐私条款管理", "隐私条款维护"],
         privacyRecords: ["系统首页", "隐私条款管理", "隐私条款记录"],
@@ -4153,7 +4595,7 @@
       };
       const path = breadcrumbPaths[name] || breadcrumbPaths.library;
       $("#breadcrumb").innerHTML = `${path.slice(0, -1).join(" / ")} / <strong id="pageTitle">${path[path.length - 1]}</strong>`;
-      const isReportArea = ["activityManage", "reports", "reportLogs", "privacy", "privacyRecords"].includes(name);
+      const isReportArea = ["activityManage", "newUserAccount", "reports", "reportLogs", "privacy", "privacyRecords"].includes(name);
       $(".workspace").classList.toggle("reports-mode", isReportArea);
       if (isReportArea) {
         $("#previewSeg").style.display = "none";
@@ -4226,7 +4668,7 @@
     }
 
     function closeOverrideModal() {
-      if (!$("#activityManageModal").classList.contains("show") && !$("#privacyModal").classList.contains("show") && !$("#privacyPublishConfirmModal").classList.contains("show") && !$("#privacyHistoryModal").classList.contains("show") && !$("#reportPdfModal").classList.contains("show")) {
+      if (!$("#activityManageModal").classList.contains("show") && !$("#newUserAccountModal").classList.contains("show") && !$("#privacyModal").classList.contains("show") && !$("#privacyPublishConfirmModal").classList.contains("show") && !$("#privacyHistoryModal").classList.contains("show") && !$("#reportPdfModal").classList.contains("show")) {
         $("#modalBackdrop").classList.remove("show");
       }
       $("#overrideModal").classList.remove("show");
@@ -4256,6 +4698,28 @@
     }
 
     document.addEventListener("click", (event) => {
+      const newUserAccountAction = event.target.closest("[data-newuser-edit],[data-newuser-disable],[data-newuser-reset]");
+      if (newUserAccountAction) {
+        const id = newUserAccountAction.dataset.newuserEdit || newUserAccountAction.dataset.newuserDisable || newUserAccountAction.dataset.newuserReset;
+        const item = newUserAccounts.find(row => row.id === id);
+        if (!item) return;
+        currentNewUserAccountId = id;
+        if (newUserAccountAction.dataset.newuserEdit) {
+          openNewUserAccountModal(id);
+        } else if (newUserAccountAction.dataset.newuserDisable) {
+          item.status = item.status === "启用" ? "禁用" : "启用";
+          item.updatedAt = reportNow();
+          renderNewUserAccountTable();
+          toast(item.status === "启用" ? "账号已启用" : "账号已禁用");
+        } else if (newUserAccountAction.dataset.newuserReset) {
+          item.loginPassword = "88888888";
+          item.updatedAt = reportNow();
+          renderNewUserAccountTable();
+          toast("登录密码已重置为默认密码");
+        }
+        return;
+      }
+
       const activityManageAction = event.target.closest("[data-activitymanage-edit],[data-activitymanage-config],[data-activitymanage-bind]");
       if (activityManageAction) {
         const id = activityManageAction.dataset.activitymanageEdit || activityManageAction.dataset.activitymanageConfig || activityManageAction.dataset.activitymanageBind;
@@ -4489,6 +4953,29 @@
         $("#activityManageAttachmentName").textContent = item.attachmentName;
         toast("附件已选择");
       }
+      if (target.id === "queryNewUserAccountBtn") {
+        renderNewUserAccountTable();
+        toast("查询完成");
+      }
+      if (target.id === "resetNewUserAccountBtn") {
+        resetNewUserAccountFilters();
+        toast("筛选条件已重置");
+      }
+      if (target.id === "exportNewUserAccountBtn") {
+        exportNewUserAccounts();
+      }
+      if (target.id === "importNewUserAccountBtn") {
+        toast("原型中模拟追加导入，真实后台接入 Excel 导入服务");
+      }
+      if (target.id === "downloadNewUserTemplateBtn") {
+        toast("模板已开始下载");
+      }
+      if (target.id === "saveNewUserAccountBtn") {
+        saveNewUserAccountForm();
+      }
+      if (target.id === "closeNewUserAccountModalBtn" || target.id === "cancelNewUserAccountModalBtn") {
+        closeNewUserAccountModal();
+      }
       if (target.id === "queryPrivacyRecordsBtn") {
         renderPrivacyRecordTable();
         toast("查询完成");
@@ -4586,6 +5073,7 @@
       if (event.target.matches("#keyword,#typeFilter,#statusFilter,#brandFilter")) renderGiftTable();
       if (event.target.matches("#bannerKeyword,#bannerStatusFilter,#bannerTypeFilter")) renderBannerTable();
       if (event.target.matches("#activityManageKeyword,#activityManageEndAfter")) renderActivityManageTable();
+      if (event.target.matches("#newUserActivityFilter,#newUserStatusFilter,#newUserReviewStatusFilter,#newUserCreatedAtFilter,#newUserStartAtFilter,#newUserEndAtFilter")) renderNewUserAccountTable();
       if (event.target.matches("#privacyKeyword,#privacyChannelFilter,#privacyTypeFilter,#privacyStatusFilter")) renderPrivacyTable();
       if (event.target.matches("#privacyFormType,#privacyFormChannel")) syncPrivacyVersionFields(activePrivacyPolicy());
       if (event.target.matches("#privacyRecordChannelFilter,#privacyRecordTypeFilter,#privacyRecordDateFilter")) renderPrivacyRecordTable();
@@ -4620,6 +5108,7 @@
       if (event.target.id === "keyword") renderGiftTable();
       if (event.target.id === "bannerKeyword") renderBannerTable();
       if (event.target.id === "activityManageKeyword") renderActivityManageTable();
+      if (event.target.id === "newUserNameFilter" || event.target.id === "newUserStoreCodeFilter") renderNewUserAccountTable();
       if (event.target.id === "privacyKeyword") renderPrivacyTable();
       if (event.target.id === "privacyRecordKeyword" || event.target.id === "privacyRecordVersionFilter") renderPrivacyRecordTable();
       if (event.target.id === "reportKeyword") renderReportTable();
@@ -4629,6 +5118,7 @@
     $("#reportDrawerBackdrop").addEventListener("click", closeReportRename);
     $("#modalBackdrop").addEventListener("click", () => {
       closeActivityManageModal();
+      closeNewUserAccountModal();
       closePrivacyPublishConfirm();
       closePrivacyHistoryModal();
       closePrivacyModal();
@@ -4646,6 +5136,7 @@
     renderGiftTable();
     renderActivityTable();
     renderActivityManageTable();
+    renderNewUserAccountTable();
     renderBannerTable();
     renderBannerEditor();
     renderPrivacyTable();
