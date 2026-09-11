@@ -1444,6 +1444,59 @@
       grid-template-columns: minmax(220px, 1.2fr) minmax(160px, .9fr) auto;
     }
 
+    .fsg-toolbar {
+      grid-template-columns: minmax(220px, 1.2fr) minmax(180px, .9fr) minmax(160px, .75fr) auto;
+    }
+
+    .fsg-summary {
+      padding: 14px 16px 0;
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .fsg-summary strong {
+      color: var(--text);
+      font-size: 14px;
+    }
+
+    .fsg-table {
+      min-width: 900px;
+    }
+
+    .fsg-table th:nth-child(1),
+    .fsg-table td:nth-child(1) { width: 250px; }
+    .fsg-table th:nth-child(2),
+    .fsg-table td:nth-child(2) { width: 170px; }
+    .fsg-table th:nth-child(3),
+    .fsg-table td:nth-child(3) { width: 260px; }
+    .fsg-table th:nth-child(4),
+    .fsg-table td:nth-child(4) { width: 110px; }
+    .fsg-table th:nth-child(5),
+    .fsg-table td:nth-child(5) { width: 170px; }
+
+    .fsg-code {
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+      font-size: 12px;
+      color: #344054;
+    }
+
+    .fsg-type-list {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+
+    .fsg-note {
+      margin: 14px 16px 0;
+      padding: 10px 12px;
+      border: 1px solid #cfe3f7;
+      border-radius: 8px;
+      background: #f5faff;
+      color: #4d6680;
+      font-size: 12px;
+      line-height: 1.6;
+    }
+
     .activity-manage-table {
       min-width: 1520px;
     }
@@ -1957,6 +2010,7 @@
       .check-strip,
       .privacy-toolbar,
       .privacy-record-toolbar,
+      .fsg-toolbar,
       .privacy-editor,
       .report-toolbar,
       .report-summary {
@@ -2024,6 +2078,7 @@
     <symbol id="i-download" viewBox="0 0 24 24"><path d="M12 3v12"/><path d="m7 10 5 5 5-5"/><path d="M4 21h16"/></symbol>
     <symbol id="i-trash" viewBox="0 0 24 24"><path d="M4 7h16"/><path d="M10 11v6"/><path d="M14 11v6"/><path d="m6 7 1 14h10l1-14"/><path d="M9 7V4h6v3"/></symbol>
     <symbol id="i-edit" viewBox="0 0 24 24"><path d="M12 20h9"/><path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L8 18l-4 1 1-4Z"/></symbol>
+    <symbol id="i-store" viewBox="0 0 24 24"><path d="M3 10h18"/><path d="M5 10v10h14V10"/><path d="M4 10 5.5 4h13L20 10"/><path d="M8 20v-5h8v5"/><path d="M3 10a3 3 0 0 0 6 0 3 3 0 0 0 6 0 3 3 0 0 0 6 0"/></symbol>
   </svg>
 
   <div class="app">
@@ -2040,6 +2095,7 @@
         <button class="nav-item nav-child" data-nav="library" data-nav-group="giftCenter"><svg><use href="#i-gift"/></svg>礼品库</button>
         <button class="nav-item nav-child" data-nav="activity" data-nav-group="giftCenter"><svg><use href="#i-calendar"/></svg>活动礼品配置</button>
         <button class="nav-item nav-primary" data-nav="activityManage"><svg><use href="#i-calendar"/></svg>活动管理</button>
+        <button class="nav-item nav-primary" data-nav="fsgStores"><svg><use href="#i-store"/></svg>FSG门店查询</button>
         <button class="nav-item nav-primary" data-nav="banner"><svg><use href="#i-list"/></svg>会员服务轮播图管理</button>
         <button class="nav-item nav-primary" data-nav="reports" data-nav-group="reports"><svg><use href="#i-file"/></svg>质检报告管理</button>
         <button class="nav-item nav-child" data-nav="reportLogs" data-nav-group="reports"><svg><use href="#i-log"/></svg>操作记录</button>
@@ -2193,6 +2249,55 @@
                     </tr>
                   </thead>
                   <tbody id="activityManageTable"></tbody>
+                </table>
+              </div>
+            </div>
+          </section>
+
+          <section class="page" id="fsgStoresPage">
+            <div class="panel">
+              <div class="toolbar fsg-toolbar">
+                <div class="field">
+                  <label for="fsgCampaignFilter">活动编码</label>
+                  <input class="input" id="fsgCampaignFilter" placeholder="输入 campaign_code" />
+                </div>
+                <div class="field">
+                  <label for="fsgStoreFilter">门店编码</label>
+                  <input class="input" id="fsgStoreFilter" placeholder="输入 store_code" />
+                </div>
+                <div class="field">
+                  <label for="fsgStoreTypeFilter">门店类型</label>
+                  <select class="select" id="fsgStoreTypeFilter">
+                    <option value="">全部类型</option>
+                    <option value="0">0 · 非派样门店</option>
+                    <option value="1">1 · 星钻门店</option>
+                    <option value="2">2 · 特批门店</option>
+                  </select>
+                </div>
+                <div class="btn-row">
+                  <button class="btn primary" id="queryFsgStoresBtn"><svg class="icon"><use href="#i-search"/></svg>查询</button>
+                  <button class="btn" id="resetFsgStoresBtn">重置</button>
+                </div>
+              </div>
+
+              <div class="fsg-note">
+                查询结果按活动维度展示。门店类型为该门店在当前活动下的完整生效集合；同一门店在不同活动下的数据相互独立。
+              </div>
+
+              <div class="fsg-summary" id="fsgQuerySummary">共 <strong>0</strong> 条记录</div>
+
+              <div class="table-wrap">
+                <table class="fsg-table" aria-label="FSG 门店类型列表">
+                  <thead>
+                    <tr>
+                      <th>活动编码</th>
+                      <th>门店编码</th>
+                      <th>当前门店类型</th>
+                      <th>数据状态</th>
+                      <th>最近推送时间</th>
+                    </tr>
+                  </thead>
+                  <tbody id="fsgStoreTable"></tbody>
                 </table>
               </div>
             </div>
@@ -3024,6 +3129,22 @@
       { id: "1641", name: "爱婴岛跨境买赠活动", code: "B_AYDKJMZ_V_260401", startAt: "2026-04-01", endAt: "2027-01-01", logisticsDeadlineDays: "", logisticsEndAt: "", type: "buyfree_cam", brand: "NL", intro: "", category: "buyfree_cam", privacyChannel: "elearning", workStart: "", workEnd: "", logisticsKeyword: "", drawKeyword: "", attachmentName: "活动说明.pdf" }
     ];
 
+    const fsgStoreTypeNames = {
+      0: "非派样门店",
+      1: "星钻门店",
+      2: "特批门店"
+    };
+
+    let fsgStoreRecords = [
+      { campaignCode: "R_MMFPY_A_250617", storeCode: "80001234", storeTypes: [1, 2], status: "正常", pushedAt: "2026-09-07 16:20" },
+      { campaignCode: "R_MMFPY_A_250617", storeCode: "80005678", storeTypes: [0], status: "正常", pushedAt: "2026-09-07 16:20" },
+      { campaignCode: "R_MMFPY_A_250617", storeCode: "80007890", storeTypes: [2], status: "正常", pushedAt: "2026-09-07 15:48" },
+      { campaignCode: "B_RKAMDMD_A_260801", storeCode: "80001234", storeTypes: [2], status: "正常", pushedAt: "2026-09-06 11:06" },
+      { campaignCode: "B_RKAMDMD_A_260801", storeCode: "80009128", storeTypes: [1], status: "正常", pushedAt: "2026-09-06 10:42" },
+      { campaignCode: "CR_MSJF8YC_A_260813", storeCode: "80005678", storeTypes: [0], status: "正常", pushedAt: "2026-09-05 18:30" },
+      { campaignCode: "CR_MSJF8YC_A_260813", storeCode: "80010326", storeTypes: [1, 2], status: "正常", pushedAt: "2026-09-05 18:12" }
+    ];
+
     let currentPrivacyId = "PP-MEMBER-PRIVACY";
     let pendingPrivacyPublishId = null;
     let tempPrivacyPdfName = "";
@@ -3404,6 +3525,39 @@
           </td>
         </tr>
       `).join("") || `<tr><td colspan="11"><div class="empty-state">暂无匹配活动</div></td></tr>`;
+    }
+
+    function fsgTypeTag(type) {
+      const className = type === 0 ? "gray" : type === 1 ? "green" : type === 2 ? "amber" : "";
+      const label = fsgStoreTypeNames[type] || `未识别类型 ${type}`;
+      return `<span class="tag ${className}">${reportSafe(type)} · ${reportSafe(label)}</span>`;
+    }
+
+    function filteredFsgStoreRecords() {
+      const campaignCode = $("#fsgCampaignFilter")?.value.trim().toLowerCase() || "";
+      const storeCode = $("#fsgStoreFilter")?.value.trim().toLowerCase() || "";
+      const storeType = $("#fsgStoreTypeFilter")?.value || "";
+      return fsgStoreRecords.filter(item => {
+        const campaignHit = !campaignCode || item.campaignCode.toLowerCase().includes(campaignCode);
+        const storeHit = !storeCode || item.storeCode.toLowerCase().includes(storeCode);
+        const typeHit = !storeType || item.storeTypes.includes(Number(storeType));
+        return campaignHit && storeHit && typeHit;
+      });
+    }
+
+    function renderFsgStoreTable() {
+      if (!$("#fsgStoreTable")) return;
+      const rows = filteredFsgStoreRecords();
+      $("#fsgQuerySummary").innerHTML = `共 <strong>${rows.length}</strong> 条记录`;
+      $("#fsgStoreTable").innerHTML = rows.map(item => `
+        <tr>
+          <td><span class="fsg-code">${reportSafe(item.campaignCode)}</span></td>
+          <td><strong class="fsg-code">${reportSafe(item.storeCode)}</strong></td>
+          <td><div class="fsg-type-list">${item.storeTypes.map(fsgTypeTag).join("")}</div></td>
+          <td><span class="tag green">${reportSafe(item.status)}</span></td>
+          <td>${reportSafe(item.pushedAt)}</td>
+        </tr>
+      `).join("") || `<tr><td colspan="5"><div class="empty-state">暂无匹配的 FSG 门店数据</div></td></tr>`;
     }
 
     function renderActivityManageEditor() {
@@ -4126,7 +4280,7 @@
     }
 
     function initialPageFromUrl() {
-      const allowedPages = new Set(["library", "activity", "activityManage", "banner", "privacy", "privacyRecords", "reports", "reportLogs"]);
+      const allowedPages = new Set(["library", "activity", "activityManage", "fsgStores", "banner", "privacy", "privacyRecords", "reports", "reportLogs"]);
       const params = new URLSearchParams(window.location.search);
       const queryPage = params.get("menu") || params.get("nav") || params.get("page");
       const hashPage = window.location.hash.replace(/^#/, "");
@@ -4144,11 +4298,12 @@
         const childHit = !isPrimary && nav.dataset.nav === name;
         nav.classList.toggle("active", primaryHit || childHit);
       });
-      const titles = { library: "礼品库", activity: "活动礼品配置", activityManage: "活动管理", banner: "会员服务轮播图管理", privacy: "隐私条款维护", privacyRecords: "隐私条款记录", reports: "质检报告管理", reportLogs: "操作记录" };
+      const titles = { library: "礼品库", activity: "活动礼品配置", activityManage: "活动管理", fsgStores: "FSG门店查询", banner: "会员服务轮播图管理", privacy: "隐私条款维护", privacyRecords: "隐私条款记录", reports: "质检报告管理", reportLogs: "操作记录" };
       const breadcrumbPaths = {
         library: ["系统首页", "礼品中心", "礼品库"],
         activity: ["系统首页", "礼品中心", "活动礼品配置"],
         activityManage: ["系统首页", "活动管理"],
+        fsgStores: ["系统首页", "FSG门店查询"],
         banner: ["系统首页", "会员服务轮播图管理"],
         privacy: ["系统首页", "隐私条款管理", "隐私条款维护"],
         privacyRecords: ["系统首页", "隐私条款管理", "隐私条款记录"],
@@ -4157,7 +4312,7 @@
       };
       const path = breadcrumbPaths[name] || breadcrumbPaths.library;
       $("#breadcrumb").innerHTML = `${path.slice(0, -1).join(" / ")} / <strong id="pageTitle">${path[path.length - 1]}</strong>`;
-      const isReportArea = ["activityManage", "reports", "reportLogs", "privacy", "privacyRecords"].includes(name);
+      const isReportArea = ["activityManage", "fsgStores", "reports", "reportLogs", "privacy", "privacyRecords"].includes(name);
       $(".workspace").classList.toggle("reports-mode", isReportArea);
       if (isReportArea) {
         $("#previewSeg").style.display = "none";
@@ -4478,6 +4633,17 @@
         renderActivityManageTable();
         toast("查询完成");
       }
+      if (target.id === "queryFsgStoresBtn") {
+        renderFsgStoreTable();
+        toast("查询完成");
+      }
+      if (target.id === "resetFsgStoresBtn") {
+        $("#fsgCampaignFilter").value = "";
+        $("#fsgStoreFilter").value = "";
+        $("#fsgStoreTypeFilter").value = "";
+        renderFsgStoreTable();
+        toast("筛选条件已重置");
+      }
       if (target.id === "exportActivityManageBtn") {
         toast(`已导出 ${filteredActivityManageItems().length} 条活动`);
       }
@@ -4590,6 +4756,7 @@
       if (event.target.matches("#keyword,#typeFilter,#statusFilter,#brandFilter")) renderGiftTable();
       if (event.target.matches("#bannerKeyword,#bannerStatusFilter,#bannerTypeFilter")) renderBannerTable();
       if (event.target.matches("#activityManageKeyword,#activityManageEndAfter")) renderActivityManageTable();
+      if (event.target.matches("#fsgStoreTypeFilter")) renderFsgStoreTable();
       if (event.target.matches("#privacyKeyword,#privacyChannelFilter,#privacyTypeFilter,#privacyStatusFilter")) renderPrivacyTable();
       if (event.target.matches("#privacyFormType,#privacyFormChannel")) syncPrivacyVersionFields(activePrivacyPolicy());
       if (event.target.matches("#privacyRecordChannelFilter,#privacyRecordTypeFilter,#privacyRecordDateFilter")) renderPrivacyRecordTable();
@@ -4624,6 +4791,7 @@
       if (event.target.id === "keyword") renderGiftTable();
       if (event.target.id === "bannerKeyword") renderBannerTable();
       if (event.target.id === "activityManageKeyword") renderActivityManageTable();
+      if (event.target.id === "fsgCampaignFilter" || event.target.id === "fsgStoreFilter") renderFsgStoreTable();
       if (event.target.id === "privacyKeyword") renderPrivacyTable();
       if (event.target.id === "privacyRecordKeyword" || event.target.id === "privacyRecordVersionFilter") renderPrivacyRecordTable();
       if (event.target.id === "reportKeyword") renderReportTable();
@@ -4650,6 +4818,7 @@
     renderGiftTable();
     renderActivityTable();
     renderActivityManageTable();
+    renderFsgStoreTable();
     renderBannerTable();
     renderBannerEditor();
     renderPrivacyTable();
