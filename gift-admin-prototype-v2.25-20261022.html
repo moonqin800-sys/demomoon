@@ -1,0 +1,4836 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>礼品中心后台原型</title>
+  <style>
+    :root {
+      --bg: #f5f7fb;
+      --shell: #172033;
+      --shell-soft: #222c41;
+      --panel: #ffffff;
+      --panel-alt: #f9fbff;
+      --line: #dfe5ee;
+      --line-soft: #edf1f6;
+      --text: #1c2433;
+      --muted: #677286;
+      --subtle: #8a95a8;
+      --brand: #1767b3;
+      --brand-dark: #0d4f91;
+      --teal: #168f89;
+      --green: #2c9b62;
+      --amber: #c7841a;
+      --red: #c94848;
+      --violet: #6b5bd2;
+      --shadow: 0 16px 36px rgba(23, 32, 51, .12);
+      --radius: 8px;
+      --fast: 160ms ease;
+      font-family: Inter, "PingFang SC", "Microsoft YaHei", Arial, sans-serif;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--text);
+      font-size: 14px;
+      letter-spacing: 0;
+      overflow-x: hidden;
+    }
+
+    button,
+    input,
+    select,
+    textarea {
+      font: inherit;
+      letter-spacing: 0;
+    }
+
+    button {
+      border: 0;
+      cursor: pointer;
+    }
+
+    .app {
+      min-height: 100vh;
+      display: grid;
+      grid-template-columns: 232px 1fr;
+    }
+
+    .sidebar {
+      background: var(--shell);
+      color: #dce5f2;
+      display: flex;
+      flex-direction: column;
+      min-width: 0;
+    }
+
+    .brand {
+      height: 64px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 0 20px;
+      border-bottom: 1px solid rgba(255,255,255,.08);
+    }
+
+    .brand-mark {
+      width: 32px;
+      height: 32px;
+      border-radius: 8px;
+      display: grid;
+      place-items: center;
+      color: #fff;
+      background: linear-gradient(135deg, #1767b3, #23a28f);
+      font-weight: 800;
+    }
+
+    .brand strong {
+      display: block;
+      color: #fff;
+      font-size: 15px;
+    }
+
+    .brand span {
+      display: block;
+      color: #94a5bd;
+      font-size: 12px;
+      margin-top: 3px;
+    }
+
+    .nav {
+      padding: 14px 10px;
+      overflow: auto;
+    }
+
+    .nav-section {
+      margin: 14px 10px 7px;
+      color: #8292aa;
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    .nav-item {
+      width: 100%;
+      height: 38px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 0 10px;
+      border-radius: 8px;
+      color: #c9d4e4;
+      background: transparent;
+      text-align: left;
+      transition: background var(--fast), color var(--fast);
+    }
+
+    .nav-item:hover,
+    .nav-item.active {
+      background: var(--shell-soft);
+      color: #fff;
+    }
+
+    .nav-item.active {
+      box-shadow: inset 3px 0 0 #42b2ff;
+    }
+
+    .nav-item.nav-child {
+      width: calc(100% - 14px);
+      margin-left: 14px;
+      padding-left: 12px;
+      font-size: 13px;
+    }
+
+    .nav-item.nav-primary {
+      margin-top: 14px;
+      color: #eef6ff;
+      font-weight: 800;
+    }
+
+    .nav-item svg,
+    .icon {
+      width: 17px;
+      height: 17px;
+      flex: 0 0 auto;
+      stroke: currentColor;
+      stroke-width: 2;
+      fill: none;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    .main {
+      min-width: 0;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .topbar {
+      height: 64px;
+      background: var(--panel);
+      border-bottom: 1px solid var(--line);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 24px;
+      position: sticky;
+      top: 0;
+      z-index: 20;
+    }
+
+    .crumb {
+      color: var(--muted);
+      font-size: 13px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .crumb strong {
+      color: var(--text);
+      font-size: 18px;
+    }
+
+    .top-actions {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .user-pill {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      border: 1px solid var(--line);
+      background: #fff;
+      height: 36px;
+      padding: 0 10px;
+      border-radius: 8px;
+      color: var(--muted);
+    }
+
+    .avatar {
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      background: #d7e8ff;
+      display: grid;
+      place-items: center;
+      color: var(--brand);
+      font-weight: 800;
+      font-size: 12px;
+    }
+
+    .workspace {
+      padding: 20px 24px 24px;
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 360px;
+      gap: 18px;
+      align-items: start;
+    }
+
+    .workspace.reports-mode {
+      grid-template-columns: minmax(0, 1fr);
+    }
+
+    .workspace.reports-mode .right-preview {
+      display: none;
+    }
+
+    .left-flow {
+      min-width: 0;
+      display: grid;
+      gap: 14px;
+      overflow: hidden;
+    }
+
+    .tabs {
+      display: flex;
+      gap: 2px;
+      border-bottom: 1px solid var(--line);
+      background: var(--panel);
+      padding: 0 14px;
+      border-radius: var(--radius) var(--radius) 0 0;
+    }
+
+    .tab {
+      height: 48px;
+      padding: 0 16px;
+      background: transparent;
+      color: var(--muted);
+      border-bottom: 3px solid transparent;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-weight: 600;
+    }
+
+    .tab.active {
+      color: var(--brand);
+      border-bottom-color: var(--brand);
+    }
+
+    .panel {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      box-shadow: 0 1px 0 rgba(23,32,51,.03);
+    }
+
+    .left-flow > .panel {
+      min-width: 0;
+      max-width: 100%;
+    }
+
+    .toolbar {
+      padding: 16px;
+      display: grid;
+      grid-template-columns: minmax(190px, 1.2fr) minmax(130px, .8fr) minmax(130px, .75fr) minmax(130px, .75fr);
+      gap: 10px;
+      align-items: end;
+      border-bottom: 1px solid var(--line-soft);
+    }
+
+    .field {
+      display: grid;
+      gap: 6px;
+      min-width: 0;
+    }
+
+    .field label {
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 600;
+    }
+
+    .input,
+    .select,
+    .textarea {
+      width: 100%;
+      min-width: 0;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #fff;
+      color: var(--text);
+      height: 36px;
+      padding: 0 10px;
+      outline: 0;
+      transition: border-color var(--fast), box-shadow var(--fast);
+    }
+
+    .textarea {
+      height: 88px;
+      resize: vertical;
+      padding-top: 9px;
+      line-height: 1.5;
+    }
+
+    .input:focus,
+    .select:focus,
+    .textarea:focus,
+    .rich-editor:focus {
+      border-color: var(--brand);
+      box-shadow: 0 0 0 3px rgba(23,103,179,.12);
+    }
+
+    .input[readonly] {
+      background: #f5f7fa;
+      color: var(--muted);
+      cursor: not-allowed;
+    }
+
+    .btn-row {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+      justify-content: flex-end;
+      flex-wrap: wrap;
+    }
+
+    .toolbar > .btn-row {
+      grid-column: 1 / -1;
+      justify-content: flex-start;
+    }
+
+    .btn {
+      height: 36px;
+      border-radius: 8px;
+      padding: 0 12px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 7px;
+      background: #fff;
+      border: 1px solid var(--line);
+      color: var(--text);
+      font-weight: 600;
+      white-space: nowrap;
+      transition: transform var(--fast), background var(--fast), border-color var(--fast);
+    }
+
+    .btn:hover {
+      transform: translateY(-1px);
+      border-color: #b9c5d5;
+    }
+
+    .btn.primary {
+      background: var(--brand);
+      border-color: var(--brand);
+      color: #fff;
+    }
+
+    .btn.primary:hover { background: var(--brand-dark); }
+
+    .btn.teal {
+      background: var(--teal);
+      border-color: var(--teal);
+      color: #fff;
+    }
+
+    .btn.danger {
+      color: var(--red);
+      border-color: #f0c7c7;
+      background: #fff8f8;
+    }
+
+    .btn.icon-only {
+      width: 34px;
+      padding: 0;
+    }
+
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 10px;
+      padding: 14px 16px 0;
+    }
+
+    .stat {
+      background: var(--panel-alt);
+      border: 1px solid var(--line-soft);
+      border-radius: 8px;
+      padding: 12px;
+      display: grid;
+      gap: 6px;
+    }
+
+    .stat span {
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .stat strong {
+      font-size: 22px;
+      line-height: 1;
+    }
+
+    .table-wrap {
+      overflow: auto;
+      padding: 14px 16px 16px;
+      max-width: 100%;
+    }
+
+    table {
+      width: 100%;
+      min-width: 780px;
+      border-collapse: collapse;
+    }
+
+    th {
+      height: 40px;
+      background: #f2f5f9;
+      color: #5f6b7e;
+      font-size: 12px;
+      text-align: left;
+      font-weight: 700;
+      border-bottom: 1px solid var(--line);
+      padding: 0 10px;
+      white-space: nowrap;
+    }
+
+    td {
+      border-bottom: 1px solid var(--line-soft);
+      padding: 10px;
+      vertical-align: middle;
+      color: #283247;
+    }
+
+    tr:hover td { background: #fbfdff; }
+
+    .gift-cell {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      min-width: 190px;
+    }
+
+    .gift-img {
+      width: 56px;
+      height: 44px;
+      border-radius: 7px;
+      border: 1px solid #dbe3ee;
+      background:
+        linear-gradient(145deg, rgba(255,255,255,.6), rgba(255,255,255,0)),
+        var(--gift-bg, #d7ebff);
+      display: grid;
+      place-items: center;
+      color: var(--gift-color, #1767b3);
+      font-weight: 800;
+      font-size: 18px;
+      overflow: hidden;
+    }
+
+    .gift-img img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .gift-img.override-thumb {
+      background: linear-gradient(135deg, #e6f4ff, #e9fbf5);
+      color: var(--brand);
+      font-size: 13px;
+      line-height: 1.15;
+      text-align: center;
+    }
+
+    .gift-meta strong {
+      display: block;
+      max-width: 190px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      font-size: 13px;
+    }
+
+    .gift-meta span {
+      display: block;
+      color: var(--subtle);
+      font-size: 12px;
+      margin-top: 4px;
+    }
+
+    .tag {
+      display: inline-flex;
+      align-items: center;
+      height: 22px;
+      padding: 0 8px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 700;
+      color: var(--brand);
+      background: #e8f2ff;
+      white-space: nowrap;
+    }
+
+    .tag.green {
+      color: var(--green);
+      background: #e8f7ef;
+    }
+
+    .tag.amber {
+      color: var(--amber);
+      background: #fff5df;
+    }
+
+    .tag.gray {
+      color: #637083;
+      background: #eef2f6;
+    }
+
+    .op {
+      display: flex;
+      gap: 6px;
+      white-space: nowrap;
+    }
+
+    .link-btn {
+      color: var(--brand);
+      background: transparent;
+      padding: 0;
+      font-weight: 700;
+    }
+
+    .right-preview {
+      position: sticky;
+      top: 84px;
+      display: grid;
+      gap: 12px;
+    }
+
+    .preview-head {
+      padding: 14px 14px 0;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .preview-head h2 {
+      font-size: 15px;
+      margin: 0;
+    }
+
+    .seg {
+      display: flex;
+      padding: 3px;
+      background: #eef2f7;
+      border-radius: 8px;
+      gap: 3px;
+    }
+
+    .seg button {
+      height: 28px;
+      padding: 0 9px;
+      border-radius: 6px;
+      color: var(--muted);
+      background: transparent;
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    .seg button.active {
+      background: #fff;
+      color: var(--brand);
+      box-shadow: 0 1px 3px rgba(23,32,51,.08);
+    }
+
+    .phone-shell {
+      margin: 8px auto 16px;
+      width: 280px;
+      height: 580px;
+      border-radius: 28px;
+      background: #111827;
+      padding: 10px;
+      box-shadow: var(--shadow);
+    }
+
+    .phone {
+      height: 100%;
+      border-radius: 22px;
+      overflow: hidden;
+      background: #eaf5ff;
+      position: relative;
+    }
+
+    .phone-bar {
+      height: 36px;
+      background: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+      font-size: 13px;
+      color: #15233a;
+      border-bottom: 1px solid rgba(23,32,51,.08);
+    }
+
+    .hero {
+      height: 148px;
+      background: linear-gradient(180deg, #8fd0ff, #f1f9ff);
+      position: relative;
+      padding: 18px 15px;
+      overflow: hidden;
+    }
+
+    .hero::after {
+      content: "";
+      position: absolute;
+      right: -32px;
+      bottom: -24px;
+      width: 128px;
+      height: 86px;
+      border-radius: 50%;
+      background: rgba(50,120,55,.18);
+    }
+
+    .hero-title {
+      color: #1261a6;
+      font-size: 27px;
+      font-weight: 900;
+      line-height: 1.08;
+      width: 170px;
+    }
+
+    .hero-sub {
+      margin-top: 7px;
+      color: #27617d;
+      font-size: 12px;
+      font-weight: 800;
+    }
+
+    .phone-content {
+      padding: 12px;
+      height: calc(100% - 36px);
+      overflow: hidden;
+    }
+
+    .phone-title {
+      color: #1261a6;
+      font-weight: 900;
+      margin: 0 0 8px;
+      font-size: 16px;
+    }
+
+    .mobile-card {
+      background: rgba(255,255,255,.94);
+      border: 1px solid rgba(198,166,79,.38);
+      border-radius: 8px;
+      padding: 9px;
+      margin-bottom: 10px;
+      box-shadow: 0 3px 9px rgba(29,85,130,.08);
+    }
+
+    .mobile-card h4 {
+      margin: 0 0 8px;
+      color: #1261a6;
+      font-size: 13px;
+      line-height: 1.35;
+      border-bottom: 1px solid rgba(18,97,166,.18);
+      padding-bottom: 6px;
+    }
+
+    .mobile-product {
+      height: 86px;
+      border-radius: 7px;
+      display: grid;
+      place-items: center;
+      background: #f7fbff;
+      color: var(--brand);
+      font-size: 36px;
+      font-weight: 900;
+      overflow: hidden;
+    }
+
+    .mobile-product img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: top;
+    }
+
+    .activity-override-card {
+      width: 100%;
+      height: 100%;
+      display: grid;
+      place-items: center;
+      text-align: center;
+      color: #0f5fa9;
+      background: linear-gradient(135deg, #dff0ff, #e9fbf4);
+      font-size: 15px;
+      line-height: 1.35;
+      font-weight: 900;
+    }
+
+    .mobile-caption {
+      text-align: center;
+      color: #48718c;
+      font-size: 11px;
+      margin-top: 6px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .redeem {
+      width: 120px;
+      height: 34px;
+      border-radius: 18px;
+      display: grid;
+      place-items: center;
+      margin: 8px auto 0;
+      color: #fff;
+      background: linear-gradient(180deg, #b9c0c8, #8f98a4);
+      font-weight: 800;
+    }
+
+    .my-gifts-tabs {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      height: 36px;
+      background: #0f5fa9;
+      color: #fff;
+      align-items: center;
+      text-align: center;
+      font-size: 11px;
+      font-weight: 800;
+      border-radius: 8px 8px 0 0;
+      overflow: hidden;
+    }
+
+    .my-gifts-tabs span:nth-child(3) {
+      color: #ffe27c;
+      text-decoration: underline;
+    }
+
+    .gift-ticket {
+      display: grid;
+      grid-template-columns: 58px 1fr 42px;
+      gap: 8px;
+      align-items: center;
+      background: #fff;
+      border: 1px solid #dbe7f5;
+      border-radius: 8px;
+      padding: 10px;
+      margin-top: 10px;
+    }
+
+    .ticket-title {
+      font-size: 12px;
+      font-weight: 800;
+      color: #263249;
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+    }
+
+    .ticket-line {
+      font-size: 10px;
+      color: #7a879a;
+      margin-top: 3px;
+    }
+
+    .stamp {
+      width: 40px;
+      height: 40px;
+      border: 2px solid #c9d0d9;
+      border-radius: 50%;
+      color: #8b95a3;
+      display: grid;
+      place-items: center;
+      transform: rotate(-18deg);
+      font-size: 11px;
+      font-weight: 900;
+    }
+
+    .detail-poster {
+      height: 380px;
+      border-radius: 8px;
+      background: linear-gradient(180deg, #f4c247, #fdf2d0 62%, #f9fff1);
+      padding: 16px 14px;
+      color: #9a5a00;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .detail-poster h3 {
+      margin: 0 0 16px;
+      color: #fff;
+      font-size: 22px;
+      text-shadow: 0 2px 4px rgba(96,56,0,.24);
+    }
+
+    .play-box {
+      height: 128px;
+      border: 2px solid rgba(255,255,255,.75);
+      background: rgba(255,255,255,.85);
+      border-radius: 8px;
+      display: grid;
+      place-items: center;
+      color: var(--brand);
+      font-size: 44px;
+      font-weight: 900;
+    }
+
+    .service-box {
+      margin-top: 18px;
+      background: rgba(255,255,255,.82);
+      border-radius: 8px;
+      padding: 10px;
+      color: #6a4a10;
+      font-size: 12px;
+      line-height: 1.5;
+    }
+
+    .drawer-backdrop,
+    .modal-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(17,24,39,.35);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity var(--fast);
+      z-index: 60;
+    }
+
+    .drawer-backdrop.show,
+    .modal-backdrop.show {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .drawer {
+      position: fixed;
+      top: 0;
+      right: 0;
+      width: 620px;
+      max-width: calc(100vw - 28px);
+      height: 100vh;
+      background: #fff;
+      box-shadow: -20px 0 50px rgba(17,24,39,.18);
+      transform: translateX(102%);
+      transition: transform var(--fast);
+      z-index: 70;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .drawer.show { transform: translateX(0); }
+
+    .drawer-head,
+    .modal-head {
+      height: 62px;
+      padding: 0 18px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .drawer-head h2,
+    .modal-head h2 {
+      margin: 0;
+      font-size: 17px;
+    }
+
+    .drawer-body {
+      overflow: auto;
+      padding: 16px 18px 82px;
+    }
+
+    .drawer-foot,
+    .modal-foot {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      min-height: 64px;
+      padding: 12px 18px;
+      background: #fff;
+      border-top: 1px solid var(--line);
+      display: flex;
+      justify-content: flex-end;
+      gap: 10px;
+    }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+      margin-bottom: 16px;
+      min-width: 0;
+    }
+
+    .form-grid .full { grid-column: 1 / -1; }
+
+    .inner-tabs {
+      display: flex;
+      gap: 4px;
+      margin-bottom: 14px;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .inner-tabs button {
+      height: 38px;
+      padding: 0 12px;
+      color: var(--muted);
+      background: transparent;
+      border-bottom: 2px solid transparent;
+      font-weight: 700;
+    }
+
+    .inner-tabs button.active {
+      color: var(--brand);
+      border-bottom-color: var(--brand);
+    }
+
+    .drawer-section { display: none; }
+    .drawer-section.active { display: block; }
+
+    .asset-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+
+    .asset-card {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: var(--panel-alt);
+      padding: 12px;
+      display: grid;
+      gap: 10px;
+    }
+
+    .asset-card h3 {
+      margin: 0;
+      font-size: 13px;
+    }
+
+    .required {
+      color: var(--red);
+      font-weight: 900;
+      margin-left: 4px;
+    }
+
+    .asset-frame {
+      height: 110px;
+      border-radius: 8px;
+      border: 1px dashed #b9c5d5;
+      background: #fff;
+      display: grid;
+      place-items: center;
+      color: var(--subtle);
+      overflow: hidden;
+    }
+
+    .asset-frame img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: top;
+    }
+
+    .asset-frame.video-frame {
+      background:
+        linear-gradient(135deg, rgba(23,103,179,.08), rgba(35,162,143,.08)),
+        #fff;
+      color: var(--brand);
+      gap: 8px;
+      font-weight: 800;
+    }
+
+    .asset-frame.video-frame .play-mark {
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      color: #fff;
+      background: var(--brand);
+      box-shadow: 0 8px 18px rgba(23,103,179,.22);
+    }
+
+    .asset-frame.video-frame .play-mark::before {
+      content: "";
+      width: 0;
+      height: 0;
+      border-top: 9px solid transparent;
+      border-bottom: 9px solid transparent;
+      border-left: 14px solid currentColor;
+      margin-left: 4px;
+    }
+
+    .asset-tip {
+      font-size: 12px;
+      color: var(--muted);
+      line-height: 1.45;
+    }
+
+    .override-note {
+      margin-bottom: 14px;
+      border: 1px solid #cfe2f7;
+      background: #f4f9ff;
+      color: #315a82;
+      border-radius: 8px;
+      padding: 12px;
+      line-height: 1.55;
+    }
+
+    .override-note strong {
+      color: var(--brand);
+    }
+
+    .override-meta {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin-bottom: 14px;
+    }
+
+    .override-meta .info-box {
+      border: 1px solid var(--line-soft);
+      border-radius: 8px;
+      background: #fff;
+      padding: 10px 12px;
+    }
+
+    .override-frame {
+      background:
+        linear-gradient(135deg, rgba(23,103,179,.1), rgba(35,162,143,.08)),
+        #fff;
+      color: var(--brand);
+      font-weight: 900;
+      text-align: center;
+      line-height: 1.35;
+    }
+
+    .source-hint {
+      display: block;
+      margin-top: 4px;
+      color: var(--subtle);
+      font-size: 12px;
+    }
+
+    .modal {
+      position: fixed;
+      left: 50%;
+      top: 50%;
+      width: 860px;
+      max-width: calc(100vw - 32px);
+      max-height: calc(100vh - 42px);
+      background: #fff;
+      border-radius: 8px;
+      box-shadow: var(--shadow);
+      transform: translate(-50%, -46%) scale(.98);
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity var(--fast), transform var(--fast);
+      z-index: 80;
+      overflow: hidden;
+    }
+
+    .modal.show {
+      opacity: 1;
+      pointer-events: auto;
+      transform: translate(-50%, -50%) scale(1);
+    }
+
+    .modal-body {
+      padding: 16px 18px 84px;
+      max-height: calc(100vh - 168px);
+      overflow: auto;
+    }
+
+    .gift-modal {
+      width: 920px;
+    }
+
+    .pdf-preview-modal {
+      width: 980px;
+    }
+
+    .pdf-preview-modal .modal-head {
+      align-items: flex-start;
+      height: auto;
+      min-height: 62px;
+      padding-top: 13px;
+      padding-bottom: 12px;
+    }
+
+    .pdf-preview-modal .modal-head h2 {
+      margin-bottom: 4px;
+    }
+
+    .pdf-preview-modal .modal-body {
+      padding: 14px 16px 78px;
+    }
+
+    .pdf-frame {
+      display: block;
+      width: 100%;
+      height: min(72vh, 720px);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #f5f7fb;
+    }
+
+    .toast {
+      position: fixed;
+      right: 22px;
+      bottom: 22px;
+      min-width: 220px;
+      height: 44px;
+      padding: 0 14px;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      color: #fff;
+      background: #172033;
+      box-shadow: var(--shadow);
+      opacity: 0;
+      transform: translateY(12px);
+      pointer-events: none;
+      transition: opacity var(--fast), transform var(--fast);
+      z-index: 90;
+    }
+
+    .toast.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .switch {
+      position: relative;
+      width: 42px;
+      height: 24px;
+      background: #cbd3df;
+      border-radius: 999px;
+      padding: 0;
+      vertical-align: middle;
+      transition: background var(--fast);
+    }
+
+    .switch::after {
+      content: "";
+      position: absolute;
+      top: 3px;
+      left: 3px;
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      background: #fff;
+      transition: left var(--fast);
+      box-shadow: 0 1px 3px rgba(23,32,51,.2);
+    }
+
+    .switch.on { background: var(--green); }
+    .switch.on::after { left: 21px; }
+
+    .activity-header {
+      padding: 16px;
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 12px;
+      align-items: center;
+      border-bottom: 1px solid var(--line-soft);
+    }
+
+    .activity-card {
+      display: grid;
+      grid-template-columns: 1.2fr .85fr .85fr .65fr;
+      gap: 10px;
+      padding: 14px 16px;
+      background: #fbfdff;
+      border-bottom: 1px solid var(--line-soft);
+    }
+
+    .info-box {
+      display: grid;
+      gap: 5px;
+    }
+
+    .info-box span {
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .info-box strong {
+      font-size: 13px;
+    }
+
+    .banner-toolbar {
+      grid-template-columns: minmax(220px, 1.2fr) minmax(130px, .65fr) minmax(150px, .75fr) auto;
+    }
+
+    .banner-thumb {
+      width: 104px;
+      height: 50px;
+      border: 1px solid #dbe3ee;
+      border-radius: 8px;
+      overflow: hidden;
+      background: #eef4fb;
+      flex: 0 0 auto;
+    }
+
+    .banner-thumb img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .banner-cell {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      min-width: 220px;
+    }
+
+    .banner-meta strong {
+      display: block;
+      max-width: 210px;
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      font-size: 13px;
+    }
+
+    .banner-meta span,
+    .banner-link {
+      display: block;
+      color: var(--subtle);
+      font-size: 12px;
+      margin-top: 4px;
+      max-width: 240px;
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+    }
+
+    #bannerPage table {
+      min-width: 720px;
+      table-layout: fixed;
+    }
+
+    #bannerPage th:nth-child(1),
+    #bannerPage td:nth-child(1) { width: 88px; }
+    #bannerPage th:nth-child(2),
+    #bannerPage td:nth-child(2) { width: 240px; }
+    #bannerPage th:nth-child(3),
+    #bannerPage td:nth-child(3) { width: 98px; }
+    #bannerPage th:nth-child(4),
+    #bannerPage td:nth-child(4) { width: 150px; }
+    #bannerPage th:nth-child(5),
+    #bannerPage td:nth-child(5) { width: 130px; }
+    #bannerPage th:nth-child(6),
+    #bannerPage td:nth-child(6) { width: 58px; }
+    #bannerPage th:nth-child(7),
+    #bannerPage td:nth-child(7) { width: 86px; }
+
+    .sort-control {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .sort-control strong {
+      min-width: 20px;
+    }
+
+    .banner-config {
+      margin-top: 14px;
+      display: grid;
+      grid-template-columns: 180px minmax(0, 1fr);
+      gap: 16px;
+      padding: 16px;
+      width: 100%;
+      min-width: 0;
+      max-width: 100%;
+      overflow: hidden;
+    }
+
+    .banner-config > *,
+    .banner-config .field {
+      min-width: 0;
+    }
+
+    .banner-config .form-grid {
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    }
+
+    .report-toolbar {
+      grid-template-columns: minmax(280px, 1fr) auto;
+    }
+
+    .report-summary {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px;
+      padding: 14px 16px 0;
+    }
+
+    .report-summary .stat strong {
+      font-size: 20px;
+    }
+
+    .report-actions {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      padding: 12px 16px 0;
+      flex-wrap: wrap;
+    }
+
+    .report-selected {
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .report-file {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      min-width: 230px;
+    }
+
+    .report-file-icon {
+      width: 34px;
+      height: 40px;
+      display: grid;
+      place-items: center;
+      border: 1px solid #cfe0f4;
+      border-radius: 6px;
+      color: var(--red);
+      background: #fff4f4;
+      flex: 0 0 auto;
+    }
+
+    .report-file-meta strong {
+      display: block;
+      max-width: 260px;
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      font-size: 13px;
+    }
+
+    .report-file-meta span {
+      display: block;
+      color: var(--subtle);
+      font-size: 12px;
+      margin-top: 4px;
+    }
+
+    .report-table {
+      min-width: 930px;
+    }
+
+    .report-table th:first-child,
+    .report-table td:first-child {
+      width: 42px;
+      text-align: center;
+    }
+
+    .report-table th:nth-child(2),
+    .report-table td:nth-child(2) { width: 280px; }
+    .report-table th:nth-child(3),
+    .report-table td:nth-child(3) { width: 130px; }
+    .report-table th:nth-child(4),
+    .report-table td:nth-child(4) { width: 90px; }
+    .report-table th:nth-child(5),
+    .report-table td:nth-child(5) { width: 100px; }
+    .report-table th:nth-child(6),
+    .report-table td:nth-child(6),
+    .report-table th:nth-child(7),
+    .report-table td:nth-child(7) { width: 145px; }
+    .report-table th:nth-child(8),
+    .report-table td:nth-child(8) { width: 180px; }
+
+    .privacy-toolbar {
+      grid-template-columns: minmax(220px, 1.2fr) minmax(130px, .7fr) minmax(150px, .85fr) minmax(130px, .7fr) auto;
+    }
+
+    .privacy-record-toolbar {
+      grid-template-columns: minmax(220px, 1.1fr) minmax(130px, .7fr) minmax(150px, .85fr) minmax(120px, .65fr) minmax(150px, .75fr) auto;
+    }
+
+    .privacy-table {
+      min-width: 980px;
+    }
+
+    .privacy-record-table {
+      min-width: 920px;
+    }
+
+    .privacy-record-table th:nth-child(1),
+    .privacy-record-table td:nth-child(1) { width: 220px; }
+    .privacy-record-table th:nth-child(2),
+    .privacy-record-table td:nth-child(2) { width: 140px; }
+    .privacy-record-table th:nth-child(3),
+    .privacy-record-table td:nth-child(3) { width: 150px; }
+    .privacy-record-table th:nth-child(4),
+    .privacy-record-table td:nth-child(4) { width: 190px; }
+    .privacy-record-table th:nth-child(5),
+    .privacy-record-table td:nth-child(5) { width: 120px; }
+    .privacy-record-table th:nth-child(6),
+    .privacy-record-table td:nth-child(6) { width: 170px; }
+
+    .activity-manage-toolbar {
+      grid-template-columns: minmax(220px, 1.2fr) minmax(160px, .9fr) auto;
+    }
+
+    .fsg-toolbar {
+      grid-template-columns: minmax(220px, 1.2fr) minmax(180px, .9fr) minmax(160px, .75fr) auto;
+    }
+
+    .fsg-summary {
+      padding: 14px 16px 0;
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .fsg-summary strong {
+      color: var(--text);
+      font-size: 14px;
+    }
+
+    .fsg-table {
+      min-width: 900px;
+    }
+
+    .fsg-table th:nth-child(1),
+    .fsg-table td:nth-child(1) { width: 250px; }
+    .fsg-table th:nth-child(2),
+    .fsg-table td:nth-child(2) { width: 170px; }
+    .fsg-table th:nth-child(3),
+    .fsg-table td:nth-child(3) { width: 260px; }
+    .fsg-table th:nth-child(4),
+    .fsg-table td:nth-child(4) { width: 110px; }
+    .fsg-table th:nth-child(5),
+    .fsg-table td:nth-child(5) { width: 170px; }
+
+    .fsg-code {
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+      font-size: 12px;
+      color: #344054;
+    }
+
+    .fsg-type-list {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+
+    .fsg-note {
+      margin: 14px 16px 0;
+      padding: 10px 12px;
+      border: 1px solid #cfe3f7;
+      border-radius: 8px;
+      background: #f5faff;
+      color: #4d6680;
+      font-size: 12px;
+      line-height: 1.6;
+    }
+
+    .activity-manage-table {
+      min-width: 1520px;
+    }
+
+    .activity-manage-table th:nth-child(1),
+    .activity-manage-table td:nth-child(1) { width: 70px; }
+    .activity-manage-table th:nth-child(2),
+    .activity-manage-table td:nth-child(2) { width: 180px; }
+    .activity-manage-table th:nth-child(3),
+    .activity-manage-table td:nth-child(3) { width: 180px; }
+    .activity-manage-table th:nth-child(4),
+    .activity-manage-table td:nth-child(4) { width: 120px; }
+    .activity-manage-table th:nth-child(5),
+    .activity-manage-table td:nth-child(5) { width: 120px; }
+    .activity-manage-table th:nth-child(6),
+    .activity-manage-table td:nth-child(6) { width: 140px; }
+    .activity-manage-table th:nth-child(7),
+    .activity-manage-table td:nth-child(7) { width: 150px; }
+    .activity-manage-table th:nth-child(8),
+    .activity-manage-table td:nth-child(8) { width: 120px; }
+    .activity-manage-table th:nth-child(9),
+    .activity-manage-table td:nth-child(9) { width: 130px; }
+    .activity-manage-table th:nth-child(10),
+    .activity-manage-table td:nth-child(10) { width: 260px; }
+    .activity-manage-table th:nth-child(11),
+    .activity-manage-table td:nth-child(11) { width: 220px; }
+
+    .activity-manage-intro {
+      display: block;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .activity-manage-ops {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+      white-space: nowrap;
+    }
+
+    .activity-mini-btn {
+      min-height: 24px;
+      padding: 0 9px;
+      border: 0;
+      border-radius: 2px;
+      color: #fff;
+      font-size: 12px;
+      font-weight: 700;
+      line-height: 24px;
+    }
+
+    .activity-mini-btn.teal { background: #17a2a4; }
+    .activity-mini-btn.orange { background: #f6a000; }
+    .activity-mini-btn.blue { background: #2c7be5; }
+
+    .activity-manage-modal {
+      width: 1120px;
+    }
+
+    .activity-manage-modal .modal-foot {
+      justify-content: center;
+    }
+
+    .privacy-table th:nth-child(1),
+    .privacy-table td:nth-child(1) { width: 150px; }
+    .privacy-table th:nth-child(2),
+    .privacy-table td:nth-child(2) { width: 170px; }
+    .privacy-table th:nth-child(3),
+    .privacy-table td:nth-child(3) { width: 110px; }
+    .privacy-table th:nth-child(4),
+    .privacy-table td:nth-child(4) { width: 95px; }
+    .privacy-table th:nth-child(5),
+    .privacy-table td:nth-child(5) { width: 145px; }
+    .privacy-table th:nth-child(7),
+    .privacy-table td:nth-child(7) { width: 250px; }
+
+    .privacy-history-modal {
+      width: 680px;
+    }
+
+    .privacy-history-modal .modal-foot {
+      justify-content: center;
+    }
+
+    .privacy-history-table {
+      min-width: 620px;
+    }
+
+    .privacy-history-table th:nth-child(1),
+    .privacy-history-table td:nth-child(1) { width: 170px; }
+    .privacy-history-table th:nth-child(2),
+    .privacy-history-table td:nth-child(2) { width: 190px; }
+    .privacy-history-table th:nth-child(3),
+    .privacy-history-table td:nth-child(3) { width: 100px; }
+    .privacy-history-table th:nth-child(4),
+    .privacy-history-table td:nth-child(4) { width: 160px; }
+
+    .privacy-channel {
+      display: grid;
+      gap: 4px;
+    }
+
+    .privacy-channel strong {
+      font-size: 13px;
+    }
+
+    .privacy-channel span {
+      color: var(--subtle);
+      font-size: 12px;
+    }
+
+    .privacy-editor {
+      margin-top: 14px;
+      display: grid;
+      grid-template-columns: minmax(0, 1fr);
+      gap: 14px;
+      padding: 16px;
+    }
+
+    .privacy-editor > * {
+      min-width: 0;
+    }
+
+    .privacy-modal {
+      width: 780px;
+    }
+
+    .privacy-modal .modal-foot {
+      justify-content: center;
+    }
+
+    .publish-confirm-modal {
+      width: 520px;
+    }
+
+    .publish-confirm-modal .modal-body {
+      padding-bottom: 16px;
+    }
+
+    .publish-confirm-modal .modal-foot {
+      position: static;
+      justify-content: center;
+    }
+
+    .confirm-message {
+      border: 1px solid #f0d59b;
+      background: #fff8e8;
+      color: #755413;
+      border-radius: 8px;
+      padding: 12px;
+      line-height: 1.6;
+    }
+
+    .confirm-message strong {
+      color: #4b350b;
+    }
+
+    .pdf-upload-box {
+      min-height: 96px;
+      border: 1px dashed #b7c7da;
+      border-radius: 8px;
+      background: #f8fbff;
+      padding: 14px;
+      display: grid;
+      grid-template-columns: auto minmax(0, 1fr) auto;
+      gap: 12px;
+      align-items: center;
+    }
+
+    .pdf-file-mark {
+      width: 46px;
+      height: 54px;
+      border-radius: 8px;
+      background: #e9f2ff;
+      border: 1px solid #c9dbf3;
+      color: var(--brand);
+      display: grid;
+      place-items: center;
+      font-size: 13px;
+      font-weight: 800;
+      letter-spacing: 0;
+    }
+
+    .pdf-file-main {
+      min-width: 0;
+      display: grid;
+      gap: 5px;
+    }
+
+    .pdf-file-main strong {
+      color: var(--text);
+      font-size: 14px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .pdf-file-main span {
+      color: var(--subtle);
+      font-size: 12px;
+      line-height: 1.5;
+    }
+
+    .rich-editor-shell {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #fff;
+      overflow: hidden;
+    }
+
+    .rich-editor-shell:focus-within {
+      border-color: var(--brand);
+      box-shadow: 0 0 0 3px rgba(23,103,179,.12);
+    }
+
+    .rich-toolbar {
+      min-height: 42px;
+      border-bottom: 1px solid var(--line-soft);
+      background: #f8fafc;
+      padding: 6px 8px;
+      display: flex;
+      gap: 6px;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    .rich-tool {
+      width: 32px;
+      height: 30px;
+      border: 1px solid transparent;
+      border-radius: 6px;
+      background: transparent;
+      color: var(--text);
+      display: inline-grid;
+      place-items: center;
+      cursor: pointer;
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    .rich-tool:hover,
+    .rich-tool:focus {
+      border-color: var(--line);
+      background: #fff;
+      outline: 0;
+    }
+
+    .rich-editor {
+      min-height: 126px;
+      padding: 10px 12px;
+      outline: 0;
+      line-height: 1.65;
+      color: var(--text);
+      overflow: auto;
+    }
+
+    .rich-editor:empty::before {
+      content: attr(data-placeholder);
+      color: var(--subtle);
+    }
+
+    .upload-frame {
+      border: 1px dashed #b7c7da;
+      border-radius: 8px;
+      background: #f8fbff;
+      padding: 12px;
+      display: grid;
+      gap: 10px;
+      align-content: start;
+    }
+
+    .upload-frame .banner-thumb {
+      width: 100%;
+      height: auto;
+      aspect-ratio: 2.1 / 1;
+    }
+
+    .jump-switch {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      overflow: hidden;
+      background: #fff;
+    }
+
+    .jump-switch button {
+      height: 36px;
+      background: #fff;
+      color: var(--muted);
+      font-weight: 700;
+      border-right: 1px solid var(--line);
+    }
+
+    .jump-switch button:last-child {
+      border-right: 0;
+    }
+
+    .jump-switch button.active {
+      background: var(--brand);
+      color: #fff;
+    }
+
+    .check-strip {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 8px;
+      padding: 0 16px 16px;
+    }
+
+    .check-item {
+      border: 1px solid var(--line-soft);
+      border-radius: 8px;
+      background: #fff;
+      color: #41516a;
+      min-height: 40px;
+      padding: 8px 10px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    .check-item::before {
+      content: "";
+      width: 9px;
+      height: 9px;
+      border-radius: 50%;
+      background: var(--green);
+      box-shadow: 0 0 0 4px rgba(44,155,98,.12);
+      flex: 0 0 auto;
+    }
+
+    .code-preview {
+      margin: 0 16px 16px;
+      background: #101b2e;
+      color: #c8def7;
+      border-radius: 8px;
+      padding: 12px;
+      overflow: auto;
+      max-height: 190px;
+      font-size: 12px;
+      line-height: 1.55;
+    }
+
+    .banner-phone-user {
+      border-radius: 18px;
+      background: rgba(255,255,255,.9);
+      padding: 12px;
+      box-shadow: 0 8px 18px rgba(29,85,130,.08);
+      margin-bottom: 12px;
+    }
+
+    .banner-phone-user strong {
+      color: #0f5fa9;
+      display: block;
+      margin-bottom: 7px;
+    }
+
+    .banner-phone-stats {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      border-radius: 18px;
+      background: linear-gradient(180deg,#fff,#edf7ff);
+      text-align: center;
+      padding: 8px 0;
+      color: #0f5fa9;
+      font-weight: 900;
+    }
+
+    .banner-phone-stats span {
+      display: block;
+      color: #6d7b8e;
+      font-size: 10px;
+      font-weight: 700;
+    }
+
+    .gift-banner-block {
+      background: #fff;
+      border-radius: 8px;
+      padding: 10px;
+      box-shadow: 0 3px 9px rgba(29,85,130,.08);
+    }
+
+    .gift-banner-block h4 {
+      margin: 0 0 8px;
+      color: #253247;
+      font-size: 13px;
+    }
+
+    .mini-banner {
+      border-radius: 8px;
+      overflow: hidden;
+      border: 1px solid #dbe7f5;
+      background: #f7fbff;
+    }
+
+    .mini-banner img {
+      width: 100%;
+      aspect-ratio: 2.1 / 1;
+      object-fit: cover;
+      display: block;
+    }
+
+    .mini-dots {
+      display: flex;
+      justify-content: center;
+      gap: 5px;
+      margin: 7px 0 10px;
+    }
+
+    .mini-dots span {
+      width: 18px;
+      height: 4px;
+      border-radius: 99px;
+      background: #d6e0eb;
+    }
+
+    .mini-dots span.active {
+      background: var(--brand);
+    }
+
+    .jump-note {
+      border: 1px solid #f0d59b;
+      background: #fff8e8;
+      color: #755413;
+      border-radius: 8px;
+      padding: 9px;
+      font-size: 11px;
+      line-height: 1.55;
+    }
+
+    .row-tools {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+    }
+
+    .page {
+      display: none;
+      min-width: 0;
+      max-width: 100%;
+    }
+    .page.active { display: block; }
+
+    .log-list {
+      padding: 16px;
+      display: grid;
+      gap: 10px;
+    }
+
+    .log-row {
+      display: grid;
+      grid-template-columns: 120px 1fr 110px;
+      gap: 12px;
+      align-items: center;
+      padding: 12px;
+      border: 1px solid var(--line-soft);
+      border-radius: 8px;
+      background: #fff;
+    }
+
+    .log-row strong { font-size: 13px; }
+    .log-row span { color: var(--muted); font-size: 12px; }
+
+    .empty-state {
+      padding: 44px 20px;
+      text-align: center;
+      color: var(--muted);
+    }
+
+    @media (max-width: 1180px) {
+      .workspace {
+        grid-template-columns: 1fr;
+      }
+
+      .right-preview {
+        position: static;
+      }
+    }
+
+    @media (max-width: 820px) {
+      .app {
+        grid-template-columns: 1fr;
+      }
+
+      .sidebar {
+        display: none;
+      }
+
+      .topbar {
+        padding: 0 14px;
+      }
+
+      .top-actions .user-pill {
+        display: none;
+      }
+
+      .workspace {
+        padding: 14px;
+      }
+
+      .toolbar,
+      .activity-header,
+      .activity-card,
+      .activity-manage-toolbar,
+      .banner-toolbar,
+      .banner-config,
+      .check-strip,
+      .privacy-toolbar,
+      .privacy-record-toolbar,
+      .fsg-toolbar,
+      .privacy-editor,
+      .report-toolbar,
+      .report-summary {
+        grid-template-columns: 1fr;
+      }
+
+      .report-actions {
+        align-items: flex-start;
+        flex-direction: column;
+      }
+
+      .pdf-upload-box {
+        grid-template-columns: auto minmax(0, 1fr);
+      }
+
+      .pdf-upload-box .btn {
+        grid-column: 1 / -1;
+        justify-content: center;
+      }
+
+      .tabs {
+        overflow-x: auto;
+        padding: 0 8px;
+      }
+
+      .tab {
+        flex: 0 0 auto;
+      }
+
+      .stats {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .form-grid,
+      .asset-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .pdf-preview-modal .modal-body {
+        padding: 10px 12px 78px;
+      }
+
+      .pdf-frame {
+        height: calc(100vh - 190px);
+        min-height: 420px;
+      }
+    }
+  </style>
+<link rel="stylesheet" href="assets/bd-quota/quota.css">
+</head>
+<body>
+  <svg width="0" height="0" style="position:absolute">
+    <symbol id="i-gift" viewBox="0 0 24 24"><path d="M20 12v8H4v-8"/><path d="M2 7h20v5H2z"/><path d="M12 22V7"/><path d="M12 7H7.5a2.5 2.5 0 1 1 2-4c1 1.1 2.5 4 2.5 4Z"/><path d="M12 7h4.5a2.5 2.5 0 1 0-2-4c-1 1.1-2.5 4-2.5 4Z"/></symbol>
+    <symbol id="i-list" viewBox="0 0 24 24"><path d="M8 6h13"/><path d="M8 12h13"/><path d="M8 18h13"/><path d="M3 6h.01"/><path d="M3 12h.01"/><path d="M3 18h.01"/></symbol>
+    <symbol id="i-calendar" viewBox="0 0 24 24"><path d="M8 2v4"/><path d="M16 2v4"/><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M3 10h18"/></symbol>
+    <symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></symbol>
+    <symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 5v14"/><path d="M5 12h14"/></symbol>
+    <symbol id="i-upload" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="m17 8-5-5-5 5"/><path d="M12 3v12"/></symbol>
+    <symbol id="i-eye" viewBox="0 0 24 24"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7-10-7-10-7Z"/><circle cx="12" cy="12" r="3"/></symbol>
+    <symbol id="i-x" viewBox="0 0 24 24"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></symbol>
+    <symbol id="i-save" viewBox="0 0 24 24"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2Z"/><path d="M17 21v-8H7v8"/><path d="M7 3v5h8"/></symbol>
+    <symbol id="i-log" viewBox="0 0 24 24"><path d="M3 3v18h18"/><path d="M7 14l3-3 3 2 5-6"/></symbol>
+    <symbol id="i-bell" viewBox="0 0 24 24"><path d="M18 8a6 6 0 1 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9"/><path d="M13.7 21a2 2 0 0 1-3.4 0"/></symbol>
+    <symbol id="i-filter" viewBox="0 0 24 24"><path d="M3 5h18"/><path d="M6 12h12"/><path d="M10 19h4"/></symbol>
+    <symbol id="i-file" viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8Z"/><path d="M14 2v6h6"/><path d="M8 13h8"/><path d="M8 17h6"/></symbol>
+    <symbol id="i-download" viewBox="0 0 24 24"><path d="M12 3v12"/><path d="m7 10 5 5 5-5"/><path d="M4 21h16"/></symbol>
+    <symbol id="i-trash" viewBox="0 0 24 24"><path d="M4 7h16"/><path d="M10 11v6"/><path d="M14 11v6"/><path d="m6 7 1 14h10l1-14"/><path d="M9 7V4h6v3"/></symbol>
+    <symbol id="i-edit" viewBox="0 0 24 24"><path d="M12 20h9"/><path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L8 18l-4 1 1-4Z"/></symbol>
+    <symbol id="i-store" viewBox="0 0 24 24"><path d="M3 10h18"/><path d="M5 10v10h14V10"/><path d="M4 10 5.5 4h13L20 10"/><path d="M8 20v-5h8v5"/><path d="M3 10a3 3 0 0 0 6 0 3 3 0 0 0 6 0 3 3 0 0 0 6 0"/></symbol>
+  </svg>
+
+  <div class="app">
+    <aside class="sidebar">
+      <div class="brand">
+        <div class="brand-mark">礼</div>
+        <div>
+          <strong>FMC 后台</strong>
+          <span>礼品配置中心</span>
+        </div>
+      </div>
+      <nav class="nav" aria-label="后台导航">
+        <button class="nav-item nav-primary" data-nav="library" data-nav-group="giftCenter"><svg><use href="#i-gift"/></svg>礼品中心</button>
+        <button class="nav-item nav-child" data-nav="library" data-nav-group="giftCenter"><svg><use href="#i-gift"/></svg>礼品库</button>
+        <button class="nav-item nav-child" data-nav="activity" data-nav-group="giftCenter"><svg><use href="#i-calendar"/></svg>活动礼品配置</button>
+        <button class="nav-item nav-primary" data-nav="activityManage"><svg><use href="#i-calendar"/></svg>活动管理</button>
+        <button class="nav-item nav-primary" data-nav="bdQuota"><svg><use href="#i-calendar"/></svg><span>BD渠道妈妈粉月度配额管理</span></button>
+        <button class="nav-item nav-primary" data-nav="fsgStores"><svg><use href="#i-store"/></svg>FSG门店查询</button>
+        <button class="nav-item nav-primary" data-nav="banner"><svg><use href="#i-list"/></svg>会员服务轮播图管理</button>
+        <button class="nav-item nav-primary" data-nav="reports" data-nav-group="reports"><svg><use href="#i-file"/></svg>质检报告管理</button>
+        <button class="nav-item nav-child" data-nav="reportLogs" data-nav-group="reports"><svg><use href="#i-log"/></svg>操作记录</button>
+        <button class="nav-item nav-primary active" data-nav="privacy" data-nav-group="privacy"><svg><use href="#i-file"/></svg>隐私条款管理</button>
+        <button class="nav-item nav-child active" data-nav="privacy" data-nav-group="privacy"><svg><use href="#i-edit"/></svg>隐私条款维护</button>
+        <button class="nav-item nav-child" data-nav="privacyRecords" data-nav-group="privacy"><svg><use href="#i-log"/></svg>隐私条款记录</button>
+      </nav>
+    </aside>
+
+    <main class="main">
+      <header class="topbar">
+        <div class="crumb" id="breadcrumb">
+          系统首页 / 隐私条款管理 /
+          <strong id="pageTitle">隐私条款维护</strong>
+        </div>
+        <div class="top-actions">
+          <button class="btn icon-only" title="通知"><svg class="icon"><use href="#i-bell"/></svg></button>
+          <div class="user-pill"><span class="avatar">运</span>活动运营</div>
+        </div>
+      </header>
+
+      <section class="workspace reports-mode">
+        <div class="left-flow">
+          <section class="page" id="libraryPage">
+            <div class="panel">
+              <div class="toolbar">
+                <div class="field">
+                  <label>关键词</label>
+                  <input class="input" id="keyword" placeholder="礼品 code / 名称 / 品牌" />
+                </div>
+                <div class="field">
+                  <label>礼品类型</label>
+                  <select class="select" id="typeFilter">
+                    <option value="">全部类型</option>
+                    <option>实物礼品</option>
+                    <option>红包礼品</option>
+                    <option>虚拟礼品</option>
+                  </select>
+                </div>
+                <div class="field">
+                  <label>状态</label>
+                  <select class="select" id="statusFilter">
+                    <option value="">全部状态</option>
+                    <option>启用</option>
+                    <option>草稿</option>
+                    <option>停用</option>
+                  </select>
+                </div>
+                <div class="field">
+                  <label>品牌</label>
+                  <select class="select" id="brandFilter">
+                    <option value="">全部品牌</option>
+                    <option>Friso</option>
+                    <option>Hape</option>
+                    <option>SXJF</option>
+                  </select>
+                </div>
+                <div class="btn-row">
+                  <button class="btn primary" id="newGiftBtn"><svg class="icon"><use href="#i-plus"/></svg>同步礼品</button>
+                </div>
+              </div>
+              <div class="table-wrap">
+                <table aria-label="礼品库列表">
+                  <thead>
+                    <tr>
+                      <th>礼品信息</th>
+                      <th>类型</th>
+                      <th>品牌</th>
+                      <th>素材状态</th>
+                      <th>客服电话</th>
+                      <th>状态</th>
+                      <th>更新时间</th>
+                      <th>操作</th>
+                    </tr>
+                  </thead>
+                  <tbody id="giftTable"></tbody>
+                </table>
+              </div>
+            </div>
+          </section>
+
+          <section class="page" id="activityPage">
+            <div class="panel">
+              <div class="activity-header">
+                <div class="field">
+                  <label>活动</label>
+                  <select class="select" id="activitySelect">
+                    <option>Y26 新版妈妈粉全国买赠活动</option>
+                    <option>2026 年 7-8 月美素佳儿高活乳源活动</option>
+                    <option>Y25M3 皇家主题买赠活动</option>
+                  </select>
+                  <div class="asset-tip">请先选择活动，再同步该活动下的礼品数据。</div>
+                </div>
+                <div class="btn-row">
+                  <button class="btn teal" id="addToActivityBtn"><svg class="icon"><use href="#i-upload"/></svg>同步数据</button>
+                </div>
+              </div>
+              <div class="activity-card">
+                <div class="info-box"><span>活动 code</span><strong>NT_YY223DH_N_241001</strong></div>
+                <div class="info-box"><span>活动时间</span><strong>2026-07-11 至 2026-08-11</strong></div>
+                <div class="info-box"><span>已绑定礼品</span><strong id="boundCount">0 个</strong></div>
+                <div class="info-box"><span>前端状态</span><strong><span class="tag green">生效中</span></strong></div>
+              </div>
+              <div class="table-wrap">
+                <table aria-label="活动礼品配置列表">
+                  <thead>
+                    <tr>
+                      <th>礼品信息</th>
+                      <th>活动内素材自定义</th>
+                      <th>操作</th>
+                    </tr>
+                  </thead>
+                  <tbody id="activityTable"></tbody>
+                </table>
+              </div>
+            </div>
+          </section>
+
+          <section class="page" id="activityManagePage">
+            <div class="panel">
+              <div class="toolbar activity-manage-toolbar">
+                <div class="field">
+                  <label>关键词</label>
+                  <input class="input" id="activityManageKeyword" placeholder="活动名称 / 活动代码" />
+                </div>
+                <div class="field">
+                  <label>结束时间晚于</label>
+                  <input class="input" id="activityManageEndAfter" type="date" />
+                </div>
+                <div class="btn-row">
+                  <button class="btn primary" id="queryActivityManageBtn"><svg class="icon"><use href="#i-search"/></svg>查询</button>
+                  <button class="btn" id="exportActivityManageBtn"><svg class="icon"><use href="#i-download"/></svg>导出(Excel)</button>
+                </div>
+              </div>
+
+              <div class="table-wrap">
+                <table class="activity-manage-table" aria-label="活动管理列表">
+                  <thead>
+                    <tr>
+                      <th>ID</th>
+                      <th>活动名称</th>
+                      <th>活动代码</th>
+                      <th>开始时间</th>
+                      <th>结束时间</th>
+                      <th>物流填写截止天数</th>
+                      <th>物流填写结束时间</th>
+                      <th>活动类型</th>
+                      <th>活动品牌</th>
+                      <th>活动简介</th>
+                      <th>操作</th>
+                    </tr>
+                  </thead>
+                  <tbody id="activityManageTable"></tbody>
+                </table>
+              </div>
+            </div>
+          </section>
+
+          <section class="page" id="bdQuotaPage"></section>
+          <section class="page" id="fsgStoresPage">
+            <div class="panel">
+              <div class="toolbar fsg-toolbar">
+                <div class="field">
+                  <label for="fsgCampaignFilter">活动编码</label>
+                  <input class="input" id="fsgCampaignFilter" placeholder="输入 campaign_code" />
+                </div>
+                <div class="field">
+                  <label for="fsgStoreFilter">门店编码</label>
+                  <input class="input" id="fsgStoreFilter" placeholder="输入 store_code" />
+                </div>
+                <div class="field">
+                  <label for="fsgStoreTypeFilter">门店类型</label>
+                  <select class="select" id="fsgStoreTypeFilter">
+                    <option value="">全部类型</option>
+                    <option value="0">0 · 非派样门店</option>
+                    <option value="1">1 · 星钻门店</option>
+                    <option value="2">2 · 特批门店</option>
+                  </select>
+                </div>
+                <div class="btn-row">
+                  <button class="btn primary" id="queryFsgStoresBtn"><svg class="icon"><use href="#i-search"/></svg>查询</button>
+                  <button class="btn" id="resetFsgStoresBtn">重置</button>
+                </div>
+              </div>
+
+              <div class="fsg-note">
+                查询结果按活动维度展示。门店类型为该门店在当前活动下的完整生效集合；同一门店在不同活动下的数据相互独立。
+              </div>
+
+              <div class="fsg-summary" id="fsgQuerySummary">共 <strong>0</strong> 条记录</div>
+
+              <div class="table-wrap">
+                <table class="fsg-table" aria-label="FSG 门店类型列表">
+                  <thead>
+                    <tr>
+                      <th>活动编码</th>
+                      <th>门店编码</th>
+                      <th>当前门店类型</th>
+                      <th>数据状态</th>
+                      <th>最近推送时间</th>
+                    </tr>
+                  </thead>
+                  <tbody id="fsgStoreTable"></tbody>
+                </table>
+              </div>
+            </div>
+          </section>
+
+          <section class="page" id="bannerPage">
+            <div class="panel">
+              <div class="toolbar banner-toolbar">
+                <div class="field">
+                  <label>关键词</label>
+                  <input class="input" id="bannerKeyword" placeholder="Banner 名称 / 跳转链接" />
+                </div>
+                <div class="field">
+                  <label>状态</label>
+                  <select class="select" id="bannerStatusFilter">
+                    <option value="">全部状态</option>
+                    <option value="online">已上架</option>
+                    <option value="offline">未上架</option>
+                  </select>
+                </div>
+                <div class="field">
+                  <label>跳转类型</label>
+                  <select class="select" id="bannerTypeFilter">
+                    <option value="">全部类型</option>
+                    <option value="h5">外链 H5</option>
+                    <option value="mini">小程序页面</option>
+                    <option value="none">不跳转</option>
+                  </select>
+                </div>
+                <div class="btn-row">
+                  <button class="btn primary" id="newBannerBtn"><svg class="icon"><use href="#i-plus"/></svg>新增 Banner</button>
+                  <button class="btn teal" id="publishBannerBtn"><svg class="icon"><use href="#i-save"/></svg>保存并发布</button>
+                </div>
+              </div>
+
+              <div class="table-wrap">
+                <table aria-label="会员服务轮播 Banner 列表">
+                  <thead>
+                    <tr>
+                      <th>排序</th>
+                      <th>Banner 信息</th>
+                      <th>跳转类型</th>
+                      <th>跳转目标</th>
+                      <th>生效时间</th>
+                      <th>状态</th>
+                      <th>操作</th>
+                    </tr>
+                  </thead>
+                  <tbody id="bannerTable"></tbody>
+                </table>
+              </div>
+            </div>
+
+            <div class="panel banner-config">
+              <div class="upload-frame">
+                <div class="banner-thumb"><img id="bannerEditImage" alt="Banner 图片预览"></div>
+                <button class="btn" id="uploadBannerBtn"><svg class="icon"><use href="#i-upload"/></svg>上传图片</button>
+                <div class="asset-tip">建议尺寸 630x300，JPG/PNG，单张不超过 2MB。上传或替换后需保存并发布才会在小程序生效。</div>
+              </div>
+
+              <div class="form-grid">
+                <div class="field"><label>Banner 名称</label><input class="input" id="bannerNameInput" /></div>
+                <div class="field"><label>展示排序</label><input class="input" id="bannerSortInput" type="number" min="1" /></div>
+                <div class="field"><label>开始时间</label><input class="input" id="bannerStartInput" type="datetime-local" /></div>
+                <div class="field"><label>结束时间</label><input class="input" id="bannerEndInput" type="datetime-local" /></div>
+                <div class="field full">
+                  <label>跳转类型</label>
+                  <div class="jump-switch" id="bannerJumpType">
+                    <button class="active" data-banner-type="h5">外链 H5</button>
+                    <button data-banner-type="mini">小程序页面</button>
+                    <button data-banner-type="none">不跳转</button>
+                  </div>
+                </div>
+                <div class="field full" id="bannerH5Field"><label>H5 链接</label><input class="input" id="bannerH5Input" placeholder="https://" /></div>
+                <div class="field" id="bannerMiniAppField"><label>小程序 AppID</label><input class="input" id="bannerMiniAppInput" placeholder="wx0000000000000000" /></div>
+                <div class="field" id="bannerMiniPathField"><label>小程序页面路径</label><input class="input" id="bannerMiniPathInput" placeholder="/pages/member/index" /></div>
+                <div class="field full"><label>运营备注</label><textarea class="textarea" id="bannerRemarkInput" placeholder="如活动口径、投放人、审核说明"></textarea></div>
+                <div class="field full">
+                  <div class="btn-row" style="justify-content:flex-start">
+                    <button class="btn primary" id="saveBannerDraftBtn"><svg class="icon"><use href="#i-save"/></svg>保存草稿</button>
+                    <button class="btn" id="previewBannerBtn"><svg class="icon"><use href="#i-eye"/></svg>刷新预览</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="panel">
+              <div class="check-strip">
+                <div class="check-item">图片尺寸比例校验</div>
+                <div class="check-item">跳转目标可访问</div>
+                <div class="check-item">最多 5 张同时上架</div>
+                <div class="check-item">操作日志可追溯</div>
+              </div>
+              <pre class="code-preview" id="bannerPayload"></pre>
+            </div>
+          </section>
+
+          <section class="page active" id="privacyPage">
+            <div class="panel">
+              <div class="toolbar privacy-toolbar">
+                <div class="field">
+                  <label>关键词</label>
+                  <input class="input" id="privacyKeyword" placeholder="渠道 / 条款标题 / 版本号" />
+                </div>
+                <div class="field">
+                  <label>渠道</label>
+                  <select class="select" id="privacyChannelFilter">
+                    <option value="">全部渠道</option>
+                    <option value="member">会员服务小程序</option>
+                    <option value="elearning">E-learning</option>
+                    <option value="idream">iDream</option>
+                    <option value="momclass">妈妈班</option>
+                    <option value="roadshow">路演</option>
+                  </select>
+                </div>
+                <div class="field">
+                  <label>条款类型</label>
+                  <select class="select" id="privacyTypeFilter">
+                    <option value="">全部类型</option>
+                    <option value="privacy">隐私政策</option>
+                    <option value="children">儿童个人信息处理规则</option>
+                    <option value="collection">个人信息收集清单</option>
+                    <option value="sharing">个人信息共享清单</option>
+                    <option value="service">服务协议</option>
+                  </select>
+                </div>
+                <div class="field">
+                  <label>发布状态</label>
+                  <select class="select" id="privacyStatusFilter">
+                    <option value="">全部状态</option>
+                    <option>已发布</option>
+                    <option>草稿</option>
+                    <option>停用</option>
+                  </select>
+                </div>
+                <div class="btn-row">
+                  <button class="btn primary" id="newPrivacyDraftBtn"><svg class="icon"><use href="#i-plus"/></svg>新增草稿</button>
+                </div>
+              </div>
+
+              <div class="table-wrap">
+                <table class="privacy-table" aria-label="渠道隐私条款列表">
+                  <thead>
+                    <tr>
+                      <th>渠道</th>
+                      <th>条款类型</th>
+                      <th>当前版本</th>
+                      <th>状态</th>
+                      <th>更新时间</th>
+                      <th>适用场景</th>
+                      <th>操作</th>
+                    </tr>
+                  </thead>
+                  <tbody id="privacyTable"></tbody>
+                </table>
+              </div>
+            </div>
+          </section>
+
+          <section class="page" id="privacyRecordsPage">
+            <div class="panel">
+              <div class="toolbar privacy-record-toolbar">
+                <div class="field">
+                  <label>OpenID / 会员ID</label>
+                  <input class="input" id="privacyRecordKeyword" placeholder="输入 openID 或会员ID" />
+                </div>
+                <div class="field">
+                  <label>渠道</label>
+                  <select class="select" id="privacyRecordChannelFilter">
+                    <option value="">全部渠道</option>
+                    <option value="member">会员服务小程序</option>
+                    <option value="elearning">E-learning</option>
+                    <option value="idream">iDream</option>
+                    <option value="momclass">妈妈班</option>
+                    <option value="roadshow">路演</option>
+                  </select>
+                </div>
+                <div class="field">
+                  <label>隐私条款类型</label>
+                  <select class="select" id="privacyRecordTypeFilter">
+                    <option value="">全部类型</option>
+                    <option value="privacy">隐私政策</option>
+                    <option value="children">儿童个人信息处理规则</option>
+                    <option value="collection">个人信息收集清单</option>
+                    <option value="sharing">个人信息共享清单</option>
+                    <option value="service">服务协议</option>
+                  </select>
+                </div>
+                <div class="field">
+                  <label>隐私政策版本</label>
+                  <input class="input" id="privacyRecordVersionFilter" placeholder="仅隐私政策有版本号" />
+                </div>
+                <div class="field">
+                  <label>创建时间</label>
+                  <input class="input" id="privacyRecordDateFilter" type="date" />
+                </div>
+                <div class="btn-row">
+                  <button class="btn primary" id="queryPrivacyRecordsBtn"><svg class="icon"><use href="#i-search"/></svg>查询</button>
+                  <button class="btn" id="resetPrivacyRecordsBtn">重置</button>
+                </div>
+              </div>
+
+              <div class="table-wrap">
+                <table class="privacy-record-table" aria-label="隐私条款同意记录列表">
+                  <thead>
+                    <tr>
+                      <th>openID</th>
+                      <th>会员ID</th>
+                      <th>渠道</th>
+                      <th>隐私条款类型</th>
+                      <th>隐私政策版本</th>
+                      <th>创建时间</th>
+                    </tr>
+                  </thead>
+                  <tbody id="privacyRecordTable"></tbody>
+                </table>
+              </div>
+            </div>
+          </section>
+
+          <section class="page" id="reportLogsPage">
+            <div class="panel">
+              <div class="toolbar" style="grid-template-columns: 1fr .8fr .8fr auto;">
+                <div class="field">
+                  <label>操作对象</label>
+                  <input class="input" placeholder="文件名 / 文件编号" />
+                </div>
+                <div class="field">
+                  <label>操作类型</label>
+                  <select class="select">
+                    <option>全部类型</option>
+                    <option>上传文件</option>
+                    <option>修改文件名</option>
+                    <option>下载文件</option>
+                    <option>删除文件</option>
+                  </select>
+                </div>
+                <div class="field">
+                  <label>操作人</label>
+                  <select class="select">
+                    <option>全部人员</option>
+                    <option>活动运营</option>
+                    <option>管理员</option>
+                    <option>系统</option>
+                  </select>
+                </div>
+                <div class="btn-row"><button class="btn primary"><svg class="icon"><use href="#i-search"/></svg>查询</button></div>
+              </div>
+              <div class="log-list">
+                <div class="log-row"><span>2026-07-28 09:40</span><strong>识别校验：1W07CVN_不一致.pdf，批次号 250916805</strong><span>系统</span></div>
+                <div class="log-row"><span>2026-07-28 09:31</span><strong>批量上传 12 个 PDF 文件</strong><span>活动运营</span></div>
+                <div class="log-row"><span>2026-07-28 09:25</span><strong>修改文件名：1W06H9D.pdf → 1W06H9D_不一致.pdf</strong><span>活动运营</span></div>
+                <div class="log-row"><span>2026-07-27 18:46</span><strong>下载文件：1W087R3.pdf</strong><span>管理员</span></div>
+              </div>
+            </div>
+          </section>
+
+          <section class="page" id="reportsPage">
+            <div class="panel">
+              <div class="toolbar report-toolbar">
+                <div class="field">
+                  <label>关键词</label>
+                  <input class="input" id="reportKeyword" placeholder="文件名 / 批次号 / 报告编号" />
+                </div>
+                <div class="btn-row">
+                  <button class="btn primary" id="queryReportsBtn"><svg class="icon"><use href="#i-search"/></svg>查询</button>
+                  <button class="btn" id="resetReportsBtn">重置</button>
+                </div>
+              </div>
+
+              <div class="report-summary">
+                <div class="stat"><span>文件总数</span><strong id="reportTotalCount">0</strong></div>
+                <div class="stat"><span>最近更新</span><strong id="reportLatestTime">-</strong></div>
+              </div>
+
+              <div class="report-actions">
+                <div class="btn-row" style="justify-content:flex-start">
+                  <button class="btn primary" id="batchUploadReportsBtn"><svg class="icon"><use href="#i-upload"/></svg>批量上传</button>
+                  <button class="btn" id="singleUploadReportBtn"><svg class="icon"><use href="#i-upload"/></svg>单个上传</button>
+                  <button class="btn" id="downloadSelectedReportsBtn"><svg class="icon"><use href="#i-download"/></svg>下载所选</button>
+                  <button class="btn danger" id="deleteSelectedReportsBtn"><svg class="icon"><use href="#i-trash"/></svg>删除所选</button>
+                  <input id="reportFileInput" type="file" accept=".pdf,application/pdf" multiple hidden />
+                </div>
+                <span class="report-selected" id="reportSelectedText">已选择 0 个文件</span>
+              </div>
+
+              <div class="table-wrap">
+                <table class="report-table" aria-label="质检报告文件列表">
+                  <thead>
+                    <tr>
+                      <th><input type="checkbox" id="selectAllReports" aria-label="全选质检报告" /></th>
+                      <th>文件名</th>
+                      <th>识别批次号</th>
+                      <th>文件大小</th>
+                      <th>操作人</th>
+                      <th>创建时间</th>
+                      <th>更新时间</th>
+                      <th>操作</th>
+                    </tr>
+                  </thead>
+                  <tbody id="reportTable"></tbody>
+                </table>
+              </div>
+            </div>
+          </section>
+        </div>
+
+        <aside class="right-preview panel" aria-label="消费者端预览">
+          <div class="preview-head">
+            <h2 id="previewTitle">消费者端预览</h2>
+            <div class="seg" id="previewSeg">
+              <button class="active" data-preview="activity">活动页</button>
+              <button data-preview="mine">我的礼品</button>
+              <button data-preview="detail">详情页</button>
+            </div>
+          </div>
+          <div class="phone-shell">
+            <div class="phone">
+            <div class="phone-bar">美素佳儿</div>
+            <div class="phone-content" id="phoneContent"></div>
+          </div>
+          </div>
+        </aside>
+      </section>
+    </main>
+  </div>
+
+  <div class="modal-backdrop" id="drawerBackdrop"></div>
+  <section class="modal gift-modal" id="giftDrawer" aria-label="礼品编辑弹框">
+    <div class="modal-head">
+      <h2 id="drawerTitle">同步礼品</h2>
+      <button class="btn icon-only" id="closeDrawerBtn" title="关闭"><svg class="icon"><use href="#i-x"/></svg></button>
+    </div>
+    <div class="modal-body">
+      <div class="inner-tabs" id="drawerTabs">
+        <button class="active" data-section="base">基础信息</button>
+        <button data-section="assets">展示素材</button>
+        <button data-section="records">操作记录</button>
+      </div>
+
+      <section class="drawer-section active" data-section-panel="base">
+        <div class="form-grid">
+          <div class="field"><label>礼品 code</label><input class="input" id="formCode" readonly /></div>
+          <div class="field"><label>礼品名称</label><input class="input" id="formName" readonly /></div>
+          <div class="field"><label>礼品别名</label><input class="input" id="formAlias" placeholder="用于短标题或消费者端展示" /></div>
+          <div class="field"><label>礼品类型</label><select class="select" id="formType"><option>实物礼品</option><option>红包礼品</option><option>虚拟礼品</option></select></div>
+          <div class="field"><label>品牌</label><input class="input" id="formBrand" /></div>
+          <div class="field"><label>规格/型号</label><input class="input" id="formSpec" /></div>
+          <div class="field"><label>客服电话</label><input class="input" id="formPhone" /></div>
+          <div class="field"><label>礼品状态</label><select class="select" id="formStatus"><option>启用</option><option>草稿</option><option>停用</option></select></div>
+          <div class="field full"><label>备注</label><textarea class="textarea" id="formNote"></textarea></div>
+        </div>
+      </section>
+
+      <section class="drawer-section" data-section-panel="assets">
+        <div class="asset-grid">
+          <div class="asset-card">
+            <h3>主图<span class="required">*</span></h3>
+            <div class="asset-frame" id="assetMain">通用缩略图</div>
+            <button class="btn"><svg class="icon"><use href="#i-upload"/></svg>上传图片</button>
+            <div class="asset-tip">用于礼品库列表、我的礼品。建议 400x300，PNG/JPG。</div>
+          </div>
+          <div class="asset-card">
+            <h3>活动展示图</h3>
+            <div class="asset-frame" id="assetActivity">活动页卡片</div>
+            <button class="btn"><svg class="icon"><use href="#i-upload"/></svg>上传图片</button>
+            <div class="asset-tip">用于消费者活动页“请选择赠品”。建议 654x400，小于 500KB。</div>
+          </div>
+          <div class="asset-card">
+            <h3>详情图</h3>
+            <div class="asset-frame">详情弹层长图</div>
+            <button class="btn"><svg class="icon"><use href="#i-upload"/></svg>上传图片</button>
+            <div class="asset-tip">用于礼品详情页，可承载服务电话、玩法说明、视频封面。</div>
+          </div>
+          <div class="asset-card">
+            <h3>物料图</h3>
+            <div class="asset-frame">线下物料图</div>
+            <button class="btn"><svg class="icon"><use href="#i-upload"/></svg>上传图片</button>
+            <div class="asset-tip">用于赠品登记入库、运营下载和物料核对。</div>
+          </div>
+          <div class="asset-card">
+            <h3>礼品视频</h3>
+            <div class="asset-frame video-frame" id="assetVideo"><span class="play-mark"></span><span>视频素材</span></div>
+            <button class="btn" data-upload-video><svg class="icon"><use href="#i-upload"/></svg>上传视频</button>
+            <div class="field">
+              <label>视频 URL</label>
+              <input class="input" id="formVideo" placeholder="https://cdn.example.com/gift-video.mp4" />
+            </div>
+            <div class="asset-tip">用于礼品详情页视频展示。支持上传 MP4，建议小于 100MB；也支持填写视频 URL。</div>
+          </div>
+        </div>
+      </section>
+
+      <section class="drawer-section" data-section-panel="records">
+        <div class="log-list" style="padding:0">
+          <div class="log-row"><span>今天 11:30</span><strong>更新活动展示图</strong><span>活动运营</span></div>
+          <div class="log-row"><span>昨天 17:22</span><strong>修改客服电话</strong><span>管理员</span></div>
+          <div class="log-row"><span>07-18 10:01</span><strong>礼品启用</strong><span>活动运营</span></div>
+        </div>
+      </section>
+    </div>
+    <div class="modal-foot">
+      <button class="btn" id="cancelDrawerBtn">取消</button>
+      <button class="btn primary" id="saveGiftBtn"><svg class="icon"><use href="#i-save"/></svg>保存并预览</button>
+    </div>
+  </section>
+
+  <div class="modal-backdrop" id="modalBackdrop"></div>
+
+  <section class="modal privacy-modal" id="privacyModal" aria-label="隐私条款编辑弹窗">
+    <div class="modal-head">
+      <h2 id="privacyModalTitle">新增隐私条款草稿</h2>
+      <button class="btn icon-only" id="closePrivacyModalBtn" title="关闭"><svg class="icon"><use href="#i-x"/></svg></button>
+    </div>
+    <div class="modal-body">
+      <div class="privacy-editor">
+        <div>
+          <div class="form-grid">
+            <div class="field">
+              <label>渠道<span class="required">*</span></label>
+              <select class="select" id="privacyFormChannel">
+                <option value="member">会员服务小程序</option>
+                <option value="elearning">E-learning</option>
+                <option value="idream">iDream</option>
+                <option value="momclass">妈妈班</option>
+                <option value="roadshow">路演</option>
+              </select>
+            </div>
+            <div class="field">
+              <label>条款类型<span class="required">*</span></label>
+              <select class="select" id="privacyFormType">
+                <option value="privacy">隐私政策</option>
+                <option value="children">儿童个人信息处理规则</option>
+                <option value="collection">个人信息收集清单</option>
+                <option value="sharing">个人信息共享清单</option>
+                <option value="service">服务协议</option>
+              </select>
+            </div>
+            <div class="field" data-privacy-version-field>
+              <label>当前发布版本</label>
+              <input class="input" id="privacyCurrentVersion" readonly />
+            </div>
+            <div class="field" data-privacy-version-field>
+              <label>本次发布版本号</label>
+              <input class="input" id="privacyNextVersion" readonly />
+            </div>
+            <div class="field full">
+              <label>条款标题<span class="required">*</span></label>
+              <input class="input" id="privacyTitleInput" placeholder="如：会员服务小程序隐私政策" />
+            </div>
+            <div class="field full">
+              <label>条款正文 PDF 文件<span class="required">*</span></label>
+              <div class="pdf-upload-box">
+                <div class="pdf-file-mark">PDF</div>
+                <div class="pdf-file-main">
+                  <strong id="privacyPdfName">未上传 PDF 文件</strong>
+                  <span id="privacyPdfMeta">发布时按渠道、条款类型关联保存，隐私政策类型额外关联版本号。</span>
+                </div>
+                <button class="btn" id="privacyPdfUploadBtn"><svg class="icon"><use href="#i-upload"/></svg>上传 PDF</button>
+                <input id="privacyPdfInput" type="file" accept=".pdf,application/pdf" hidden />
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="modal-foot">
+      <button class="btn" id="cancelPrivacyModalBtn">取消</button>
+      <button class="btn primary" id="savePrivacyDraftBtn"><svg class="icon"><use href="#i-save"/></svg>保存草稿</button>
+      <button class="btn teal" id="publishPrivacyEditorBtn"><svg class="icon"><use href="#i-save"/></svg>发布新版本</button>
+    </div>
+  </section>
+
+  <section class="modal publish-confirm-modal" id="privacyPublishConfirmModal" aria-label="发布隐私条款确认弹窗">
+    <div class="modal-head">
+      <h2>确认发布隐私条款</h2>
+      <button class="btn icon-only" id="closePrivacyPublishConfirmBtn" title="关闭"><svg class="icon"><use href="#i-x"/></svg></button>
+    </div>
+    <div class="modal-body">
+      <div class="confirm-message" id="privacyPublishConfirmText">
+        发布后将生成新版本，并更新对应渠道的最新条款版本。
+      </div>
+    </div>
+    <div class="modal-foot">
+      <button class="btn" id="cancelPrivacyPublishBtn">取消</button>
+      <button class="btn teal" id="confirmPrivacyPublishBtn"><svg class="icon"><use href="#i-save"/></svg>确认发布</button>
+    </div>
+  </section>
+
+  <section class="modal privacy-history-modal" id="privacyHistoryModal" aria-label="隐私条款历史版本弹窗">
+    <div class="modal-head">
+      <div>
+        <h2>历史版本</h2>
+        <div class="asset-tip" id="privacyHistoryMeta">-</div>
+      </div>
+      <button class="btn icon-only" id="closePrivacyHistoryBtn" title="关闭"><svg class="icon"><use href="#i-x"/></svg></button>
+    </div>
+    <div class="modal-body">
+      <div class="table-wrap">
+        <table class="privacy-history-table" aria-label="隐私条款历史版本列表">
+          <thead>
+            <tr>
+              <th>渠道</th>
+              <th>条款类型</th>
+              <th>版本</th>
+              <th>创建时间</th>
+            </tr>
+          </thead>
+          <tbody id="privacyHistoryTable"></tbody>
+        </table>
+      </div>
+    </div>
+    <div class="modal-foot">
+      <button class="btn primary" id="closePrivacyHistoryFootBtn">关闭</button>
+    </div>
+  </section>
+
+  <section class="modal activity-manage-modal" id="activityManageModal" aria-label="活动管理编辑弹窗">
+    <div class="modal-head">
+      <h2 id="activityManageModalTitle">编辑活动</h2>
+      <button class="btn icon-only" id="closeActivityManageModalBtn" title="关闭"><svg class="icon"><use href="#i-x"/></svg></button>
+    </div>
+    <div class="modal-body">
+      <div class="form-grid">
+        <div class="field">
+          <label>活动名称<span class="required">*</span></label>
+          <input class="input" id="activityManageName" />
+        </div>
+        <div class="field">
+          <label>活动代码<span class="required">*</span></label>
+          <input class="input" id="activityManageCode" />
+        </div>
+        <div class="field">
+          <label>活动分类<span class="required">*</span></label>
+          <select class="select" id="activityManageCategory">
+            <option value="">请选择</option>
+            <option value="buyfree_cam">买赠活动</option>
+            <option value="newuser_take">新客活动</option>
+            <option value="crm_cam">CRM 活动</option>
+            <option value="brand_cam">品牌活动</option>
+          </select>
+        </div>
+        <div class="field">
+          <label>活动类型<span class="required">*</span></label>
+          <input class="input" id="activityManageType" placeholder="如 buyfree_cam" />
+        </div>
+        <div class="field">
+          <label>开始时间<span class="required">*</span></label>
+          <input class="input" id="activityManageStartAt" type="date" />
+        </div>
+        <div class="field">
+          <label>截止时间<span class="required">*</span></label>
+          <input class="input" id="activityManageEndAt" type="date" />
+        </div>
+        <div class="field">
+          <label>物流填写截止天数</label>
+          <input class="input" id="activityManageLogisticsDays" type="number" min="0" placeholder="如 46" />
+        </div>
+        <div class="field">
+          <label>物流填写结束时间</label>
+          <input class="input" id="activityManageLogisticsEndAt" type="date" />
+        </div>
+        <div class="field">
+          <label>注册隐私条款渠道<span class="required">*</span></label>
+          <select class="select" id="activityManagePrivacyChannel">
+            <option value="">请选择</option>
+            <option value="member">会员服务小程序</option>
+            <option value="elearning">E-learning</option>
+            <option value="idream">iDream</option>
+            <option value="momclass">妈妈班</option>
+            <option value="roadshow">路演</option>
+          </select>
+        </div>
+        <div class="field">
+          <label>工作时间开始</label>
+          <input class="input" id="activityManageWorkStart" type="date" />
+        </div>
+        <div class="field">
+          <label>工作时间结束</label>
+          <input class="input" id="activityManageWorkEnd" type="date" />
+        </div>
+        <div class="field">
+          <label>物流关键字</label>
+          <input class="input" id="activityManageLogisticsKeyword" placeholder="物流关键字" />
+        </div>
+        <div class="field">
+          <label>抽奖关键字</label>
+          <input class="input" id="activityManageDrawKeyword" placeholder="抽奖关键字" />
+        </div>
+        <div class="field full">
+          <label>活动简介</label>
+          <textarea class="textarea" id="activityManageIntro" placeholder="请输入内容"></textarea>
+        </div>
+        <div class="field full">
+          <label>操作手册</label>
+          <div class="upload-frame">
+            <button class="btn" id="activityManageUploadBtn"><svg class="icon"><use href="#i-upload"/></svg>上传附件</button>
+            <div class="asset-tip" id="activityManageAttachmentName">未上传附件</div>
+            <div class="asset-tip">用于活动配置中的说明文件、操作手册或内部附件留存。</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="modal-foot">
+      <button class="btn" id="cancelActivityManageModalBtn">取消</button>
+      <button class="btn primary" id="saveActivityManageBtn"><svg class="icon"><use href="#i-save"/></svg>确认保存</button>
+    </div>
+  </section>
+
+  <section class="modal pdf-preview-modal" id="reportPdfModal" aria-label="PDF文件预览">
+    <div class="modal-head">
+      <div>
+        <h2 id="reportPdfTitle">PDF 文件预览</h2>
+        <div class="asset-tip" id="reportPdfMeta">-</div>
+      </div>
+      <button class="btn icon-only" id="closeReportPdfBtn" title="关闭"><svg class="icon"><use href="#i-x"/></svg></button>
+    </div>
+    <div class="modal-body">
+      <iframe class="pdf-frame" id="reportPdfFrame" title="PDF 文件预览"></iframe>
+    </div>
+  </section>
+
+  <section class="modal" id="overrideModal" aria-label="活动素材自定义弹窗">
+    <div class="modal-head">
+      <h2>活动素材自定义</h2>
+      <button class="btn icon-only" id="closeOverrideBtn" title="关闭"><svg class="icon"><use href="#i-x"/></svg></button>
+    </div>
+    <div class="modal-body">
+      <div class="override-note">
+        当前配置只作用于 <strong id="overrideActivityName">当前活动</strong>。同一个赠品被多个活动复用时，可在这里为每个活动单独配置产品别名、主图和活动展示图，不会回写或影响礼品库默认资料。
+      </div>
+      <div class="override-meta">
+        <div class="info-box"><span>当前赠品</span><strong id="overrideGiftName">-</strong></div>
+        <div class="info-box"><span>礼品 code</span><strong id="overrideGiftCode">-</strong></div>
+      </div>
+      <div class="form-grid" style="margin-bottom:16px">
+        <div class="field full">
+          <label>当前活动产品别名</label>
+          <input class="input" id="overrideAliasInput" placeholder="不填写则继承礼品库别名/名称" />
+        </div>
+      </div>
+      <div class="asset-grid">
+        <div class="asset-card">
+          <h3>当前活动主图</h3>
+          <div class="asset-frame override-frame" id="overrideMainFrame">继承礼品库主图</div>
+          <div class="btn-row" style="justify-content:flex-start">
+            <button class="btn" data-upload-override-main><svg class="icon"><use href="#i-upload"/></svg>上传主图</button>
+            <button class="btn" data-reset-override-main>恢复继承</button>
+          </div>
+          <div class="asset-tip">用于该活动下“我的礼品”、活动中奖记录等通用缩略图。仅当前活动生效。</div>
+        </div>
+        <div class="asset-card">
+          <h3>当前活动展示图</h3>
+          <div class="asset-frame override-frame" id="overrideActivityFrame">继承礼品库活动展示图</div>
+          <div class="btn-row" style="justify-content:flex-start">
+            <button class="btn" data-upload-override-activity><svg class="icon"><use href="#i-upload"/></svg>上传活动图</button>
+            <button class="btn" data-reset-override-activity>恢复继承</button>
+          </div>
+          <div class="asset-tip">用于消费者活动页“请选择赠品”卡片。适合不同活动使用不同包装、KV 或权益表达。</div>
+        </div>
+      </div>
+    </div>
+    <div class="modal-foot">
+      <button class="btn" id="cancelOverrideBtn">取消</button>
+      <button class="btn primary" id="saveOverrideBtn"><svg class="icon"><use href="#i-save"/></svg>保存素材自定义</button>
+    </div>
+  </section>
+
+  <div class="drawer-backdrop" id="reportDrawerBackdrop"></div>
+  <aside class="drawer" id="reportRenameDrawer" aria-label="质检报告文件名修改抽屉">
+    <div class="drawer-head">
+      <h2>修改文件名</h2>
+      <button class="btn icon-only" id="closeReportRenameBtn" title="关闭"><svg class="icon"><use href="#i-x"/></svg></button>
+    </div>
+    <div class="drawer-body">
+      <div class="override-note"><strong>文件名规则：</strong>仅修改文件展示名称，不会改变 PDF 内容和识别出的批次号。批次不一致文件建议保留“_不一致”标记。</div>
+      <div class="form-grid">
+        <div class="field full"><label>当前文件名</label><input class="input" id="reportCurrentNameInput" readonly /></div>
+        <div class="field full"><label>新文件名<span class="required">*</span></label><input class="input" id="reportRenameInput" placeholder="请输入 PDF 文件名" /></div>
+        <div class="field"><label>识别批次号</label><input class="input" id="reportBatchReadonly" readonly /></div>
+        <div class="field"><label>最近操作人</label><input class="input" value="活动运营" readonly /></div>
+      </div>
+      <div class="asset-tip">仅支持 PDF 文件名，系统会自动补全 `.pdf` 后缀并校验重名。</div>
+    </div>
+    <div class="drawer-foot">
+      <button class="btn" id="cancelReportRenameBtn">取消</button>
+      <button class="btn primary" id="saveReportRenameBtn"><svg class="icon"><use href="#i-save"/></svg>保存名称</button>
+    </div>
+  </aside>
+
+  <div class="toast" id="toast"><svg class="icon"><use href="#i-save"/></svg><span id="toastText">已保存</span></div>
+
+  <script>
+    const screenshotPath = "7f390a45-9d42-49a3-9418-d7df06c56bb8.png";
+    const bannerAssets = {
+      member1: "assets/member-banner-op1.jpg",
+      member2: "assets/member-banner-op2.jpg",
+      mom: "assets/mom-class-banner-op1.jpg"
+    };
+    const gifts = [
+      {
+        code: "SW_BC_BC2109020_1X1",
+        name: "凤凰儿童平衡车",
+        alias: "凤凰儿童尼龙平衡车",
+        type: "实物礼品",
+        brand: "Hape",
+        spec: "线下领取_皇家",
+        phone: "4008662020",
+        status: "启用",
+        assets: "完整",
+        updated: "2026-07-21 11:30",
+        color: "#dff5b8",
+        glyph: "车",
+        bg: "#e9f7d5"
+      },
+      {
+        code: "LK_LK_TCFC8WB_SF",
+        name: "摩登童趣餐碗 5 件套",
+        alias: "便携式餐碗 5 件套",
+        type: "实物礼品",
+        brand: "SXJF",
+        spec: "河马系列",
+        phone: "8008207919",
+        status: "启用",
+        assets: "缺详情图",
+        updated: "2026-07-20 18:46",
+        color: "#e7804f",
+        glyph: "碗",
+        bg: "#fff0e6"
+      },
+      {
+        code: "SW_FRISO_SFMD22",
+        name: "桌面冰壶保龄球二合一",
+        alias: "桌面冰壶保龄球",
+        type: "实物礼品",
+        brand: "Friso",
+        spec: "美素佳儿联名",
+        phone: "4001868208",
+        status: "草稿",
+        assets: "缺活动图",
+        updated: "2026-07-18 10:01",
+        color: "#407cc9",
+        glyph: "球",
+        bg: "#e8f2ff"
+      },
+      {
+        code: "SW_YY_6973357844882X1",
+        name: "大洋海绵宝宝净浴巾",
+        alias: "净浴巾",
+        type: "实物礼品",
+        brand: "Friso",
+        spec: "颜色款式随机",
+        phone: "4008119297",
+        status: "停用",
+        assets: "完整",
+        updated: "2026-06-30 14:20",
+        color: "#23a28f",
+        glyph: "巾",
+        bg: "#e4f7f4"
+      }
+    ];
+
+    let selectedGift = gifts[0];
+    let currentPreview = "activity";
+    let currentOverrideCode = null;
+    let syncingActivityData = false;
+    let currentBannerId = "BN20260724001";
+    let currentBannerPreview = 0;
+    let bound = [
+      { code: gifts[0].code, overrideAlias: "凤凰平衡车活动款", overrideMain: true, overrideActivity: true },
+      { code: gifts[1].code, overrideAlias: "", overrideMain: false, overrideActivity: false }
+    ];
+    let banners = [
+      {
+        id: "BN20260724001",
+        sort: 1,
+        name: "会员扫码权益主图",
+        image: bannerAssets.member1,
+        type: "h5",
+        target: "https://campaign.friso.com.cn/member-scan-benefits",
+        miniAppId: "",
+        miniPath: "",
+        startAt: "2026-07-24T10:00",
+        endAt: "2026-08-31T23:59",
+        online: true,
+        remark: "承接礼品页新增轮播入口，跳转会员扫码权益活动 H5。"
+      },
+      {
+        id: "BN20260724002",
+        sort: 2,
+        name: "会员服务小程序活动",
+        image: bannerAssets.member2,
+        type: "mini",
+        target: "/pages/activity/scan-benefits/index?source=gift_banner",
+        miniAppId: "wxFrisoMemberMini",
+        miniPath: "/pages/activity/scan-benefits/index?source=gift_banner",
+        startAt: "2026-07-24T10:00",
+        endAt: "2026-09-15T23:59",
+        online: true,
+        remark: "站内小程序页面跳转，用于会员扫码权益说明。"
+      },
+      {
+        id: "BN20260724003",
+        sort: 3,
+        name: "妈妈班签到活动",
+        image: bannerAssets.mom,
+        type: "h5",
+        target: "https://campaign.friso.com.cn/mom-class-checkin",
+        miniAppId: "",
+        miniPath: "",
+        startAt: "2026-07-25T00:00",
+        endAt: "2026-08-20T23:59",
+        online: false,
+        remark: "待活动审核后上架。"
+      }
+    ];
+
+    let currentActivityManageId = "1651";
+    let activityManageItems = [
+      { id: "1651", name: "RKA无导门店买赠活动", code: "B_RKAMDMD_A_260801", startAt: "2026-08-01", endAt: "2026-09-01", logisticsDeadlineDays: "", logisticsEndAt: "", type: "buyfree_cam", brand: "所有", intro: "", category: "buyfree_cam", privacyChannel: "member", workStart: "", workEnd: "", logisticsKeyword: "", drawKeyword: "", attachmentName: "活动说明.pdf" },
+      { id: "1650", name: "尊悦新客复购扫码活动", code: "NT_ZYXKFGS_Z_260801", startAt: "2026-08-01", endAt: "2028-12-31", logisticsDeadlineDays: "", logisticsEndAt: "", type: "newuser_take", brand: "ZY", intro: "", category: "newuser_take", privacyChannel: "elearning", workStart: "", workEnd: "", logisticsKeyword: "", drawKeyword: "", attachmentName: "活动手册.pdf" },
+      { id: "1649", name: "美素佳儿8月CRM会员活动", code: "CR_MSJF8YC_A_260813", startAt: "2026-08-13", endAt: "2026-09-30", logisticsDeadlineDays: "", logisticsEndAt: "", type: "crm_cam", brand: "所有", intro: "美素佳儿8月CRM会员活动，重点围绕会员扫码与复购激励。", category: "crm_cam", privacyChannel: "member", workStart: "", workEnd: "", logisticsKeyword: "", drawKeyword: "", attachmentName: "CRM活动说明.pdf" },
+      { id: "1648", name: "旺翔头号玩家超打怪", code: "CR_WYTHWJQ_260707", startAt: "2026-07-07", endAt: "2027-08-31", logisticsDeadlineDays: "", logisticsEndAt: "", type: "crm_cam", brand: "旺翔", intro: "", category: "crm_cam", privacyChannel: "roadshow", workStart: "", workEnd: "", logisticsKeyword: "", drawKeyword: "", attachmentName: "活动说明.pdf" },
+      { id: "1647", name: "NKA联合 Smart UGC", code: "CR_NKALGSM_A_260624", startAt: "2026-06-24", endAt: "2027-12-31", logisticsDeadlineDays: "", logisticsEndAt: "", type: "crm_cam", brand: "所有", intro: "NKA联合 Smart UGC", category: "crm_cam", privacyChannel: "idream", workStart: "", workEnd: "", logisticsKeyword: "", drawKeyword: "", attachmentName: "UGC活动手册.pdf" },
+      { id: "1646", name: "RKA联合 Smart UGC", code: "CR_RKALGSM_P_260601", startAt: "2026-06-01", endAt: "2027-12-31", logisticsDeadlineDays: "", logisticsEndAt: "", type: "crm_cam", brand: "皇家", intro: "RKA联合 Smart UGC", category: "crm_cam", privacyChannel: "member", workStart: "", workEnd: "", logisticsKeyword: "", drawKeyword: "", attachmentName: "活动说明.pdf" },
+      { id: "1645", name: "源悦 Smart UGC", code: "CR_YYSmart_N_260601", startAt: "2026-06-01", endAt: "2027-06-30", logisticsDeadlineDays: "", logisticsEndAt: "", type: "crm_cam", brand: "源悦", intro: "源悦 Smart UGC", category: "crm_cam", privacyChannel: "momclass", workStart: "", workEnd: "", logisticsKeyword: "", drawKeyword: "", attachmentName: "活动手册.pdf" },
+      { id: "1643", name: "EMD KOS活动", code: "CR_EMDKOSH_P_260506", startAt: "2026-05-06", endAt: "2026-12-31", logisticsDeadlineDays: "", logisticsEndAt: "", type: "crm_cam", brand: "皇家", intro: "EMD-KOS活动草案", category: "crm_cam", privacyChannel: "roadshow", workStart: "", workEnd: "", logisticsKeyword: "", drawKeyword: "", attachmentName: "活动说明.pdf" },
+      { id: "1642", name: "Friso皇家美素佳儿...", code: "B_BDCYMMP_P_260501", startAt: "2026-08-01", endAt: "2026-09-01", logisticsDeadlineDays: "46", logisticsEndAt: "2026-09-01", type: "buyfree_cam", brand: "pura", intro: "#idreamstokedit#", category: "buyfree_cam", privacyChannel: "member", workStart: "", workEnd: "", logisticsKeyword: "", drawKeyword: "", attachmentName: "操作手册.pdf" },
+      { id: "1641", name: "爱婴岛跨境买赠活动", code: "B_AYDKJMZ_V_260401", startAt: "2026-04-01", endAt: "2027-01-01", logisticsDeadlineDays: "", logisticsEndAt: "", type: "buyfree_cam", brand: "NL", intro: "", category: "buyfree_cam", privacyChannel: "elearning", workStart: "", workEnd: "", logisticsKeyword: "", drawKeyword: "", attachmentName: "活动说明.pdf" }
+    ];
+
+    const fsgStoreTypeNames = {
+      0: "非派样门店",
+      1: "星钻门店",
+      2: "特批门店"
+    };
+
+    let fsgStoreRecords = [
+      { campaignCode: "R_MMFPY_A_250617", storeCode: "80001234", storeTypes: [1, 2], status: "正常", pushedAt: "2026-09-07 16:20" },
+      { campaignCode: "R_MMFPY_A_250617", storeCode: "80005678", storeTypes: [0], status: "正常", pushedAt: "2026-09-07 16:20" },
+      { campaignCode: "R_MMFPY_A_250617", storeCode: "80007890", storeTypes: [2], status: "正常", pushedAt: "2026-09-07 15:48" },
+      { campaignCode: "B_RKAMDMD_A_260801", storeCode: "80001234", storeTypes: [2], status: "正常", pushedAt: "2026-09-06 11:06" },
+      { campaignCode: "B_RKAMDMD_A_260801", storeCode: "80009128", storeTypes: [1], status: "正常", pushedAt: "2026-09-06 10:42" },
+      { campaignCode: "CR_MSJF8YC_A_260813", storeCode: "80005678", storeTypes: [0], status: "正常", pushedAt: "2026-09-05 18:30" },
+      { campaignCode: "CR_MSJF8YC_A_260813", storeCode: "80010326", storeTypes: [1, 2], status: "正常", pushedAt: "2026-09-05 18:12" }
+    ];
+
+    let currentPrivacyId = "PP-MEMBER-PRIVACY";
+    let pendingPrivacyPublishId = null;
+    let tempPrivacyPdfName = "";
+    let privacyPolicies = [
+      {
+        id: "PP-MEMBER-PRIVACY",
+        channel: "member",
+        channelName: "会员服务小程序",
+        type: "privacy",
+        typeName: "隐私政策",
+        version: "V1.2",
+        status: "已发布",
+        updatedAt: "2026-07-22 15:20",
+        scene: "会员服务小程序注册、存量会员进入小程序",
+        owner: "法务审核 / 活动运营",
+        title: "美素佳儿会员服务小程序隐私政策",
+        pdfName: "美素佳儿会员服务小程序隐私政策-V1.2.pdf",
+        content: "适用于会员服务小程序注册、登录、权益领取、礼品查看等场景。系统需在用户勾选并注册成功后记录同意渠道、条款版本号、同意时间、OpenID/会员编号和来源页面。",
+        popup: "<p>我们更新了<strong>会员服务小程序隐私政策</strong>。为继续使用会员权益、礼品查询等服务，请阅读并确认最新版本。</p>",
+        history: [
+          { version: "V1.2", time: "07-22 15:20", operator: "活动运营", note: "会员服务注册页条款更新" },
+          { version: "V1.1", time: "07-03 18:10", operator: "管理员", note: "补充个人信息共享说明" },
+          { version: "V1.0", time: "05-26 10:00", operator: "系统", note: "初始化版本" }
+        ]
+      },
+      {
+        id: "PP-MEMBER-SHARING",
+        channel: "member",
+        channelName: "会员服务小程序",
+        type: "sharing",
+        typeName: "个人信息共享清单",
+        version: "",
+        status: "已发布",
+        updatedAt: "2026-07-21 11:40",
+        scene: "条款中心、注册页隐私政策关联阅读",
+        owner: "法务审核 / 活动运营",
+        title: "美素佳儿会员服务小程序个人信息共享清单",
+        pdfName: "美素佳儿会员服务小程序个人信息共享清单.pdf",
+        content: "展示会员服务小程序涉及的第三方共享对象、共享目的、共享字段和联系方式。前端条款中心需支持从隐私政策正文内跳转查看。",
+        popup: "<p>个人信息共享清单已更新，请确认后继续使用会员服务。</p>",
+        history: [
+          { version: "", time: "07-21 11:40", operator: "活动运营", note: "补充共享清单" },
+          { version: "", time: "05-26 10:00", operator: "系统", note: "初始化版本" }
+        ]
+      },
+      {
+        id: "PP-ELEARNING-PRIVACY",
+        channel: "elearning",
+        channelName: "E-learning",
+        type: "privacy",
+        typeName: "隐私政策",
+        version: "V1.1",
+        status: "已发布",
+        updatedAt: "2026-06-18 17:25",
+        scene: "E-learning H5 新客注册、课程学习入口",
+        owner: "法务审核 / 活动运营",
+        title: "E-learning 隐私政策",
+        pdfName: "E-learning隐私政策-V1.1.pdf",
+        content: "适用于 E-learning H5 注册及学习服务场景。系统按 E-learning 渠道展示对应条款，替代原统一外链，并在用户完成确认后记录 E-learning 渠道版本。",
+        popup: "<p><strong>E-learning 隐私政策</strong>已更新，请阅读并确认最新版本后继续学习。</p>",
+        history: [
+          { version: "V1.1", time: "06-18 17:25", operator: "活动运营", note: "未成年人信息保护整改" },
+          { version: "V1.0", time: "05-26 10:00", operator: "系统", note: "初始化版本" }
+        ]
+      },
+      {
+        id: "PP-IDREAM-CHILDREN",
+        channel: "idream",
+        channelName: "iDream",
+        type: "children",
+        typeName: "儿童个人信息处理规则",
+        version: "",
+        status: "已发布",
+        updatedAt: "2026-06-18 17:18",
+        scene: "iDream 买赠注册、老用户活动访问",
+        owner: "法务审核 / 活动运营",
+        title: "iDream 儿童个人信息处理规则",
+        pdfName: "iDream儿童个人信息处理规则.pdf",
+        content: "适用于 iDream 买赠活动中涉及儿童个人信息处理的注册与活动访问场景。系统需保留监护人确认记录，并与 iDream 渠道绑定。",
+        popup: "<p>iDream 儿童个人信息处理规则已更新，请阅读并确认。</p>",
+        history: [
+          { version: "", time: "06-18 17:18", operator: "活动运营", note: "儿童信息处理规则更新" },
+          { version: "", time: "05-26 10:00", operator: "系统", note: "初始化版本" }
+        ]
+      },
+      {
+        id: "PP-ELEARNING-COLLECTION",
+        channel: "elearning",
+        channelName: "E-learning",
+        type: "collection",
+        typeName: "个人信息收集清单",
+        version: "",
+        status: "草稿",
+        updatedAt: "2026-08-04 09:30",
+        scene: "E-learning 条款中心、隐私政策关联阅读",
+        owner: "活动运营",
+        title: "E-learning 个人信息收集清单",
+        pdfName: "E-learning个人信息收集清单.pdf",
+        content: "补充 E-learning 注册、课程学习、活动参与过程中收集的个人信息字段、使用目的和保存期限。当前为草稿，发布后更新为当前有效文件。",
+        popup: "<p>E-learning 个人信息收集清单已更新，请确认最新版本。</p>",
+        history: [
+          { version: "", time: "06-18 17:25", operator: "活动运营", note: "补充收集字段说明" },
+          { version: "", time: "05-26 10:00", operator: "系统", note: "初始化版本" }
+        ]
+      }
+    ];
+
+    let privacyConsentRecords = [
+      { openId: "oFriso8af3d7b9c1a64f0", memberId: "MBR202607220018", channel: "member", channelName: "会员服务小程序", type: "privacy", typeName: "隐私政策", version: "V1.2", createdAt: "2026-07-22 16:08" },
+      { openId: "oFriso42c7a11e53b920d", memberId: "MBR202607210042", channel: "member", channelName: "会员服务小程序", type: "sharing", typeName: "个人信息共享清单", version: "", createdAt: "2026-07-21 12:36" },
+      { openId: "oELearn17a9d24e882f3c", memberId: "MBR202606180226", channel: "elearning", channelName: "E-learning", type: "privacy", typeName: "隐私政策", version: "V1.1", createdAt: "2026-06-18 18:02" },
+      { openId: "oIDream9cf4a26137a803", memberId: "MBR202606180318", channel: "idream", channelName: "iDream", type: "children", typeName: "儿童个人信息处理规则", version: "", createdAt: "2026-06-18 18:16" },
+      { openId: "oMomClass7d93bc5812aa0", memberId: "MBR202607060089", channel: "momclass", channelName: "妈妈班", type: "privacy", typeName: "隐私政策", version: "V1.0", createdAt: "2026-07-06 10:21" },
+      { openId: "oRoadshow2ae801b7352f", memberId: "MBR202607120017", channel: "roadshow", channelName: "路演", type: "service", typeName: "服务协议", version: "", createdAt: "2026-07-12 09:44" }
+    ];
+
+    let reports = [
+      { id: "RPT-20260728001", name: "1W087R3.pdf", reportType: "检测报告", detectedBatch: "1W087R3", size: "1.8 MB", matched: true, operator: "管理员", createdAt: "2026-07-28 09:12", updatedAt: "2026-07-28 09:12" },
+      { id: "RPT-20260728002", name: "1W078K3.pdf", reportType: "检测结果", detectedBatch: "1W078K3", size: "2.1 MB", matched: true, operator: "活动运营", createdAt: "2026-07-28 09:16", updatedAt: "2026-07-28 09:16" },
+      { id: "RPT-20260728003", name: "1W07H5F.pdf", reportType: "检测报告", detectedBatch: "1W07H5F", size: "1.6 MB", matched: true, operator: "活动运营", createdAt: "2026-07-28 09:20", updatedAt: "2026-07-28 09:20" },
+      { id: "RPT-20260728004", name: "10W7G4N_不一致.pdf", reportType: "检测报告", detectedBatch: "1W07G4N", size: "2.3 MB", matched: false, operator: "系统", createdAt: "2026-07-28 09:31", updatedAt: "2026-07-28 09:31" },
+      { id: "RPT-20260728005", name: "1W06H9D_不一致.pdf", reportType: "检测结果", detectedBatch: "250424363", size: "1.9 MB", matched: false, operator: "系统", createdAt: "2026-07-28 09:32", updatedAt: "2026-07-28 09:32" },
+      { id: "RPT-20260728006", name: "1W06H9F_不一致.pdf", reportType: "检测报告", detectedBatch: "250424376", size: "1.7 MB", matched: false, operator: "系统", createdAt: "2026-07-28 09:33", updatedAt: "2026-07-28 09:33" },
+      { id: "RPT-20260728007", name: "1W06MB0_不一致.pdf", reportType: "检测报告", detectedBatch: "250526543", size: "2.0 MB", matched: false, operator: "系统", createdAt: "2026-07-28 09:34", updatedAt: "2026-07-28 09:34" },
+      { id: "RPT-20260728008", name: "1W06MB1_不一致.pdf", reportType: "检测结果", detectedBatch: "250526556", size: "1.8 MB", matched: false, operator: "系统", createdAt: "2026-07-28 09:35", updatedAt: "2026-07-28 09:35" },
+      { id: "RPT-20260728009", name: "1W06MB2_不一致.pdf", reportType: "检测报告", detectedBatch: "250528598", size: "2.2 MB", matched: false, operator: "系统", createdAt: "2026-07-28 09:36", updatedAt: "2026-07-28 09:36" },
+      { id: "RPT-20260728010", name: "1W06MB3_不一致.pdf", reportType: "检测报告", detectedBatch: "250528585", size: "2.0 MB", matched: false, operator: "系统", createdAt: "2026-07-28 09:37", updatedAt: "2026-07-28 09:37" },
+      { id: "RPT-20260728011", name: "1W06MB4_不一致.pdf", reportType: "检测结果", detectedBatch: "250527580", size: "1.9 MB", matched: false, operator: "系统", createdAt: "2026-07-28 09:38", updatedAt: "2026-07-28 09:38" },
+      { id: "RPT-20260728012", name: "1W06MB5_不一致.pdf", reportType: "检测报告", detectedBatch: "250526567", size: "1.8 MB", matched: false, operator: "系统", createdAt: "2026-07-28 09:39", updatedAt: "2026-07-28 09:39" },
+      { id: "RPT-20260728013", name: "1W07CVN_不一致.pdf", reportType: "检测结果", detectedBatch: "250916805", size: "2.1 MB", matched: false, operator: "系统", createdAt: "2026-07-28 09:40", updatedAt: "2026-07-28 09:40" }
+    ];
+    const selectedReportIds = new Set();
+    let currentReportId = null;
+
+    const $ = (selector) => document.querySelector(selector);
+    const $$ = (selector) => Array.from(document.querySelectorAll(selector));
+
+    function iconUse(id) {
+      return `<svg class="icon"><use href="#${id}"></use></svg>`;
+    }
+
+    function giftImage(gift, includeReal, variant) {
+      if (variant === "main") {
+        return `<div class="gift-img override-thumb">活动<br>主图</div>`;
+      }
+      if (variant === "activity") {
+        return `<div class="gift-img override-thumb">活动<br>图</div>`;
+      }
+      if (includeReal) {
+        return `<div class="gift-img"><img src="${screenshotPath}" alt=""></div>`;
+      }
+      return `<div class="gift-img" style="--gift-bg:${gift.bg};--gift-color:${gift.color}">${gift.glyph}</div>`;
+    }
+
+    function activeBindingForGift(gift) {
+      return bound.find(item => item.code === gift.code);
+    }
+
+    function activityAliasForGift(gift) {
+      const item = activeBindingForGift(gift);
+      return item?.overrideAlias || gift.alias || gift.name;
+    }
+
+    function overrideSummary(item) {
+      const tags = [];
+      if (item.overrideAlias) tags.push(`<span class="tag green">别名自定义</span>`);
+      if (item.overrideMain) tags.push(`<span class="tag green">主图自定义</span>`);
+      if (item.overrideActivity) tags.push(`<span class="tag green">活动图自定义</span>`);
+      return tags.length ? `${tags.join(" ")}<span class="source-hint">仅当前活动生效</span>` : `<span class="tag gray">继承礼品库</span><span class="source-hint">多活动复用默认素材</span>`;
+    }
+
+    function renderOverrideFrame(kind, enabled) {
+      if (!enabled) return kind === "main" ? "继承礼品库主图" : "继承礼品库活动展示图";
+      return kind === "main" ? "当前活动专属主图" : "当前活动专属活动图";
+    }
+
+    function statusTag(status) {
+      if (status === "启用") return `<span class="tag green">启用</span>`;
+      if (status === "草稿") return `<span class="tag amber">草稿</span>`;
+      return `<span class="tag gray">停用</span>`;
+    }
+
+    function assetTag(text) {
+      if (text === "完整") return `<span class="tag green">完整</span>`;
+      if (text === "缺活动图") return `<span class="tag amber">缺活动图</span>`;
+      return `<span class="tag amber">${text}</span>`;
+    }
+
+    function bannerTypeText(type) {
+      if (type === "h5") return "外链 H5";
+      if (type === "mini") return "小程序页面";
+      return "不跳转";
+    }
+
+    function bannerTypeTag(type) {
+      if (type === "h5") return `<span class="tag">外链 H5</span>`;
+      if (type === "mini") return `<span class="tag amber">小程序页面</span>`;
+      return `<span class="tag gray">不跳转</span>`;
+    }
+
+    function sortedBanners() {
+      return [...banners].sort((a, b) => a.sort - b.sort);
+    }
+
+    function onlineBanners() {
+      return sortedBanners().filter(item => item.online);
+    }
+
+    function activeBanner() {
+      return banners.find(item => item.id === currentBannerId) || banners[0];
+    }
+
+    function normalizeBannerSort() {
+      sortedBanners().forEach((item, index) => {
+        item.sort = index + 1;
+      });
+    }
+
+    function bannerDate(value) {
+      return value.replace("T", " ");
+    }
+
+    function filteredBanners() {
+      const keyword = $("#bannerKeyword")?.value.trim().toLowerCase() || "";
+      const status = $("#bannerStatusFilter")?.value || "";
+      const type = $("#bannerTypeFilter")?.value || "";
+      return sortedBanners().filter(item => {
+        const keywordHit = !keyword || [item.name, item.target, item.miniPath, item.id].join(" ").toLowerCase().includes(keyword);
+        const statusHit = !status || (status === "online" ? item.online : !item.online);
+        const typeHit = !type || item.type === type;
+        return keywordHit && statusHit && typeHit;
+      });
+    }
+
+    function renderBannerTable() {
+      if (!$("#bannerTable")) return;
+      const rows = filteredBanners();
+      $("#bannerTable").innerHTML = rows.map(item => `
+        <tr data-banner-row="${item.id}">
+          <td>
+            <div class="sort-control">
+              <strong>${item.sort}</strong>
+              <button class="btn icon-only" data-banner-up="${item.id}" ${item.sort === 1 ? "disabled" : ""} title="上移"><svg class="icon"><path d="m18 15-6-6-6 6"/></svg></button>
+              <button class="btn icon-only" data-banner-down="${item.id}" ${item.sort === banners.length ? "disabled" : ""} title="下移"><svg class="icon"><path d="m6 9 6 6 6-6"/></svg></button>
+            </div>
+          </td>
+          <td>
+            <div class="banner-cell">
+              <div class="banner-thumb"><img src="${item.image}" alt="${item.name}"></div>
+              <div class="banner-meta"><strong>${item.name}</strong><span>${item.id}</span></div>
+            </div>
+          </td>
+          <td>${bannerTypeTag(item.type)}</td>
+          <td><span class="banner-link">${item.type === "none" ? "无跳转" : item.target}</span></td>
+          <td><span class="banner-link">${bannerDate(item.startAt)} 至 ${bannerDate(item.endAt)}</span></td>
+          <td><button class="switch ${item.online ? "on" : ""}" data-banner-toggle="${item.id}" title="${item.online ? "点击下架" : "点击上架"}"></button></td>
+          <td>
+            <div class="op">
+              <button class="link-btn" data-banner-edit="${item.id}">编辑</button>
+              <button class="link-btn" data-banner-preview="${item.id}">预览</button>
+            </div>
+          </td>
+        </tr>
+      `).join("") || `<tr><td colspan="7"><div class="empty-state">暂无匹配 Banner</div></td></tr>`;
+    }
+
+    function setBannerJumpType(type) {
+      $$("#bannerJumpType button").forEach(btn => btn.classList.toggle("active", btn.dataset.bannerType === type));
+      $("#bannerH5Field").style.display = type === "h5" ? "grid" : "none";
+      $("#bannerMiniAppField").style.display = type === "mini" ? "grid" : "none";
+      $("#bannerMiniPathField").style.display = type === "mini" ? "grid" : "none";
+    }
+
+    function renderBannerEditor() {
+      if (!$("#bannerNameInput")) return;
+      const item = activeBanner();
+      $("#bannerEditImage").src = item.image;
+      $("#bannerNameInput").value = item.name;
+      $("#bannerSortInput").value = item.sort;
+      $("#bannerStartInput").value = item.startAt;
+      $("#bannerEndInput").value = item.endAt;
+      $("#bannerH5Input").value = item.type === "h5" ? item.target : "";
+      $("#bannerMiniAppInput").value = item.miniAppId;
+      $("#bannerMiniPathInput").value = item.miniPath;
+      $("#bannerRemarkInput").value = item.remark;
+      setBannerJumpType(item.type);
+      renderBannerPayload();
+    }
+
+    function saveBannerForm() {
+      const item = activeBanner();
+      item.name = $("#bannerNameInput").value.trim() || item.name;
+      item.sort = Number($("#bannerSortInput").value) || item.sort;
+      item.startAt = $("#bannerStartInput").value;
+      item.endAt = $("#bannerEndInput").value;
+      item.miniAppId = $("#bannerMiniAppInput").value.trim();
+      item.miniPath = $("#bannerMiniPathInput").value.trim();
+      item.remark = $("#bannerRemarkInput").value.trim();
+      item.target = item.type === "h5"
+        ? $("#bannerH5Input").value.trim()
+        : item.type === "mini"
+          ? item.miniPath
+          : "";
+      normalizeBannerSort();
+      renderBannerTable();
+      renderBannerEditor();
+      renderPhone();
+    }
+
+    function renderBannerPayload() {
+      if (!$("#bannerPayload")) return;
+      const item = activeBanner();
+      const payload = {
+        bannerId: item.id,
+        pageCode: "member_gift_center",
+        positionCode: "gift_page_carousel",
+        imageUrl: item.image,
+        sortNo: item.sort,
+        status: item.online ? "online" : "offline",
+        jumpType: item.type,
+        jumpConfig: item.type === "h5"
+          ? { h5Url: item.target }
+          : item.type === "mini"
+            ? { appId: item.miniAppId, path: item.miniPath }
+            : {},
+        effectTime: {
+          startAt: bannerDate(item.startAt),
+          endAt: bannerDate(item.endAt)
+        }
+      };
+      $("#bannerPayload").textContent = JSON.stringify(payload, null, 2);
+    }
+
+    function currentActivityManage() {
+      return activityManageItems.find(item => item.id === currentActivityManageId) || activityManageItems[0];
+    }
+
+    function activityManageCategoryText(value) {
+      return {
+        buyfree_cam: "买赠活动",
+        newuser_take: "新客活动",
+        crm_cam: "CRM 活动",
+        brand_cam: "品牌活动"
+      }[value] || value;
+    }
+
+    function filteredActivityManageItems() {
+      const keyword = $("#activityManageKeyword")?.value.trim().toLowerCase() || "";
+      const endAfter = $("#activityManageEndAfter")?.value || "";
+      return activityManageItems.filter(item => {
+        const keywordHit = !keyword || [item.name, item.code].join(" ").toLowerCase().includes(keyword);
+        const endHit = !endAfter || item.endAt >= endAfter;
+        return keywordHit && endHit;
+      });
+    }
+
+    function renderActivityManageTable() {
+      if (!$("#activityManageTable")) return;
+      const rows = filteredActivityManageItems();
+      $("#activityManageTable").innerHTML = rows.map(item => `
+        <tr>
+          <td>${reportSafe(item.id)}</td>
+          <td>${reportSafe(item.name)}</td>
+          <td>${reportSafe(item.code)}</td>
+          <td>${reportSafe(item.startAt)}</td>
+          <td>${reportSafe(item.endAt)}</td>
+          <td>${reportSafe(item.logisticsDeadlineDays || "-")}</td>
+          <td>${reportSafe(item.logisticsEndAt || "-")}</td>
+          <td>${reportSafe(item.type)}</td>
+          <td>${reportSafe(item.brand)}</td>
+          <td><span class="activity-manage-intro" title="${reportSafe(item.intro || "-")}">${reportSafe(item.intro || "-")}</span></td>
+          <td>
+            <div class="activity-manage-ops">
+              <button class="activity-mini-btn teal" data-activitymanage-edit="${item.id}">编辑</button>
+              <button class="activity-mini-btn orange" data-activitymanage-config="${item.id}">活动配置</button>
+              <button class="activity-mini-btn blue" data-activitymanage-bind="${item.id}">礼品绑定</button>
+            </div>
+          </td>
+        </tr>
+      `).join("") || `<tr><td colspan="11"><div class="empty-state">暂无匹配活动</div></td></tr>`;
+    }
+
+    function fsgTypeTag(type) {
+      const className = type === 0 ? "gray" : type === 1 ? "green" : type === 2 ? "amber" : "";
+      const label = fsgStoreTypeNames[type] || `未识别类型 ${type}`;
+      return `<span class="tag ${className}">${reportSafe(type)} · ${reportSafe(label)}</span>`;
+    }
+
+    function filteredFsgStoreRecords() {
+      const campaignCode = $("#fsgCampaignFilter")?.value.trim().toLowerCase() || "";
+      const storeCode = $("#fsgStoreFilter")?.value.trim().toLowerCase() || "";
+      const storeType = $("#fsgStoreTypeFilter")?.value || "";
+      return fsgStoreRecords.filter(item => {
+        const campaignHit = !campaignCode || item.campaignCode.toLowerCase().includes(campaignCode);
+        const storeHit = !storeCode || item.storeCode.toLowerCase().includes(storeCode);
+        const typeHit = !storeType || item.storeTypes.includes(Number(storeType));
+        return campaignHit && storeHit && typeHit;
+      });
+    }
+
+    function renderFsgStoreTable() {
+      if (!$("#fsgStoreTable")) return;
+      const rows = filteredFsgStoreRecords();
+      $("#fsgQuerySummary").innerHTML = `共 <strong>${rows.length}</strong> 条记录`;
+      $("#fsgStoreTable").innerHTML = rows.map(item => `
+        <tr>
+          <td><span class="fsg-code">${reportSafe(item.campaignCode)}</span></td>
+          <td><strong class="fsg-code">${reportSafe(item.storeCode)}</strong></td>
+          <td><div class="fsg-type-list">${item.storeTypes.map(fsgTypeTag).join("")}</div></td>
+          <td><span class="tag green">${reportSafe(item.status)}</span></td>
+          <td>${reportSafe(item.pushedAt)}</td>
+        </tr>
+      `).join("") || `<tr><td colspan="5"><div class="empty-state">暂无匹配的 FSG 门店数据</div></td></tr>`;
+    }
+
+    function renderActivityManageEditor() {
+      const item = currentActivityManage();
+      $("#activityManageModalTitle").textContent = `编辑活动 - ${item.name}`;
+      $("#activityManageName").value = item.name || "";
+      $("#activityManageCode").value = item.code || "";
+      $("#activityManageCategory").value = item.category || "";
+      $("#activityManageType").value = item.type || "";
+      $("#activityManageStartAt").value = item.startAt || "";
+      $("#activityManageEndAt").value = item.endAt || "";
+      $("#activityManageLogisticsDays").value = item.logisticsDeadlineDays || "";
+      $("#activityManageLogisticsEndAt").value = item.logisticsEndAt || "";
+      $("#activityManagePrivacyChannel").value = item.privacyChannel || "";
+      $("#activityManageWorkStart").value = item.workStart || "";
+      $("#activityManageWorkEnd").value = item.workEnd || "";
+      $("#activityManageLogisticsKeyword").value = item.logisticsKeyword || "";
+      $("#activityManageDrawKeyword").value = item.drawKeyword || "";
+      $("#activityManageIntro").value = item.intro || "";
+      $("#activityManageAttachmentName").textContent = item.attachmentName || "未上传附件";
+    }
+
+    function openActivityManageModal(id, title = "编辑活动") {
+      currentActivityManageId = id;
+      $("#activityManageModalTitle").textContent = title;
+      renderActivityManageEditor();
+      $("#modalBackdrop").classList.add("show");
+      $("#activityManageModal").classList.add("show");
+    }
+
+    function closeActivityManageModal() {
+      $("#activityManageModal").classList.remove("show");
+      if (!$("#privacyModal").classList.contains("show") && !$("#privacyPublishConfirmModal").classList.contains("show") && !$("#privacyHistoryModal").classList.contains("show") && !$("#overrideModal").classList.contains("show") && !$("#reportPdfModal").classList.contains("show")) {
+        $("#modalBackdrop").classList.remove("show");
+      }
+    }
+
+    function saveActivityManageForm() {
+      const item = currentActivityManage();
+      const name = $("#activityManageName").value.trim();
+      const code = $("#activityManageCode").value.trim();
+      const category = $("#activityManageCategory").value;
+      const type = $("#activityManageType").value.trim();
+      const startAt = $("#activityManageStartAt").value;
+      const endAt = $("#activityManageEndAt").value;
+      const privacyChannel = $("#activityManagePrivacyChannel").value;
+      if (!name || !code || !category || !type || !startAt || !endAt || !privacyChannel) {
+        toast("请补全必填项");
+        return;
+      }
+      item.name = name;
+      item.code = code;
+      item.category = category;
+      item.type = type;
+      item.startAt = startAt;
+      item.endAt = endAt;
+      item.logisticsDeadlineDays = $("#activityManageLogisticsDays").value.trim();
+      item.logisticsEndAt = $("#activityManageLogisticsEndAt").value;
+      item.privacyChannel = privacyChannel;
+      item.workStart = $("#activityManageWorkStart").value;
+      item.workEnd = $("#activityManageWorkEnd").value;
+      item.logisticsKeyword = $("#activityManageLogisticsKeyword").value.trim();
+      item.drawKeyword = $("#activityManageDrawKeyword").value.trim();
+      item.intro = $("#activityManageIntro").value.trim();
+      item.attachmentName = item.attachmentName || $("#activityManageAttachmentName").textContent || "未上传附件";
+      renderActivityManageTable();
+      closeActivityManageModal();
+      toast("活动已保存");
+    }
+
+    function privacyTypeText(type) {
+      return {
+        privacy: "隐私政策",
+        children: "儿童个人信息处理规则",
+        collection: "个人信息收集清单",
+        sharing: "个人信息共享清单",
+        service: "服务协议"
+      }[type] || type;
+    }
+
+    function privacyChannelText(channel) {
+      return {
+        member: "会员服务小程序",
+        elearning: "E-learning",
+        idream: "iDream",
+        momclass: "妈妈班",
+        roadshow: "路演"
+      }[channel] || channel;
+    }
+
+    function privacyStatusTag(status) {
+      if (status === "已发布") return `<span class="tag green">已发布</span>`;
+      if (status === "草稿") return `<span class="tag amber">草稿</span>`;
+      return `<span class="tag gray">停用</span>`;
+    }
+
+    function privacyTypeTag(type) {
+      if (type === "children") return `<span class="tag amber">${privacyTypeText(type)}</span>`;
+      if (type === "service") return `<span class="tag gray">${privacyTypeText(type)}</span>`;
+      return `<span class="tag">${privacyTypeText(type)}</span>`;
+    }
+
+    function activePrivacyPolicy() {
+      return privacyPolicies.find(item => item.id === currentPrivacyId) || privacyPolicies[0];
+    }
+
+    function isPrivacyVersioned(type) {
+      return type === "privacy";
+    }
+
+    function normalizePrivacyVersion(version) {
+      const value = String(version || "").trim();
+      const match = value.match(/^V?(\d+)(?:\.(\d+))?$/i);
+      if (!match) return "V1.0";
+      const major = Number(match[1]) || 1;
+      const minor = match[2] === undefined ? 0 : Number(match[2]) || 0;
+      return `V${major}.${minor}`;
+    }
+
+    function privacyDisplayVersion(item, value = item.version) {
+      return isPrivacyVersioned(item.type) ? normalizePrivacyVersion(value || item.version) : "-";
+    }
+
+    function nextPrivacyVersion(item) {
+      if (!isPrivacyVersioned(item.type)) return "";
+      const current = normalizePrivacyVersion(item.version);
+      const [, major, minor] = current.match(/^V(\d+)\.(\d+)$/) || ["", "1", "0"];
+      return `V${Number(major)}.${Number(minor) + 1}`;
+    }
+
+    function defaultPrivacyPdfName(item) {
+      const title = (item.title || `${item.channelName}${item.typeName}`).replace(/[\\/:*?"<>|]/g, "");
+      const version = isPrivacyVersioned(item.type) ? `-${privacyDisplayVersion(item)}` : "";
+      return `${title}${version}.pdf`;
+    }
+
+    function setPrivacyPdfDisplay(item) {
+      const fileName = tempPrivacyPdfName || item.pdfName || defaultPrivacyPdfName(item);
+      $("#privacyPdfName").textContent = fileName;
+      const formChannel = $("#privacyFormChannel")?.value || item.channel;
+      const formType = $("#privacyFormType")?.value || item.type;
+      const channelName = privacyChannelText(formChannel);
+      const typeName = privacyTypeText(formType);
+      const versionText = isPrivacyVersioned(formType) ? ` / ${privacyDisplayVersion({ ...item, type: formType })}` : "";
+      $("#privacyPdfMeta").textContent = `当前关联：${channelName} / ${typeName}${versionText}`;
+    }
+
+    function syncPrivacyVersionFields(item = activePrivacyPolicy()) {
+      const formType = $("#privacyFormType")?.value || item.type;
+      const showVersion = isPrivacyVersioned(formType);
+      $$("[data-privacy-version-field]").forEach(field => {
+        field.style.display = showVersion ? "" : "none";
+      });
+      $("#privacyCurrentVersion").value = showVersion ? privacyDisplayVersion({ ...item, type: formType }) : "";
+      $("#privacyNextVersion").value = showVersion ? nextPrivacyVersion({ ...item, type: formType }) : "";
+      $("#publishPrivacyEditorBtn").innerHTML = `${iconUse("i-save")}${showVersion ? "发布新版本" : "发布"}`;
+      setPrivacyPdfDisplay({ ...item, type: formType, typeName: privacyTypeText(formType) });
+    }
+
+    function filteredPrivacyPolicies() {
+      const keyword = $("#privacyKeyword")?.value.trim().toLowerCase() || "";
+      const channel = $("#privacyChannelFilter")?.value || "";
+      const type = $("#privacyTypeFilter")?.value || "";
+      const status = $("#privacyStatusFilter")?.value || "";
+      return privacyPolicies.filter(item => {
+        const keywordHit = !keyword || [item.channelName, item.typeName, item.version, item.title, item.scene].join(" ").toLowerCase().includes(keyword);
+        return keywordHit && (!channel || item.channel === channel) && (!type || item.type === type) && (!status || item.status === status);
+      });
+    }
+
+    function renderPrivacySummary() {
+      if (!$("#privacyChannelCount")) return;
+      const published = privacyPolicies.filter(item => item.status === "已发布");
+      const draft = privacyPolicies.filter(item => item.status === "草稿");
+      const latest = [...published].sort((a, b) => b.updatedAt.localeCompare(a.updatedAt))[0];
+      $("#privacyChannelCount").textContent = new Set(privacyPolicies.map(item => item.channel)).size;
+      $("#privacyPublishedCount").textContent = published.length;
+      $("#privacyDraftCount").textContent = draft.length;
+      $("#privacyLatestTime").textContent = latest ? latest.updatedAt.slice(5, 16) : "-";
+    }
+
+    function renderPrivacyTable() {
+      if (!$("#privacyTable")) return;
+      const rows = filteredPrivacyPolicies();
+      $("#privacyTable").innerHTML = rows.map(item => `
+        <tr>
+          <td>
+            <div class="privacy-channel">
+              <strong>${reportSafe(item.channelName)}</strong>
+              <span>${reportSafe(item.channel)}</span>
+            </div>
+          </td>
+          <td>${privacyTypeTag(item.type)}</td>
+          <td>
+            <strong>${privacyDisplayVersion(item)}</strong>
+            ${isPrivacyVersioned(item.type) ? `<span class="source-hint">下次 ${nextPrivacyVersion(item)}</span>` : ""}
+          </td>
+          <td>${privacyStatusTag(item.status)}</td>
+          <td>${item.updatedAt}</td>
+          <td>${reportSafe(item.scene)}</td>
+          <td>
+            <div class="op">
+              <button class="link-btn" data-policy-edit="${item.id}">${iconUse("i-edit")}编辑</button>
+              <button class="link-btn" data-policy-publish="${item.id}">${iconUse("i-save")}发布</button>
+              <button class="link-btn" data-policy-history="${item.id}">${iconUse("i-log")}历史版本</button>
+            </div>
+          </td>
+        </tr>
+      `).join("") || `<tr><td colspan="7"><div class="empty-state">暂无匹配隐私条款</div></td></tr>`;
+      renderPrivacySummary();
+    }
+
+    function openPrivacyModal(id, title = "编辑隐私条款") {
+      currentPrivacyId = id;
+      $("#privacyModalTitle").textContent = title;
+      renderPrivacyEditor();
+      $("#modalBackdrop").classList.add("show");
+      $("#privacyModal").classList.add("show");
+    }
+
+    function closePrivacyModal() {
+      $("#privacyModal").classList.remove("show");
+      if (!$("#activityManageModal").classList.contains("show") && !$("#privacyPublishConfirmModal").classList.contains("show") && !$("#privacyHistoryModal").classList.contains("show") && !$("#overrideModal").classList.contains("show") && !$("#reportPdfModal").classList.contains("show")) {
+        $("#modalBackdrop").classList.remove("show");
+      }
+    }
+
+    function openPrivacyPublishConfirm(id = currentPrivacyId) {
+      pendingPrivacyPublishId = id;
+      currentPrivacyId = id;
+      const item = activePrivacyPolicy();
+      const editingInModal = $("#privacyModal").classList.contains("show");
+      const confirmChannel = editingInModal ? $("#privacyFormChannel").value : item.channel;
+      const confirmType = editingInModal ? $("#privacyFormType").value : item.type;
+      const channelName = privacyChannelText(confirmChannel);
+      const typeName = privacyTypeText(confirmType);
+      const nextVersion = nextPrivacyVersion({ ...item, type: confirmType });
+      const versionNote = isPrivacyVersioned(confirmType)
+        ? `发布后系统将自动生成 <strong>${nextVersion}</strong>，并作为该渠道当前最新条款版本。`
+        : "该条款类型不维护版本号，发布后仅更新对应渠道的当前有效文件。";
+      $("#privacyPublishConfirmText").innerHTML = `确认发布 <strong>${reportSafe(channelName)} / ${reportSafe(typeName)}</strong> 吗？<br>${versionNote}`;
+      $("#modalBackdrop").classList.add("show");
+      $("#privacyPublishConfirmModal").classList.add("show");
+    }
+
+    function closePrivacyPublishConfirm() {
+      $("#privacyPublishConfirmModal").classList.remove("show");
+      pendingPrivacyPublishId = null;
+      if (!$("#activityManageModal").classList.contains("show") && !$("#privacyModal").classList.contains("show") && !$("#privacyHistoryModal").classList.contains("show") && !$("#overrideModal").classList.contains("show") && !$("#reportPdfModal").classList.contains("show")) {
+        $("#modalBackdrop").classList.remove("show");
+      }
+    }
+
+    function privacyHistoryCreatedAt(row, item) {
+      if (row.createdAt) return row.createdAt;
+      if (/^\d{2}-\d{2}/.test(row.time || "")) return `${item.updatedAt.slice(0, 4)}-${row.time}`;
+      return row.time || item.updatedAt;
+    }
+
+    function renderPrivacyHistoryTable(item) {
+      const rows = item.history && item.history.length
+        ? item.history
+        : [{ version: item.version, time: item.updatedAt.slice(5, 16) }];
+      $("#privacyHistoryMeta").textContent = `${item.channelName} / ${item.typeName}`;
+      $("#privacyHistoryTable").innerHTML = rows.map(row => `
+        <tr>
+          <td>${reportSafe(item.channelName)}</td>
+          <td>${privacyTypeTag(item.type)}</td>
+          <td><strong>${reportSafe(privacyDisplayVersion(item, row.version))}</strong></td>
+          <td>${reportSafe(privacyHistoryCreatedAt(row, item))}</td>
+        </tr>
+      `).join("");
+    }
+
+    function openPrivacyHistoryModal(id = currentPrivacyId) {
+      currentPrivacyId = id;
+      renderPrivacyHistoryTable(activePrivacyPolicy());
+      $("#modalBackdrop").classList.add("show");
+      $("#privacyHistoryModal").classList.add("show");
+    }
+
+    function closePrivacyHistoryModal() {
+      $("#privacyHistoryModal").classList.remove("show");
+      if (!$("#activityManageModal").classList.contains("show") && !$("#privacyModal").classList.contains("show") && !$("#privacyPublishConfirmModal").classList.contains("show") && !$("#overrideModal").classList.contains("show") && !$("#reportPdfModal").classList.contains("show")) {
+        $("#modalBackdrop").classList.remove("show");
+      }
+    }
+
+    function renderPrivacyEditor() {
+      if (!$("#privacyFormChannel")) return;
+      const item = activePrivacyPolicy();
+      tempPrivacyPdfName = item.pdfName || defaultPrivacyPdfName(item);
+      $("#privacyFormChannel").value = item.channel;
+      $("#privacyFormType").value = item.type;
+      $("#privacyTitleInput").value = item.title;
+      syncPrivacyVersionFields(item);
+    }
+
+    function savePrivacyForm(asDraft = true, showToast = true) {
+      const item = activePrivacyPolicy();
+      item.channel = $("#privacyFormChannel").value;
+      item.channelName = privacyChannelText(item.channel);
+      item.type = $("#privacyFormType").value;
+      item.typeName = privacyTypeText(item.type);
+      item.version = isPrivacyVersioned(item.type) ? normalizePrivacyVersion(item.version || "V1.0") : "";
+      item.title = $("#privacyTitleInput").value.trim() || item.title;
+      item.pdfName = tempPrivacyPdfName || item.pdfName || defaultPrivacyPdfName(item);
+      item.content = `PDF文件：${item.pdfName}`;
+      item.status = asDraft ? "草稿" : item.status;
+      item.updatedAt = reportNow();
+      renderPrivacyTable();
+      renderPrivacyEditor();
+      if (showToast) {
+        closePrivacyModal();
+        toast(asDraft ? "隐私条款草稿已保存" : "隐私条款已保存");
+      }
+    }
+
+    function publishPrivacyVersion(id = currentPrivacyId) {
+      currentPrivacyId = id;
+      savePrivacyForm(false, false);
+      const item = activePrivacyPolicy();
+      const version = nextPrivacyVersion(item);
+      if (isPrivacyVersioned(item.type)) item.version = version;
+      item.status = "已发布";
+      item.updatedAt = reportNow();
+      item.history.unshift({ version: isPrivacyVersioned(item.type) ? version : "", time: item.updatedAt.slice(5, 16), operator: "活动运营", note: `${item.channelName}${item.typeName}发布` });
+      renderPrivacyTable();
+      renderPrivacyEditor();
+      closePrivacyPublishConfirm();
+      closePrivacyModal();
+      toast(isPrivacyVersioned(item.type) ? `发布成功，版本号已自动生成 ${version}` : "发布成功");
+    }
+
+    function createPrivacyDraft() {
+      const next = {
+        id: `PP-${Date.now()}`,
+        channel: "member",
+        channelName: "会员服务小程序",
+        type: "privacy",
+        typeName: "隐私政策",
+        version: "V1.0",
+        status: "草稿",
+        updatedAt: reportNow(),
+        scene: "会员服务小程序注册、条款中心",
+        owner: "活动运营",
+        title: "会员服务小程序隐私政策",
+        pdfName: "会员服务小程序隐私政策-V1.0.pdf",
+        content: "PDF文件：会员服务小程序隐私政策-V1.0.pdf",
+        history: []
+      };
+      privacyPolicies.unshift(next);
+      currentPrivacyId = next.id;
+      renderPrivacyTable();
+      openPrivacyModal(next.id, "新增隐私条款草稿");
+      toast("已创建隐私条款草稿");
+    }
+
+    function filteredPrivacyConsentRecords() {
+      const keyword = $("#privacyRecordKeyword")?.value.trim().toLowerCase() || "";
+      const channel = $("#privacyRecordChannelFilter")?.value || "";
+      const type = $("#privacyRecordTypeFilter")?.value || "";
+      const version = $("#privacyRecordVersionFilter")?.value.trim().toLowerCase() || "";
+      const date = $("#privacyRecordDateFilter")?.value || "";
+      return privacyConsentRecords.filter(item => {
+        const keywordHit = !keyword || [item.openId, item.memberId].join(" ").toLowerCase().includes(keyword);
+        const versionHit = !version || (isPrivacyVersioned(item.type) && (item.version || "").toLowerCase().includes(version));
+        const dateHit = !date || item.createdAt.startsWith(date);
+        return keywordHit && (!channel || item.channel === channel) && (!type || item.type === type) && versionHit && dateHit;
+      });
+    }
+
+    function renderPrivacyRecordTable() {
+      if (!$("#privacyRecordTable")) return;
+      const rows = filteredPrivacyConsentRecords();
+      $("#privacyRecordTable").innerHTML = rows.map(item => `
+        <tr>
+          <td>${reportSafe(item.openId)}</td>
+          <td><strong>${reportSafe(item.memberId)}</strong></td>
+          <td>${reportSafe(item.channelName)}</td>
+          <td>${privacyTypeTag(item.type)}</td>
+          <td><strong>${reportSafe(privacyDisplayVersion(item))}</strong></td>
+          <td>${reportSafe(item.createdAt)}</td>
+        </tr>
+      `).join("") || `<tr><td colspan="6"><div class="empty-state">暂无匹配隐私条款记录</div></td></tr>`;
+    }
+
+    function reportSafe(value) {
+      return String(value).replace(/[&<>"']/g, char => ({
+        "&": "&amp;",
+        "<": "&lt;",
+        ">": "&gt;",
+        '"': "&quot;",
+        "'": "&#39;"
+      }[char]));
+    }
+
+    function reportNow() {
+      const now = new Date();
+      const pad = value => String(value).padStart(2, "0");
+      return `${now.getFullYear()}-${pad(now.getMonth() + 1)}-${pad(now.getDate())} ${pad(now.getHours())}:${pad(now.getMinutes())}`;
+    }
+
+    function reportFilenameBatch(name) {
+      return name.replace(/\.pdf$/i, "").replace(/_不一致$/, "");
+    }
+
+    function filteredReports() {
+      const keyword = $("#reportKeyword")?.value.trim().toLowerCase() || "";
+      return reports.filter(item => {
+        const keywordHit = !keyword || [item.name, item.detectedBatch, item.id].join(" ").toLowerCase().includes(keyword);
+        return keywordHit;
+      });
+    }
+
+    function renderReportSummary() {
+      if (!$("#reportTotalCount")) return;
+      const latest = [...reports].sort((a, b) => b.updatedAt.localeCompare(a.updatedAt))[0];
+      $("#reportTotalCount").textContent = reports.length;
+      $("#reportLatestTime").textContent = latest ? latest.updatedAt.slice(5, 16) : "-";
+    }
+
+    function updateReportSelection() {
+      const visibleIds = filteredReports().map(item => item.id);
+      const selectedVisibleCount = visibleIds.filter(id => selectedReportIds.has(id)).length;
+      $("#reportSelectedText").textContent = `已选择 ${selectedReportIds.size} 个文件`;
+      $("#selectAllReports").checked = visibleIds.length > 0 && selectedVisibleCount === visibleIds.length;
+      $("#downloadSelectedReportsBtn").disabled = selectedReportIds.size === 0;
+      $("#deleteSelectedReportsBtn").disabled = selectedReportIds.size === 0;
+    }
+
+    function renderReportTable() {
+      if (!$("#reportTable")) return;
+      const rows = filteredReports();
+      $("#reportTable").innerHTML = rows.map(item => `
+        <tr>
+          <td><input type="checkbox" data-report-select="${item.id}" ${selectedReportIds.has(item.id) ? "checked" : ""} aria-label="选择 ${reportSafe(item.name)}" /></td>
+          <td>
+            <div class="report-file">
+              <div class="report-file-icon">${iconUse("i-file")}</div>
+              <div class="report-file-meta"><strong title="${reportSafe(item.name)}">${reportSafe(item.name)}</strong><span>${item.reportType} · ${item.id}</span></div>
+            </div>
+          </td>
+          <td><strong>${reportSafe(item.detectedBatch)}</strong></td>
+          <td>${item.size}</td>
+          <td>${reportSafe(item.operator)}</td>
+          <td>${item.createdAt}</td>
+          <td>${item.updatedAt}</td>
+          <td>
+            <div class="op">
+              <button class="link-btn" data-report-preview="${item.id}">${iconUse("i-eye")}查看</button>
+              <button class="link-btn" data-report-rename="${item.id}">${iconUse("i-edit")}修改</button>
+              <button class="link-btn" data-report-download="${item.id}">${iconUse("i-download")}下载</button>
+              <button class="link-btn" data-report-delete="${item.id}">${iconUse("i-trash")}删除</button>
+            </div>
+          </td>
+        </tr>
+      `).join("") || `<tr><td colspan="8"><div class="empty-state">暂无匹配质检报告</div></td></tr>`;
+      renderReportSummary();
+      updateReportSelection();
+    }
+
+    function openReportRename(id) {
+      const item = reports.find(row => row.id === id);
+      if (!item) return;
+      currentReportId = id;
+      $("#reportCurrentNameInput").value = item.name;
+      $("#reportRenameInput").value = item.name;
+      $("#reportBatchReadonly").value = item.detectedBatch;
+      $("#reportDrawerBackdrop").classList.add("show");
+      $("#reportRenameDrawer").classList.add("show");
+      window.setTimeout(() => $("#reportRenameInput").focus(), 80);
+    }
+
+    function closeReportRename() {
+      $("#reportDrawerBackdrop").classList.remove("show");
+      $("#reportRenameDrawer").classList.remove("show");
+      currentReportId = null;
+    }
+
+    function saveReportRename() {
+      const item = reports.find(row => row.id === currentReportId);
+      if (!item) return;
+      let name = $("#reportRenameInput").value.trim();
+      if (!name) {
+        toast("请输入文件名");
+        return;
+      }
+      if (!/\.pdf$/i.test(name)) name += ".pdf";
+      const duplicate = reports.some(row => row.id !== item.id && row.name.toLowerCase() === name.toLowerCase());
+      if (duplicate) {
+        toast("文件名已存在");
+        return;
+      }
+      if (!item.sourceName) item.sourceName = item.name;
+      item.name = name;
+      item.matched = reportFilenameBatch(name).toLowerCase() === item.detectedBatch.toLowerCase();
+      item.operator = "活动运营";
+      item.updatedAt = reportNow();
+      renderReportTable();
+      closeReportRename();
+      toast("文件名已更新");
+    }
+
+    function reportPreviewPath(item) {
+      return item.previewUrl || `../reports/${encodeURIComponent(item.sourceName || item.name)}`;
+    }
+
+    function openReportPreview(id) {
+      const item = reports.find(row => row.id === id);
+      if (!item) return;
+      $("#reportPdfTitle").textContent = item.name;
+      $("#reportPdfMeta").textContent = `${item.reportType} · 识别批次号 ${item.detectedBatch} · ${item.operator}`;
+      $("#reportPdfFrame").src = reportPreviewPath(item);
+      $("#modalBackdrop").classList.add("show");
+      $("#reportPdfModal").classList.add("show");
+    }
+
+    function closeReportPreview() {
+      $("#reportPdfFrame").src = "about:blank";
+      $("#reportPdfModal").classList.remove("show");
+      if (!$("#activityManageModal").classList.contains("show") && !$("#privacyModal").classList.contains("show") && !$("#privacyPublishConfirmModal").classList.contains("show") && !$("#privacyHistoryModal").classList.contains("show") && !$("#overrideModal").classList.contains("show")) {
+        $("#modalBackdrop").classList.remove("show");
+      }
+    }
+
+    function addReportsFromFiles(fileList) {
+      const files = Array.from(fileList || []).filter(file => /\.pdf$/i.test(file.name));
+      if (!files.length) {
+        toast("请选择 PDF 文件");
+        return;
+      }
+      const now = reportNow();
+      let added = 0;
+      files.forEach(file => {
+        if (reports.some(item => item.name.toLowerCase() === file.name.toLowerCase())) return;
+        const baseName = reportFilenameBatch(file.name);
+        reports.unshift({
+          id: `RPT-${Date.now()}-${added}`,
+          name: file.name,
+          reportType: "检测报告",
+          detectedBatch: baseName,
+          size: `${Math.max(file.size / 1024 / 1024, .1).toFixed(1)} MB`,
+          matched: true,
+          operator: "活动运营",
+          createdAt: now,
+          updatedAt: now,
+          previewUrl: URL.createObjectURL(file)
+        });
+        added += 1;
+      });
+      renderReportTable();
+      toast(added ? `已上传 ${added} 个 PDF 文件` : "文件已存在");
+    }
+
+    function deleteReports(ids) {
+      const idSet = new Set(ids);
+      const count = reports.filter(item => idSet.has(item.id)).length;
+      reports = reports.filter(item => !idSet.has(item.id));
+      ids.forEach(id => selectedReportIds.delete(id));
+      renderReportTable();
+      toast(count ? `已删除 ${count} 个文件` : "未选择文件");
+    }
+
+    function moveBanner(id, direction) {
+      const list = sortedBanners();
+      const index = list.findIndex(item => item.id === id);
+      const nextIndex = index + direction;
+      if (nextIndex < 0 || nextIndex >= list.length) return;
+      const currentSort = list[index].sort;
+      list[index].sort = list[nextIndex].sort;
+      list[nextIndex].sort = currentSort;
+      banners = list;
+      normalizeBannerSort();
+      renderBannerTable();
+      renderBannerPayload();
+      renderPhone();
+    }
+
+    function renderGiftTable() {
+      const keyword = $("#keyword").value.trim().toLowerCase();
+      const type = $("#typeFilter").value;
+      const status = $("#statusFilter").value;
+      const brand = $("#brandFilter").value;
+      const rows = gifts.filter(g => {
+        const hitKeyword = !keyword || [g.code, g.name, g.brand, g.alias].join(" ").toLowerCase().includes(keyword);
+        return hitKeyword && (!type || g.type === type) && (!status || g.status === status) && (!brand || g.brand === brand);
+      });
+      $("#giftTable").innerHTML = rows.map((gift, index) => `
+        <tr>
+          <td>
+            <div class="gift-cell">
+              ${giftImage(gift, index === 0)}
+              <div class="gift-meta">
+                <strong>${gift.name}</strong>
+                <span>${gift.code}</span>
+              </div>
+            </div>
+          </td>
+          <td><span class="tag">${gift.type}</span></td>
+          <td>${gift.brand}</td>
+          <td>${assetTag(gift.assets)}</td>
+          <td>${gift.phone}</td>
+          <td>${statusTag(gift.status)}</td>
+          <td>${gift.updated}</td>
+          <td>
+            <div class="op">
+              <button class="link-btn" data-edit="${gift.code}">编辑</button>
+              <button class="link-btn" data-preview-gift="${gift.code}">预览</button>
+            </div>
+          </td>
+        </tr>
+      `).join("") || `<tr><td colspan="8"><div class="empty-state">暂无匹配礼品</div></td></tr>`;
+    }
+
+    function renderActivityTable() {
+      $("#boundCount").textContent = `${bound.length} 个`;
+      $("#activityTable").innerHTML = bound.map(item => {
+        const gift = gifts.find(g => g.code === item.code);
+        const imageVariant = item.overrideMain ? "main" : "";
+        const displayName = item.overrideAlias || gift.name;
+        return `
+          <tr>
+            <td>
+              <div class="gift-cell">
+                ${giftImage(gift, gift.code === gifts[0].code && !item.overrideMain, imageVariant)}
+                <div class="gift-meta"><strong>${displayName}</strong><span>${gift.code}</span></div>
+              </div>
+            </td>
+            <td>${overrideSummary(item)}</td>
+            <td>
+              <div class="op">
+                <button class="link-btn" data-preview-gift="${gift.code}">预览</button>
+                <button class="link-btn" data-override="${gift.code}">素材自定义</button>
+                <button class="link-btn" data-remove="${gift.code}">移除</button>
+              </div>
+            </td>
+          </tr>
+        `;
+      }).join("");
+    }
+
+    function renderPhone() {
+      const gift = selectedGift;
+      const activityBinding = activeBindingForGift(gift);
+      const content = $("#phoneContent");
+      if (currentPreview === "banner") {
+        const activeList = onlineBanners();
+        const banner = activeList[currentBannerPreview] || activeList[0] || activeBanner();
+        currentBannerPreview = Math.max(0, activeList.findIndex(item => item.id === banner.id));
+        content.innerHTML = `
+          <div class="banner-phone-user">
+            <strong>我的礼品</strong>
+            <div style="font-size:12px;color:#52657c;margin-bottom:9px;">石饼开了一朵金花　136****5642</div>
+            <div class="banner-phone-stats">
+              <div><span>奶滴值</span>45</div>
+              <div><span>限量数</span>0</div>
+            </div>
+          </div>
+          <div class="my-gifts-tabs"><span>活动赠品</span><span>红包礼品</span><span>实物礼品</span><span>虚拟礼品</span></div>
+          <div class="gift-banner-block">
+            <h4>皇家学习红包</h4>
+            <div class="mini-banner"><img src="${banner.image}" alt="${banner.name}"></div>
+            <div class="mini-dots">${activeList.map(item => `<span class="${item.id === banner.id ? "active" : ""}"></span>`).join("")}</div>
+            <div class="jump-note">${banner.type === "h5" ? "点击 Banner 跳转外链 H5 页面，承接品牌活动或会员扫码权益说明。" : banner.type === "mini" ? "点击 Banner 跳转指定小程序页面，并保留会员身份与来源参数。" : "当前 Banner 仅展示活动信息，不触发跳转。"}</div>
+          </div>
+          <button class="redeem">去扫码领取红包</button>
+        `;
+        return;
+      }
+      if (currentPreview === "activity") {
+        const activityImage = activityBinding?.overrideActivity
+          ? `<div class="activity-override-card">当前活动<br>专属活动图</div>`
+          : gift.code === gifts[0].code
+            ? `<img src="${screenshotPath}" alt="">`
+            : gift.glyph;
+        content.innerHTML = `
+          <div class="hero">
+            <div class="hero-title">高活乳源<br>自然天成</div>
+            <div class="hero-sub">高乳脂 · 高蛋白</div>
+          </div>
+          <p class="phone-title">请选择赠品：</p>
+          <div class="mobile-card">
+            <h4>买 3 听　皇家美素佳儿 2、3 段 800g</h4>
+            <div class="mobile-product">${activityImage}</div>
+            <div class="mobile-caption">${activityAliasForGift(gift)}（颜色款式随机）</div>
+          </div>
+          <div style="text-align:center;color:#6e8697;font-size:12px">当前剩余 20 个礼品，先到先得</div>
+          <button class="redeem">去兑换</button>
+        `;
+      } else if (currentPreview === "mine") {
+        content.innerHTML = `
+          <div style="height:132px;background:linear-gradient(180deg,#9ccbf4,#e7f5ff);padding:18px 14px;color:#1261a6;font-weight:900;">
+            <div style="font-size:18px;">我的礼品</div>
+            <div style="margin-top:18px;background:rgba(255,255,255,.72);border-radius:18px;padding:10px;">实物礼品 · 3</div>
+          </div>
+          <div class="my-gifts-tabs"><span>活动赠品</span><span>红包礼品</span><span>实物礼品</span><span>虚拟礼品</span></div>
+          ${[gifts[0], gifts[1], gifts[2]].map((g, index) => `
+            <div class="gift-ticket">
+              ${giftImage(g, index === 0 && !activeBindingForGift(g)?.overrideMain, activeBindingForGift(g)?.overrideMain ? "main" : "")}
+              <div><div class="ticket-title">${activityAliasForGift(g)}</div><div class="ticket-line">活动名称：Y26 新版妈妈粉全国买赠</div><div class="ticket-line">截止时间：2026-09-09</div></div>
+              <div class="stamp">已过期</div>
+            </div>
+          `).join("")}
+        `;
+      } else {
+        content.innerHTML = `
+          <div class="detail-poster">
+            <h3>买赠礼品展示</h3>
+            <div class="play-box">${gift.code === gifts[0].code ? `<img src="${screenshotPath}" alt="" style="width:100%;height:100%;object-fit:cover;object-position:center;">` : gift.glyph}</div>
+            <div class="service-box">
+              <strong>${gift.name}</strong><br>
+              ${gift.spec}<br>
+              礼品服务商电话：${gift.phone}
+            </div>
+            <div style="position:absolute;left:18px;bottom:28px;font-size:28px;font-weight:900;color:#d26b00;">实物礼品</div>
+          </div>
+        `;
+      }
+    }
+
+    function initialPageFromUrl() {
+      const allowedPages = new Set(["bdQuota", "library", "activity", "activityManage", "fsgStores", "banner", "privacy", "privacyRecords", "reports", "reportLogs"]);
+      const params = new URLSearchParams(window.location.search);
+      const queryPage = params.get("menu") || params.get("nav") || params.get("page");
+      const hashPage = window.location.hash.replace(/^#/, "");
+      return allowedPages.has(queryPage) ? queryPage : allowedPages.has(hashPage) ? hashPage : "privacy";
+    }
+
+    function switchPage(name) {
+      $$(".page").forEach(page => page.classList.remove("active"));
+      $(`#${name}Page`).classList.add("active");
+      const navGroups = { giftCenter: ["library", "activity"], reports: ["reports", "reportLogs"], privacy: ["privacy", "privacyRecords"] };
+      $$("[data-nav]").forEach(nav => {
+        const groupPages = navGroups[nav.dataset.navGroup] || [];
+        const isPrimary = nav.classList.contains("nav-primary");
+        const primaryHit = isPrimary && (nav.dataset.nav === name || groupPages.includes(name));
+        const childHit = !isPrimary && nav.dataset.nav === name;
+        nav.classList.toggle("active", primaryHit || childHit);
+      });
+      const titles = { bdQuota: "BD渠道妈妈粉月度配额管理", library: "礼品库", activity: "活动礼品配置", activityManage: "活动管理", fsgStores: "FSG门店查询", banner: "会员服务轮播图管理", privacy: "隐私条款维护", privacyRecords: "隐私条款记录", reports: "质检报告管理", reportLogs: "操作记录" };
+      const breadcrumbPaths = {
+        bdQuota: ["系统首页", "BD渠道妈妈粉月度配额管理"],
+        library: ["系统首页", "礼品中心", "礼品库"],
+        activity: ["系统首页", "礼品中心", "活动礼品配置"],
+        activityManage: ["系统首页", "活动管理"],
+        fsgStores: ["系统首页", "FSG门店查询"],
+        banner: ["系统首页", "会员服务轮播图管理"],
+        privacy: ["系统首页", "隐私条款管理", "隐私条款维护"],
+        privacyRecords: ["系统首页", "隐私条款管理", "隐私条款记录"],
+        reports: ["系统首页", "质检报告管理"],
+        reportLogs: ["系统首页", "质检报告管理", "操作记录"]
+      };
+      const path = breadcrumbPaths[name] || breadcrumbPaths.library;
+      $("#breadcrumb").innerHTML = `${path.slice(0, -1).join(" / ")} / <strong id="pageTitle">${path[path.length - 1]}</strong>`;
+      const isReportArea = ["bdQuota", "activityManage", "fsgStores", "reports", "reportLogs", "privacy", "privacyRecords"].includes(name);
+      $(".workspace").classList.toggle("reports-mode", isReportArea);
+      if (isReportArea) {
+        $("#previewSeg").style.display = "none";
+      } else if (name === "banner") {
+        currentPreview = "banner";
+        $("#previewTitle").textContent = "礼品页轮播预览";
+        $("#previewSeg").style.display = "none";
+      } else {
+        if (["banner", "privacy"].includes(currentPreview)) currentPreview = "activity";
+        $("#previewTitle").textContent = "消费者端预览";
+        $("#previewSeg").style.display = "flex";
+        $$("#previewSeg button").forEach(btn => btn.classList.toggle("active", btn.dataset.preview === currentPreview));
+      }
+      renderPhone();
+    }
+
+    function openDrawer(gift) {
+      selectedGift = gift || {
+        code: "GIFT_NEW_20260721",
+        name: "新建礼品",
+        alias: "",
+        type: "实物礼品",
+        brand: "",
+        spec: "",
+        phone: "",
+        status: "草稿",
+        assets: "缺活动图",
+        updated: "2026-07-21 12:00",
+        color: "#1767b3",
+        glyph: "新",
+        bg: "#e8f2ff"
+      };
+      $("#drawerTitle").textContent = gift ? "编辑礼品" : "同步礼品";
+      $("#formCode").value = selectedGift.code;
+      $("#formName").value = selectedGift.name;
+      $("#formType").value = selectedGift.type;
+      $("#formBrand").value = selectedGift.brand;
+      $("#formSpec").value = selectedGift.spec;
+      $("#formPhone").value = selectedGift.phone;
+      $("#formStatus").value = selectedGift.status;
+      $("#formAlias").value = selectedGift.alias || "";
+      $("#formVideo").value = gift ? "https://cdn.example.com/gift-video.mp4" : "";
+      $("#formNote").value = gift ? "历史活动复用礼品，活动内特殊文案请走素材自定义。" : "";
+      $("#assetMain").innerHTML = gift && gift.code === gifts[0].code ? `<img src="${screenshotPath}" alt="">` : "通用缩略图";
+      $("#assetActivity").innerHTML = gift && gift.code === gifts[0].code ? `<img src="${screenshotPath}" alt="">` : "活动页卡片";
+      $("#drawerBackdrop").classList.add("show");
+      $("#giftDrawer").classList.add("show");
+      renderPhone();
+    }
+
+    function closeDrawer() {
+      $("#drawerBackdrop").classList.remove("show");
+      $("#giftDrawer").classList.remove("show");
+    }
+
+    function openOverrideModal(code) {
+      currentOverrideCode = code;
+      const item = bound.find(row => row.code === code);
+      const gift = gifts.find(row => row.code === code);
+      selectedGift = gift;
+      $("#overrideActivityName").textContent = $("#activitySelect").value;
+      $("#overrideGiftName").textContent = gift.name;
+      $("#overrideGiftCode").textContent = gift.code;
+      $("#overrideAliasInput").value = item.overrideAlias || "";
+      $("#overrideMainFrame").textContent = renderOverrideFrame("main", item.overrideMain);
+      $("#overrideActivityFrame").textContent = renderOverrideFrame("activity", item.overrideActivity);
+      $("#modalBackdrop").classList.add("show");
+      $("#overrideModal").classList.add("show");
+      renderPhone();
+    }
+
+    function closeOverrideModal() {
+      if (!$("#activityManageModal").classList.contains("show") && !$("#privacyModal").classList.contains("show") && !$("#privacyPublishConfirmModal").classList.contains("show") && !$("#privacyHistoryModal").classList.contains("show") && !$("#reportPdfModal").classList.contains("show")) {
+        $("#modalBackdrop").classList.remove("show");
+      }
+      $("#overrideModal").classList.remove("show");
+    }
+
+    function toast(text) {
+      $("#toastText").textContent = text;
+      $("#toast").classList.add("show");
+      clearTimeout(window.toastTimer);
+      window.toastTimer = setTimeout(() => $("#toast").classList.remove("show"), 1800);
+    }
+
+    function syncActivityData(button) {
+      if (syncingActivityData) return;
+      syncingActivityData = true;
+      button.disabled = true;
+      button.innerHTML = `${iconUse("i-upload")}同步中`;
+      toast("同步中");
+      window.setTimeout(() => {
+        renderActivityTable();
+        renderPhone();
+        button.disabled = false;
+        button.innerHTML = `${iconUse("i-upload")}同步数据`;
+        syncingActivityData = false;
+        toast("同步完成");
+      }, 900);
+    }
+
+    document.addEventListener("click", (event) => {
+      const activityManageAction = event.target.closest("[data-activitymanage-edit],[data-activitymanage-config],[data-activitymanage-bind]");
+      if (activityManageAction) {
+        const id = activityManageAction.dataset.activitymanageEdit || activityManageAction.dataset.activitymanageConfig || activityManageAction.dataset.activitymanageBind;
+        currentActivityManageId = id;
+        if (activityManageAction.dataset.activitymanageEdit) {
+          openActivityManageModal(id, "编辑活动");
+        } else if (activityManageAction.dataset.activitymanageConfig) {
+          switchPage("activity");
+          toast("已切换到活动礼品配置");
+        } else if (activityManageAction.dataset.activitymanageBind) {
+          switchPage("activity");
+          toast("请在活动礼品配置中完成礼品绑定");
+        }
+        return;
+      }
+
+      const policyAction = event.target.closest("[data-policy-edit],[data-policy-publish],[data-policy-history]");
+      if (policyAction) {
+        currentPrivacyId = policyAction.dataset.policyEdit || policyAction.dataset.policyPublish || policyAction.dataset.policyHistory;
+        if (policyAction.dataset.policyPublish) {
+          renderPrivacyEditor();
+          openPrivacyPublishConfirm(policyAction.dataset.policyPublish);
+        } else if (policyAction.dataset.policyHistory) {
+          openPrivacyHistoryModal(policyAction.dataset.policyHistory);
+        } else {
+          openPrivacyModal(policyAction.dataset.policyEdit, "编辑隐私条款");
+          toast("隐私条款配置已载入");
+        }
+        return;
+      }
+
+      const bannerAction = event.target.closest("[data-banner-edit],[data-banner-preview],[data-banner-up],[data-banner-down],[data-banner-toggle],[data-banner-type]");
+      if (bannerAction) {
+        if (bannerAction.dataset.bannerEdit) {
+          currentBannerId = bannerAction.dataset.bannerEdit;
+          const index = onlineBanners().findIndex(item => item.id === currentBannerId);
+          currentBannerPreview = index >= 0 ? index : currentBannerPreview;
+          renderBannerEditor();
+          renderBannerTable();
+          renderPhone();
+          toast("Banner 配置已载入");
+          return;
+        }
+        if (bannerAction.dataset.bannerPreview) {
+          currentBannerId = bannerAction.dataset.bannerPreview;
+          const index = onlineBanners().findIndex(item => item.id === currentBannerId);
+          currentBannerPreview = index >= 0 ? index : 0;
+          currentPreview = "banner";
+          renderBannerEditor();
+          renderPhone();
+          toast("轮播预览已更新");
+          return;
+        }
+        if (bannerAction.dataset.bannerUp) {
+          moveBanner(bannerAction.dataset.bannerUp, -1);
+          return;
+        }
+        if (bannerAction.dataset.bannerDown) {
+          moveBanner(bannerAction.dataset.bannerDown, 1);
+          return;
+        }
+        if (bannerAction.dataset.bannerToggle) {
+          const item = banners.find(row => row.id === bannerAction.dataset.bannerToggle);
+          item.online = !item.online;
+          renderBannerTable();
+          renderBannerPayload();
+          renderPhone();
+          toast(item.online ? "Banner 已上架" : "Banner 已下架");
+          return;
+        }
+        if (bannerAction.dataset.bannerType) {
+          const item = activeBanner();
+          item.type = bannerAction.dataset.bannerType;
+          if (item.type === "h5") item.target = $("#bannerH5Input").value || "https://campaign.friso.com.cn/member-scan-benefits";
+          if (item.type === "mini") item.target = $("#bannerMiniPathInput").value || "/pages/activity/scan-benefits/index";
+          if (item.type === "none") item.target = "";
+          setBannerJumpType(item.type);
+          renderBannerTable();
+          renderBannerPayload();
+          renderPhone();
+          return;
+        }
+      }
+
+      const bannerRow = event.target.closest("[data-banner-row]");
+      if (bannerRow) {
+        currentBannerId = bannerRow.dataset.bannerRow;
+        const index = onlineBanners().findIndex(item => item.id === currentBannerId);
+        currentBannerPreview = index >= 0 ? index : currentBannerPreview;
+        renderBannerEditor();
+        renderBannerTable();
+        renderPhone();
+        toast("Banner 配置已载入");
+        return;
+      }
+
+      const target = event.target.closest("button");
+      if (!target) return;
+
+      if (target.dataset.reportPreview) {
+        openReportPreview(target.dataset.reportPreview);
+        return;
+      }
+      if (target.dataset.reportRename) {
+        openReportRename(target.dataset.reportRename);
+        return;
+      }
+      if (target.dataset.reportDownload) {
+        const item = reports.find(row => row.id === target.dataset.reportDownload);
+        toast(item ? `开始下载：${item.name}` : "文件不存在");
+        return;
+      }
+      if (target.dataset.reportDelete) {
+        deleteReports([target.dataset.reportDelete]);
+        return;
+      }
+      if (target.id === "batchUploadReportsBtn" || target.id === "singleUploadReportBtn") {
+        $("#reportFileInput").multiple = target.id === "batchUploadReportsBtn";
+        $("#reportFileInput").click();
+        return;
+      }
+      if (target.id === "downloadSelectedReportsBtn") {
+        toast(selectedReportIds.size ? `开始下载 ${selectedReportIds.size} 个文件` : "请先选择文件");
+        return;
+      }
+      if (target.id === "deleteSelectedReportsBtn") {
+        deleteReports([...selectedReportIds]);
+        return;
+      }
+      if (target.id === "queryReportsBtn") {
+        renderReportTable();
+        toast("查询完成");
+        return;
+      }
+      if (target.id === "resetReportsBtn") {
+        $("#reportKeyword").value = "";
+        renderReportTable();
+        toast("筛选条件已重置");
+        return;
+      }
+      if (["closeReportRenameBtn", "cancelReportRenameBtn"].includes(target.id)) {
+        closeReportRename();
+        return;
+      }
+      if (target.id === "closeReportPdfBtn") {
+        closeReportPreview();
+        return;
+      }
+      if (target.id === "saveReportRenameBtn") {
+        saveReportRename();
+        return;
+      }
+
+      if (target.dataset.nav) switchPage(target.dataset.nav);
+      if (target.dataset.preview) {
+        currentPreview = target.dataset.preview;
+        $$("#previewSeg button").forEach(btn => btn.classList.toggle("active", btn === target));
+        renderPhone();
+      }
+      if (target.id === "newBannerBtn") {
+        const next = {
+          id: `BN${Date.now()}`,
+          sort: banners.length + 1,
+          name: "新建轮播 Banner",
+          image: bannerAssets.member1,
+          type: "h5",
+          target: "https://campaign.friso.com.cn/",
+          miniAppId: "",
+          miniPath: "",
+          startAt: "2026-07-24T10:00",
+          endAt: "2026-08-31T23:59",
+          online: false,
+          remark: ""
+        };
+        banners.push(next);
+        currentBannerId = next.id;
+        renderBannerTable();
+        renderBannerEditor();
+        toast("已创建 Banner 草稿");
+      }
+      if (target.id === "saveBannerDraftBtn") {
+        saveBannerForm();
+        toast("Banner 草稿已保存");
+      }
+      if (target.id === "publishBannerBtn") {
+        saveBannerForm();
+        toast("发布成功，小程序礼品页轮播配置已更新");
+      }
+      if (target.id === "previewBannerBtn") {
+        saveBannerForm();
+        currentPreview = "banner";
+        renderPhone();
+        toast("右侧预览已刷新");
+      }
+      if (target.id === "uploadBannerBtn") {
+        toast("原型中模拟上传，真实后台接入素材上传服务");
+      }
+      if (target.id === "privacyPdfUploadBtn") {
+        $("#privacyPdfInput").click();
+        return;
+      }
+      if (target.id === "newPrivacyDraftBtn") createPrivacyDraft();
+      if (target.id === "savePrivacyDraftBtn") savePrivacyForm(true);
+      if (target.id === "publishPrivacyEditorBtn") openPrivacyPublishConfirm();
+      if (target.id === "confirmPrivacyPublishBtn") publishPrivacyVersion(pendingPrivacyPublishId || currentPrivacyId);
+      if (target.id === "closePrivacyPublishConfirmBtn" || target.id === "cancelPrivacyPublishBtn") {
+        closePrivacyPublishConfirm();
+      }
+      if (target.id === "closePrivacyHistoryBtn" || target.id === "closePrivacyHistoryFootBtn") {
+        closePrivacyHistoryModal();
+      }
+      if (target.id === "closePrivacyModalBtn" || target.id === "cancelPrivacyModalBtn") {
+        closePrivacyModal();
+      }
+      if (target.id === "queryActivityManageBtn") {
+        renderActivityManageTable();
+        toast("查询完成");
+      }
+      if (target.id === "queryFsgStoresBtn") {
+        renderFsgStoreTable();
+        toast("查询完成");
+      }
+      if (target.id === "resetFsgStoresBtn") {
+        $("#fsgCampaignFilter").value = "";
+        $("#fsgStoreFilter").value = "";
+        $("#fsgStoreTypeFilter").value = "";
+        renderFsgStoreTable();
+        toast("筛选条件已重置");
+      }
+      if (target.id === "exportActivityManageBtn") {
+        toast(`已导出 ${filteredActivityManageItems().length} 条活动`);
+      }
+      if (target.id === "saveActivityManageBtn") {
+        saveActivityManageForm();
+      }
+      if (target.id === "closeActivityManageModalBtn" || target.id === "cancelActivityManageModalBtn") {
+        closeActivityManageModal();
+      }
+      if (target.id === "activityManageUploadBtn") {
+        const item = currentActivityManage();
+        item.attachmentName = "活动附件.pdf";
+        $("#activityManageAttachmentName").textContent = item.attachmentName;
+        toast("附件已选择");
+      }
+      if (target.id === "queryPrivacyRecordsBtn") {
+        renderPrivacyRecordTable();
+        toast("查询完成");
+      }
+      if (target.id === "resetPrivacyRecordsBtn") {
+        $("#privacyRecordKeyword").value = "";
+        $("#privacyRecordChannelFilter").value = "";
+        $("#privacyRecordTypeFilter").value = "";
+        $("#privacyRecordVersionFilter").value = "";
+        $("#privacyRecordDateFilter").value = "";
+        renderPrivacyRecordTable();
+        toast("筛选条件已重置");
+      }
+      if (target.id === "newGiftBtn") openDrawer(null);
+      if (target.dataset.edit) openDrawer(gifts.find(g => g.code === target.dataset.edit));
+      if (target.dataset.previewGift) {
+        selectedGift = gifts.find(g => g.code === target.dataset.previewGift);
+        renderPhone();
+        toast("预览已更新");
+      }
+      if (target.hasAttribute("data-upload-video")) {
+        $("#assetVideo").innerHTML = `<span class="play-mark"></span><span>gift-demo-video.mp4</span>`;
+        toast("视频素材已选择");
+      }
+      if (target.id === "closeDrawerBtn" || target.id === "cancelDrawerBtn") closeDrawer();
+      if (target.id === "saveGiftBtn") {
+        selectedGift.alias = $("#formAlias").value || selectedGift.alias;
+        selectedGift.status = $("#formStatus").value;
+        renderGiftTable();
+        renderActivityTable();
+        renderPhone();
+        toast("礼品资料已保存");
+      }
+      if (target.id === "addToActivityBtn") {
+        if (!$("#activitySelect").value) {
+          toast("请先选择活动");
+        } else {
+          syncActivityData(target);
+        }
+      }
+      if (target.dataset.remove) {
+        bound = bound.filter(row => row.code !== target.dataset.remove);
+        renderActivityTable();
+        toast("已从活动移除");
+      }
+      if (target.dataset.override) {
+        openOverrideModal(target.dataset.override);
+      }
+      if (target.hasAttribute("data-upload-override-main")) {
+        const item = bound.find(row => row.code === currentOverrideCode);
+        item.overrideMain = true;
+        $("#overrideMainFrame").textContent = renderOverrideFrame("main", true);
+        renderActivityTable();
+        renderPhone();
+        toast("当前活动主图已选择");
+      }
+      if (target.hasAttribute("data-upload-override-activity")) {
+        const item = bound.find(row => row.code === currentOverrideCode);
+        item.overrideActivity = true;
+        $("#overrideActivityFrame").textContent = renderOverrideFrame("activity", true);
+        renderActivityTable();
+        renderPhone();
+        toast("当前活动展示图已选择");
+      }
+      if (target.hasAttribute("data-reset-override-main")) {
+        const item = bound.find(row => row.code === currentOverrideCode);
+        item.overrideMain = false;
+        $("#overrideMainFrame").textContent = renderOverrideFrame("main", false);
+        renderActivityTable();
+        renderPhone();
+        toast("主图已恢复继承");
+      }
+      if (target.hasAttribute("data-reset-override-activity")) {
+        const item = bound.find(row => row.code === currentOverrideCode);
+        item.overrideActivity = false;
+        $("#overrideActivityFrame").textContent = renderOverrideFrame("activity", false);
+        renderActivityTable();
+        renderPhone();
+        toast("活动图已恢复继承");
+      }
+      if (target.id === "closeOverrideBtn" || target.id === "cancelOverrideBtn") {
+        closeOverrideModal();
+      }
+      if (target.id === "saveOverrideBtn") {
+        const item = bound.find(row => row.code === currentOverrideCode);
+        item.overrideAlias = $("#overrideAliasInput").value.trim();
+        renderActivityTable();
+        renderPhone();
+        closeOverrideModal();
+        toast("当前活动素材自定义已保存");
+      }
+    });
+
+    document.addEventListener("change", (event) => {
+      if (event.target.matches("#keyword,#typeFilter,#statusFilter,#brandFilter")) renderGiftTable();
+      if (event.target.matches("#bannerKeyword,#bannerStatusFilter,#bannerTypeFilter")) renderBannerTable();
+      if (event.target.matches("#activityManageKeyword,#activityManageEndAfter")) renderActivityManageTable();
+      if (event.target.matches("#fsgStoreTypeFilter")) renderFsgStoreTable();
+      if (event.target.matches("#privacyKeyword,#privacyChannelFilter,#privacyTypeFilter,#privacyStatusFilter")) renderPrivacyTable();
+      if (event.target.matches("#privacyFormType,#privacyFormChannel")) syncPrivacyVersionFields(activePrivacyPolicy());
+      if (event.target.matches("#privacyRecordChannelFilter,#privacyRecordTypeFilter,#privacyRecordDateFilter")) renderPrivacyRecordTable();
+      if (event.target.matches("[data-report-select]")) {
+        if (event.target.checked) selectedReportIds.add(event.target.dataset.reportSelect);
+        else selectedReportIds.delete(event.target.dataset.reportSelect);
+        updateReportSelection();
+      }
+      if (event.target.id === "selectAllReports") {
+        filteredReports().forEach(item => {
+          if (event.target.checked) selectedReportIds.add(item.id);
+          else selectedReportIds.delete(item.id);
+        });
+        renderReportTable();
+      }
+      if (event.target.id === "reportFileInput") {
+        addReportsFromFiles(event.target.files);
+        event.target.value = "";
+      }
+      if (event.target.id === "privacyPdfInput") {
+        const file = event.target.files && event.target.files[0];
+        if (file) {
+          tempPrivacyPdfName = /\.pdf$/i.test(file.name) ? file.name : `${file.name}.pdf`;
+          setPrivacyPdfDisplay(activePrivacyPolicy());
+          toast("PDF 文件已选择");
+        }
+        event.target.value = "";
+      }
+    });
+
+    document.addEventListener("input", (event) => {
+      if (event.target.id === "keyword") renderGiftTable();
+      if (event.target.id === "bannerKeyword") renderBannerTable();
+      if (event.target.id === "activityManageKeyword") renderActivityManageTable();
+      if (event.target.id === "fsgCampaignFilter" || event.target.id === "fsgStoreFilter") renderFsgStoreTable();
+      if (event.target.id === "privacyKeyword") renderPrivacyTable();
+      if (event.target.id === "privacyRecordKeyword" || event.target.id === "privacyRecordVersionFilter") renderPrivacyRecordTable();
+      if (event.target.id === "reportKeyword") renderReportTable();
+    });
+
+    $("#drawerBackdrop").addEventListener("click", closeDrawer);
+    $("#reportDrawerBackdrop").addEventListener("click", closeReportRename);
+    $("#modalBackdrop").addEventListener("click", () => {
+      closeActivityManageModal();
+      closePrivacyPublishConfirm();
+      closePrivacyHistoryModal();
+      closePrivacyModal();
+      closeOverrideModal();
+      closeReportPreview();
+    });
+
+    $("#drawerTabs").addEventListener("click", (event) => {
+      const btn = event.target.closest("button");
+      if (!btn) return;
+      $$("#drawerTabs button").forEach(tab => tab.classList.toggle("active", tab === btn));
+      $$(".drawer-section").forEach(section => section.classList.toggle("active", section.dataset.sectionPanel === btn.dataset.section));
+    });
+
+    renderGiftTable();
+    renderActivityTable();
+    renderActivityManageTable();
+    renderFsgStoreTable();
+    renderBannerTable();
+    renderBannerEditor();
+    renderPrivacyTable();
+    renderPrivacyEditor();
+    renderPrivacyRecordTable();
+    renderReportTable();
+    switchPage(initialPageFromUrl());
+  </script>
+<script src="assets/bd-quota/quota.js"></script>
+</body>
+</html>

@@ -2059,6 +2059,7 @@
       }
     }
   </style>
+<link rel="stylesheet" href="assets/bd-quota/quota.css">
 </head>
 <body>
   <svg width="0" height="0" style="position:absolute">
@@ -2095,6 +2096,7 @@
         <button class="nav-item nav-child" data-nav="library" data-nav-group="giftCenter"><svg><use href="#i-gift"/></svg>礼品库</button>
         <button class="nav-item nav-child" data-nav="activity" data-nav-group="giftCenter"><svg><use href="#i-calendar"/></svg>活动礼品配置</button>
         <button class="nav-item nav-primary" data-nav="activityManage"><svg><use href="#i-calendar"/></svg>活动管理</button>
+        <button class="nav-item nav-primary" data-nav="bdQuota"><svg><use href="#i-calendar"/></svg><span>BD渠道妈妈粉月度配额管理</span></button>
         <button class="nav-item nav-primary" data-nav="fsgStores"><svg><use href="#i-store"/></svg>FSG门店查询</button>
         <button class="nav-item nav-primary" data-nav="banner"><svg><use href="#i-list"/></svg>会员服务轮播图管理</button>
         <button class="nav-item nav-primary" data-nav="reports" data-nav-group="reports"><svg><use href="#i-file"/></svg>质检报告管理</button>
@@ -2254,6 +2256,7 @@
             </div>
           </section>
 
+          <section class="page" id="bdQuotaPage"></section>
           <section class="page" id="fsgStoresPage">
             <div class="panel">
               <div class="toolbar fsg-toolbar">
@@ -4280,7 +4283,7 @@
     }
 
     function initialPageFromUrl() {
-      const allowedPages = new Set(["library", "activity", "activityManage", "fsgStores", "banner", "privacy", "privacyRecords", "reports", "reportLogs"]);
+      const allowedPages = new Set(["bdQuota", "library", "activity", "activityManage", "fsgStores", "banner", "privacy", "privacyRecords", "reports", "reportLogs"]);
       const params = new URLSearchParams(window.location.search);
       const queryPage = params.get("menu") || params.get("nav") || params.get("page");
       const hashPage = window.location.hash.replace(/^#/, "");
@@ -4298,8 +4301,9 @@
         const childHit = !isPrimary && nav.dataset.nav === name;
         nav.classList.toggle("active", primaryHit || childHit);
       });
-      const titles = { library: "礼品库", activity: "活动礼品配置", activityManage: "活动管理", fsgStores: "FSG门店查询", banner: "会员服务轮播图管理", privacy: "隐私条款维护", privacyRecords: "隐私条款记录", reports: "质检报告管理", reportLogs: "操作记录" };
+      const titles = { bdQuota: "BD渠道妈妈粉月度配额管理", library: "礼品库", activity: "活动礼品配置", activityManage: "活动管理", fsgStores: "FSG门店查询", banner: "会员服务轮播图管理", privacy: "隐私条款维护", privacyRecords: "隐私条款记录", reports: "质检报告管理", reportLogs: "操作记录" };
       const breadcrumbPaths = {
+        bdQuota: ["系统首页", "BD渠道妈妈粉月度配额管理"],
         library: ["系统首页", "礼品中心", "礼品库"],
         activity: ["系统首页", "礼品中心", "活动礼品配置"],
         activityManage: ["系统首页", "活动管理"],
@@ -4312,7 +4316,7 @@
       };
       const path = breadcrumbPaths[name] || breadcrumbPaths.library;
       $("#breadcrumb").innerHTML = `${path.slice(0, -1).join(" / ")} / <strong id="pageTitle">${path[path.length - 1]}</strong>`;
-      const isReportArea = ["activityManage", "fsgStores", "reports", "reportLogs", "privacy", "privacyRecords"].includes(name);
+      const isReportArea = ["bdQuota", "activityManage", "fsgStores", "reports", "reportLogs", "privacy", "privacyRecords"].includes(name);
       $(".workspace").classList.toggle("reports-mode", isReportArea);
       if (isReportArea) {
         $("#previewSeg").style.display = "none";
@@ -4827,5 +4831,6 @@
     renderReportTable();
     switchPage(initialPageFromUrl());
   </script>
+<script src="assets/bd-quota/quota.js"></script>
 </body>
 </html>
