@@ -6522,7 +6522,7 @@
     function initialPageFromUrl() {
       const allowedPages = new Set(["bdQuota", "library", "activity", "activityManage", "activityConfig", "newUserAccount", "fsgStores", "bulkSms", "banner", "privacy", "privacyRecords", "reports", "reportLogs"]);
       const params = new URLSearchParams(window.location.search);
-      const queryPage = params.get("nav") || params.get("page");
+      const queryPage = params.get("menu") || params.get("nav") || params.get("page");
       const hashPage = window.location.hash.replace(/^#/, "");
       return allowedPages.has(queryPage) ? queryPage : allowedPages.has(hashPage) ? hashPage : "fsgStores";
     }
@@ -6530,6 +6530,7 @@
     function syncPageUrl(name) {
       const params = new URLSearchParams(window.location.search);
       params.set("nav", name);
+      if (params.has("menu")) params.set("menu", name);
       params.delete("page");
       if (["activity", "activityConfig"].includes(name)) {
         params.set("activityId", currentActivityManageId);
