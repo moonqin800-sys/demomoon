@@ -2058,7 +2058,9 @@
         min-height: 420px;
       }
     }
-  </style>
+
+    .receipt-body{padding:24px}.receipt-heading{display:flex;justify-content:space-between;gap:16px;align-items:center;margin-bottom:20px}.receipt-heading h1{margin:0 0 8px;font-size:22px}.receipt-note{color:var(--muted);line-height:1.7;font-size:13px}.receipt-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:20px}.receipt-stat{border:1px solid var(--line);border-radius:8px;padding:16px;background:var(--panel-alt)}.receipt-stat strong{display:block;font-size:28px;margin:8px 0}.receipt-filters{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px;padding:20px 0;border-top:1px solid var(--line-soft)}.receipt-filters label{display:grid;gap:7px;font-size:13px}.receipt-table{overflow:auto}.receipt-table table{width:100%;white-space:nowrap}.receipt-toolbar{display:flex;justify-content:space-between;gap:12px;align-items:center;margin:0 0 16px}.receipt-badge{display:inline-block;padding:4px 9px;border-radius:5px;font-size:12px;background:#eaf2ff;color:#175c9c}.receipt-badge.good{background:#e7f5ec;color:#216b43}.receipt-badge.warn{background:#fff2d7;color:#855707}.receipt-badge.bad{background:#fcebea;color:#a12f2f}.receipt-foot{display:flex;justify-content:space-between;align-items:center;padding-top:18px}.receipt-dialog{border:0;border-radius:12px;padding:0;width:min(1180px,94vw);max-height:90vh;color:var(--text);box-shadow:var(--shadow)}.receipt-dialog::backdrop{background:rgba(17,29,48,.5)}.receipt-dialog header,.receipt-dialog footer{padding:18px 24px;display:flex;justify-content:space-between;align-items:center;gap:14px;border-bottom:1px solid var(--line)}.receipt-dialog header h2{margin:0;font-size:18px}.receipt-detail{padding:24px;display:grid;grid-template-columns:300px minmax(0,1fr);gap:24px}.receipt-paper{background:#fffef8;border:1px solid #d8d5c8;padding:24px 18px;font-family:monospace;line-height:2;white-space:pre-wrap;min-height:380px}.receipt-meta{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:14px 0}.receipt-meta div{background:var(--panel-alt);padding:10px;border-radius:6px}.receipt-meta span{display:block;color:var(--muted);font-size:12px;margin-bottom:5px}.receipt-log{padding:10px 0;border-bottom:1px solid var(--line-soft);font-size:13px}.receipt-dialog textarea{width:100%;min-height:76px}.receipt-dialog input,.receipt-dialog select{max-width:100%}button:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible{outline:2px solid var(--brand);outline-offset:3px}@media(max-width:1000px){.receipt-filters{grid-template-columns:repeat(2,minmax(0,1fr))}.receipt-detail{grid-template-columns:1fr}.receipt-stats{grid-template-columns:1fr 1fr}.receipt-heading{align-items:flex-start;flex-direction:column}}
+.receipt-outcome{margin-top:18px;padding:16px;border-radius:8px;background:#fff6df;color:#8a5a10;font-size:13px;line-height:1.7}.receipt-outcome.good{background:#eaf7ef;color:#216b43}.receipt-outcome strong{font-size:16px}.receipt-outcome p{margin:5px 0}.receipt-outcome small{font-size:12px}</style>
 <link rel="stylesheet" href="assets/bd-quota/quota.css">
 </head>
 <body>
@@ -2096,6 +2098,7 @@
         <button class="nav-item nav-child" data-nav="library" data-nav-group="giftCenter"><svg><use href="#i-gift"/></svg>礼品库</button>
         <button class="nav-item nav-child" data-nav="activity" data-nav-group="giftCenter"><svg><use href="#i-calendar"/></svg>活动礼品配置</button>
         <button class="nav-item nav-primary" data-nav="activityManage"><svg><use href="#i-calendar"/></svg>活动管理</button>
+        <button class="nav-item nav-primary" data-nav="receipts"><svg><use href="#i-file"/></svg>小票识别管理</button>
         <button class="nav-item nav-primary" data-nav="bdQuota"><svg><use href="#i-calendar"/></svg><span>BD渠道妈妈粉月度配额管理</span></button>
         <button class="nav-item nav-primary" data-nav="fsgStores"><svg><use href="#i-store"/></svg>FSG门店查询</button>
         <button class="nav-item nav-primary" data-nav="banner"><svg><use href="#i-list"/></svg>会员服务轮播图管理</button>
@@ -2121,7 +2124,24 @@
 
       <section class="workspace reports-mode">
         <div class="left-flow">
-          <section class="page" id="libraryPage">
+
+<section class="page" id="receiptsPage"><div class="panel receipt-body">
+ <div class="receipt-heading"><div><h1>小票识别管理</h1><div class="receipt-note">查看门店上传凭证、AI 识别结果与校验依据，跟进异常小票。</div></div><span class="receipt-badge">演示数据 · 非真实业务记录</span></div>
+ <form id="receiptFilters" class="receipt-filters">
+  <label>门店名称 / 编码<input class="input" name="store" placeholder="输入门店名称或 MDM 编码"></label>
+  <label>KA 名称<select class="select" name="ka"><option value="">全部 KA</option><option>孩子王</option><option>爱婴室</option><option>乐友</option></select></label>
+  <label>AI 审核结果<select class="select" name="result"><option value="">全部结果</option><option>审核通过</option><option>审核不通过</option><option>无法识别</option></select></label>
+  <label>运营跟进状态<select class="select" name="follow"><option value="">全部状态</option><option>待跟进</option><option>跟进中</option><option>已完成</option><option>无需跟进</option></select></label>
+  <label>上传开始日期<input class="input" type="date" name="start"></label><label>上传结束日期<input class="input" type="date" name="end"></label>
+  <label>小票编号 / 申请号<input class="input" name="keyword" placeholder="输入编号或申请号"></label><label>操作账号<input class="input" name="operator" placeholder="输入店主账号"></label>
+  <div style="grid-column:1/-1;display:flex;gap:10px"><button class="btn primary" type="submit">查询</button><button class="btn" type="reset">重置</button><span class="receipt-note" id="receiptFilterError" role="alert"></span></div>
+ </form>
+ <div class="receipt-toolbar"><strong id="receiptCount"></strong><button class="btn" id="receiptExport"><svg class="icon"><use href="#i-download"/></svg>导出筛选结果</button></div>
+ <div class="receipt-table"><table><thead><tr><th>申请号 / 上传时间</th><th>门店 / KA</th><th>小票编号</th><th>品牌 / 数量</th><th>操作账号</th><th>AI 审核结果</th><th>运营跟进</th><th>操作</th></tr></thead><tbody id="receiptRows"></tbody></table></div>
+ <div class="receipt-foot"><span class="receipt-note">按上传时间倒序 · 每页 6 条</span><div style="display:flex;gap:12px;align-items:center"><button class="btn" id="receiptPrev">上一页</button><span id="receiptPagination"></span><button class="btn" id="receiptNext">下一页</button></div></div>
+ <p class="receipt-note">运营跟进仅记录处理进展，不修改审核结论或买赠资格。</p>
+</div></section>
+<section class="page" id="libraryPage">
             <div class="panel">
               <div class="toolbar">
                 <div class="field">
@@ -2991,7 +3011,7 @@
     </div>
   </aside>
 
-  <div class="toast" id="toast"><svg class="icon"><use href="#i-save"/></svg><span id="toastText">已保存</span></div>
+  <dialog class="receipt-dialog" id="receiptDialog" aria-labelledby="receiptDialogTitle"><header><div><h2 id="receiptDialogTitle">小票识别详情</h2><div id="receiptDialogSub" class="receipt-note"></div></div><button class="btn" id="receiptClose">关闭</button></header><div id="receiptDetail" class="receipt-detail"></div><footer><span class="receipt-note">保留识别依据和跟进记录，审核结果不可手工覆盖。</span><button class="btn primary" id="receiptSave">保存运营跟进</button></footer></dialog><div class="toast" id="toast"><svg class="icon"><use href="#i-save"/></svg><span id="toastText">已保存</span></div>
 
   <script>
     const screenshotPath = "7f390a45-9d42-49a3-9418-d7df06c56bb8.png";
@@ -4283,7 +4303,7 @@
     }
 
     function initialPageFromUrl() {
-      const allowedPages = new Set(["bdQuota", "library", "activity", "activityManage", "fsgStores", "banner", "privacy", "privacyRecords", "reports", "reportLogs"]);
+      const allowedPages = new Set(["receipts", "bdQuota", "library", "activity", "activityManage", "fsgStores", "banner", "privacy", "privacyRecords", "reports", "reportLogs"]);
       const params = new URLSearchParams(window.location.search);
       const queryPage = params.get("menu") || params.get("nav") || params.get("page");
       const hashPage = window.location.hash.replace(/^#/, "");
@@ -4301,8 +4321,9 @@
         const childHit = !isPrimary && nav.dataset.nav === name;
         nav.classList.toggle("active", primaryHit || childHit);
       });
-      const titles = { bdQuota: "BD渠道妈妈粉月度配额管理", library: "礼品库", activity: "活动礼品配置", activityManage: "活动管理", fsgStores: "FSG门店查询", banner: "会员服务轮播图管理", privacy: "隐私条款维护", privacyRecords: "隐私条款记录", reports: "质检报告管理", reportLogs: "操作记录" };
+      const titles = { bdQuota: "BD渠道妈妈粉月度配额管理", receipts: "小票识别管理", library: "礼品库", activity: "活动礼品配置", activityManage: "活动管理", fsgStores: "FSG门店查询", banner: "会员服务轮播图管理", privacy: "隐私条款维护", privacyRecords: "隐私条款记录", reports: "质检报告管理", reportLogs: "操作记录" };
       const breadcrumbPaths = {
+        receipts: ["系统首页", "运营管理", "小票识别管理"],
         bdQuota: ["系统首页", "BD渠道妈妈粉月度配额管理"],
         library: ["系统首页", "礼品中心", "礼品库"],
         activity: ["系统首页", "礼品中心", "活动礼品配置"],
@@ -4316,7 +4337,7 @@
       };
       const path = breadcrumbPaths[name] || breadcrumbPaths.library;
       $("#breadcrumb").innerHTML = `${path.slice(0, -1).join(" / ")} / <strong id="pageTitle">${path[path.length - 1]}</strong>`;
-      const isReportArea = ["bdQuota", "activityManage", "fsgStores", "reports", "reportLogs", "privacy", "privacyRecords"].includes(name);
+      const isReportArea = ["receipts", "bdQuota", "activityManage", "fsgStores", "reports", "reportLogs", "privacy", "privacyRecords"].includes(name);
       $(".workspace").classList.toggle("reports-mode", isReportArea);
       if (isReportArea) {
         $("#previewSeg").style.display = "none";
@@ -4818,6 +4839,49 @@
       $$("#drawerTabs button").forEach(tab => tab.classList.toggle("active", tab === btn));
       $$(".drawer-section").forEach(section => section.classList.toggle("active", section.dataset.sectionPanel === btn.dataset.section));
     });
+
+
+    // Receipt management: local demonstration only; audit decisions are immutable.
+    const receiptEsc = value => String(value ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+    const receiptStores = ['孩子王上海莘庄店','爱婴室上海徐汇店','乐友北京朝阳店'];
+    const receiptResults = ['审核通过','高风险通过','审核不通过','无法识别'];
+    const receiptData = Array.from({length:18}, (_, i) => {
+      const kind=[0,4,2,5][i%4], result=kind===0?'审核通过':kind===5?'无法识别':'审核不通过';
+      return {id:`BG202611${String(160018-i).padStart(6,'0')}`,time:`2026-11-${String(3-Math.floor(i/6)).padStart(2,'0')} ${String(15-i%8).padStart(2,'0')}:26:10`,store:receiptStores[i%3],storeCode:`MDM00${i%3+1}`,ka:['孩子王','爱婴室','乐友'][i%3],no:kind===5?'未识别':`POS001${String(8018-i)}`,brand:'皇家美素佳儿',qty:kind===4?2:3,operator:`owner_00${i%3+1}`,result,kind,follow:result==='审核通过'?'无需跟进':'待跟进',logs:[]};
+    });
+    let receiptPage=1,receiptCurrent=null,receiptFiltersApplied={};
+    function receiptFiltered(){return receiptData.filter(r=>{const f=receiptFiltersApplied;return (!f.store||`${r.store}${r.storeCode}`.includes(f.store))&&(!f.ka||r.ka===f.ka)&&(!f.result||r.result===f.result)&&(!f.follow||r.follow===f.follow)&&(!f.start||r.time.slice(0,10)>=f.start)&&(!f.end||r.time.slice(0,10)<=f.end)&&(!f.keyword||`${r.no}${r.id}`.includes(f.keyword))&&(!f.operator||r.operator.includes(f.operator));});}
+    function receiptBadge(result){return `<span class="receipt-badge ${result==='审核通过'?'good':result==='高风险通过'?'warn':result==='审核不通过'?'bad':''}">${receiptEsc(result)}</span>`;}
+    function renderReceipts(){
+      const rows=receiptFiltered();receiptPage=Math.max(1,Math.min(receiptPage,Math.ceil(rows.length/6)||1));
+      $('#receiptCount').textContent=`小票记录（${rows.length} 条）`;
+      $('#receiptRows').innerHTML=rows.slice((receiptPage-1)*6,receiptPage*6).map(r=>`<tr><td><strong>${r.id}</strong><div class="receipt-note">${r.time}</div></td><td>${r.store}<div class="receipt-note">${r.storeCode} · ${r.ka}</div></td><td>${r.no}</td><td>${r.brand}<div class="receipt-note">${r.kind===5?'数量未识别':r.qty+' 罐'}</div></td><td>${r.operator}</td><td>${receiptBadge(r.result)}</td><td>${receiptEsc(r.follow)}</td><td><button class="btn" data-receipt-detail="${r.id}">查看详情</button></td></tr>`).join('')||'<tr><td colspan="8" style="text-align:center;padding:48px">暂无匹配记录，请调整筛选条件。</td></tr>';
+      $('#receiptPagination').textContent=`${receiptPage} / ${Math.ceil(rows.length/6)||1}`;$('#receiptPrev').disabled=receiptPage===1;$('#receiptNext').disabled=receiptPage*6>=rows.length;$('#receiptExport').disabled=!rows.length;
+    }
+    function receiptChecks(r){const unknown=r.kind===5;return [
+      ['门店名称',r.kind===1?'上海莘庄母婴店':r.store,r.store,unknown?'无法识别':r.kind===1?'不通过':'通过',r.kind===1?'POS 名称未命中门店别名':'按门店名称及已维护别名比对'],
+      ['KA 名称',r.ka,r.ka,unknown?'无法识别':'通过','标准名称精确匹配'],
+      ['购买日期',r.kind===3?'2026-10-31':r.time.slice(0,10),'2026 年 11 月',unknown?'无法识别':r.kind===3?'不通过':'通过','按上海时区校验提交当月'],
+      ['品牌与数量',`${r.kind===3?'其他品牌':r.brand} / ${r.qty} 罐`,`${r.brand} / 3 罐`,unknown?'无法识别':[3,4].includes(r.kind)?'不通过':'通过',r.kind===3?'品牌识别不一致（示例）':r.kind===4?'小票 2 罐，扫码 3 罐':'按有效扫码产品比较'],
+      ['小票编号',r.no,'当前范围未使用',unknown?'无法识别':r.kind===2?'不通过':'通过',r.kind===2?'该编号已用于其他申请，硬拦截':'同门店范围防重检查']
+    ].map(row=>unknown?[row[0],'未能可靠识别',row[2],'无法识别','图片反光，关键字段缺失']:row);}
+    function receiptRenderLogs(r){$('#receiptLogs').innerHTML=r.logs.length?r.logs.map(l=>`<div class="receipt-log"><strong>${receiptEsc(l.status)} · 运营管理员</strong><div class="receipt-note">${receiptEsc(l.time)}</div>${receiptEsc(l.note)}</div>`).join(''):'<p class="receipt-note">暂无运营跟进记录</p>';}
+    function openReceipt(id){const r=receiptData.find(x=>x.id===id);if(!r)return;receiptCurrent=r;
+      $('#receiptDialogSub').textContent=`${r.id} · ${r.time}`;
+      const checks=receiptChecks(r);
+      $('#receiptDetail').innerHTML=`<div><h3>上传凭证</h3><div class="receipt-note">1 张图片 · 示例小票重建，非真实原图</div><div class="receipt-paper" id="receiptPaper">${receiptEsc(r.store)}\n${receiptEsc(r.ka)}\n-------------------------\n小票号：${receiptEsc(r.no)}\n日期：${r.kind===3?'2026-10-31':r.time.slice(0,10)}\n-------------------------\n${r.kind===3?'其他品牌':r.brand}\n数量：${r.qty} 罐\n-------------------------\n感谢惠顾\n\n[原型演示凭证]</div><button class="btn" id="receiptZoom" style="margin-top:12px">放大凭证</button></div><div><h3>AI 审核结论 ${receiptBadge(r.result)}</h3><p class="receipt-note">${r.kind===2?'重复使用硬拦截':r.kind===5?'图片反光，无法完成审核':r.kind===1?'单项门店名称不符，按示例容错策略高风险通过':'根据五项检查生成结论'} · 规则版本 V1.0（演示）</p><div class="receipt-meta"><div><span>门店 / MDM</span>${r.store} / ${r.storeCode}</div><div><span>操作账号</span>${r.operator}</div><div><span>关联活动</span>Y26 无导门店买赠</div><div><span>扫码品牌 / 有效数量</span>${r.brand} / 3 罐</div></div><h3>五项校验明细</h3><div class="receipt-table"><table style="white-space:normal"><thead><tr><th>检查点</th><th>小票识别值</th><th>业务期望值</th><th>结果 / 说明</th></tr></thead><tbody>${checks.map(c=>`<tr><td>${c[0]}</td><td>${receiptEsc(c[1])}</td><td>${receiptEsc(c[2])}</td><td><strong style="color:${c[3]==='不通过'?'var(--red)':c[3]==='通过'?'var(--green)':'var(--muted)'}">${c[3]}</strong><div class="receipt-note">${c[4]}</div></td></tr>`).join('')}</tbody></table></div><div class="receipt-outcome ${r.kind===0?'good':'warn'}"><strong>${r.kind===0?'审核通过':r.kind===4?'购买数量与扫码数量不一致':r.kind===2?'该小票已用于买赠活动':'小票信息未能识别完整'}</strong><p>${r.kind===0?'小票信息与本次申请匹配，可继续生成核销二维码。':r.kind===4?'小票识别为 2 罐，本次已扫码 3 罐。请核对并重新上传对应小票。':r.kind===2?'请核对小票，重新上传本次购买且未使用的小票。':'请重新拍摄，确保票头、日期、商品明细及票号清晰可见。'}</p><small>手机端后续操作：${r.kind===0?'继续生成核销二维码':'重新上传小票'}</small></div><h3>运营跟进</h3><label for="receiptFollow">处理状态</label><select class="select" id="receiptFollow">${['待跟进','跟进中','已完成','无需跟进'].map(v=>`<option ${v===r.follow?'selected':''}>${v}</option>`).join('')}</select><label for="receiptComment" style="display:block;margin:12px 0 6px">跟进备注（必填，最多 500 字）</label><textarea class="textarea" id="receiptComment" maxlength="500" placeholder="记录核实情况、联系结果或后续处理安排"></textarea><div role="alert" id="receiptSaveError" class="receipt-note"></div><div class="receipt-note">跟进记录仅保存在本次页面会话中，刷新后恢复演示数据。</div><h3>跟进记录</h3><div id="receiptLogs"></div></div>`;
+      receiptRenderLogs(r);$('#receiptDialog').showModal();$('#receiptClose').focus();
+    }
+    $('#receiptFilters').addEventListener('submit',e=>{e.preventDefault();const f=Object.fromEntries(new FormData(e.target));Object.keys(f).forEach(k=>f[k]=f[k].trim());if(f.start&&f.end&&f.start>f.end){$('#receiptFilterError').textContent='开始日期不能晚于结束日期';return;}$('#receiptFilterError').textContent='';receiptFiltersApplied=f;receiptPage=1;renderReceipts();});
+    $('#receiptFilters').addEventListener('reset',()=>{receiptFiltersApplied={};receiptPage=1;$('#receiptFilterError').textContent='';renderReceipts();});
+    $('#receiptPrev').onclick=()=>{receiptPage--;renderReceipts();};$('#receiptNext').onclick=()=>{receiptPage++;renderReceipts();};
+    document.addEventListener('click',e=>{const b=e.target.closest('[data-receipt-detail]');if(b)openReceipt(b.dataset.receiptDetail);});
+    $('#receiptClose').onclick=()=>$('#receiptDialog').close();
+    $('#receiptDialog').addEventListener('close',()=>document.querySelector(`[data-receipt-detail="${receiptCurrent?.id}"]`)?.focus());
+    $('#receiptSave').onclick=()=>{const note=$('#receiptComment').value.trim();if(!note){$('#receiptSaveError').textContent='请填写跟进备注后保存';$('#receiptComment').focus();return;}receiptCurrent.follow=$('#receiptFollow').value;receiptCurrent.logs.unshift({status:receiptCurrent.follow,note,time:new Date().toLocaleString('zh-CN',{timeZone:'Asia/Shanghai'})});$('#receiptComment').value='';$('#receiptSaveError').textContent='';receiptRenderLogs(receiptCurrent);renderReceipts();toast('运营跟进已保存，AI 审核结果未改变');};
+    $('#receiptDialog').addEventListener('click',e=>{if(e.target.id==='receiptZoom'){const paper=$('#receiptPaper');const zoom=paper.style.fontSize==='20px';paper.style.fontSize=zoom?'':'20px';e.target.textContent=zoom?'放大凭证':'恢复大小';}});
+    $('#receiptExport').onclick=()=>{const rows=receiptFiltered();const cell=v=>'"'+String(v).replace(/^[=+@-]/,"'$&").replace(/"/g,'""')+'"';const lines=[['申请号','门店','MDM编码','KA','上传日期','操作账号','AI审核结果','小票编号','运营跟进状态'],...rows.map(r=>[r.id,r.store,r.storeCode,r.ka,r.time,r.operator,r.result,r.no,r.follow])];const blob=new Blob(['\ufeff'+lines.map(row=>row.map(cell).join(',')).join('\r\n')],{type:'text/csv;charset=utf-8;'});const url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download='小票识别数据-筛选结果.csv';a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);toast(`已导出 ${rows.length} 条筛选结果`);};
+    renderReceipts();
 
     renderGiftTable();
     renderActivityTable();
