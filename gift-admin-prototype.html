@@ -2878,6 +2878,7 @@
         <button class="nav-item nav-child" data-nav="library" data-nav-group="giftCenter"><svg><use href="#i-gift"/></svg>礼品库</button>
         <button class="nav-item nav-child" data-nav="activity" data-nav-group="giftCenter"><svg><use href="#i-calendar"/></svg>活动礼品配置</button>
         <button class="nav-item nav-primary" data-nav="activityManage"><svg><use href="#i-calendar"/></svg>活动管理</button>
+        <button class="nav-item nav-primary" data-nav="crossBorder"><svg><use href="#i-file"/></svg>跨境订单录入管理</button>
         <button class="nav-item nav-primary" data-nav="receipts"><svg><use href="#i-file"/></svg>小票识别管理</button>
         <button class="nav-item nav-primary" data-nav="newUserAccount"><svg><use href="#i-user-check"/></svg>新客无人账号管理</button>
         <button class="nav-item nav-primary" data-nav="bdQuota"><svg><use href="#i-calendar"/></svg><span>BD渠道妈妈粉月度配额管理</span></button>
@@ -2905,7 +2906,7 @@
       </header>
 
       <section class="workspace reports-mode">
-        <div class="left-flow">
+        <div class="left-flow"><section class="page" id="crossBorderPage"><iframe title="跨境订单录入管理" src="cross-border-order-management.html" style="width:100%;height:calc(100vh - 120px);min-height:700px;border:0;border-radius:12px"></iframe></section>
 
 <section class="page" id="receiptsPage"><div class="panel receipt-body">
  <div class="receipt-heading"><div><h1>小票识别管理</h1><div class="receipt-note">查看门店上传凭证、AI 识别结果与校验依据，查看关联交易及活动信息。</div></div><span class="receipt-badge">演示数据 · 非真实业务记录</span></div>
@@ -6537,7 +6538,7 @@
     }
 
     function initialPageFromUrl() {
-      const allowedPages = new Set(["receipts", "bdQuota", "library", "activity", "activityManage", "activityConfig", "newUserAccount", "fsgStores", "bulkSms", "banner", "privacy", "privacyRecords", "reports", "reportLogs"]);
+      const allowedPages = new Set(["crossBorder","receipts", "bdQuota", "library", "activity", "activityManage", "activityConfig", "newUserAccount", "fsgStores", "bulkSms", "banner", "privacy", "privacyRecords", "reports", "reportLogs"]);
       const params = new URLSearchParams(window.location.search);
       const queryPage = params.get("menu") || params.get("nav") || params.get("page");
       const hashPage = window.location.hash.replace(/^#/, "");
@@ -6573,8 +6574,8 @@
         const childHit = !isPrimary && nav.dataset.nav === activeName;
         nav.classList.toggle("active", primaryHit || childHit);
       });
-      const titles = { receipts: "小票识别管理", bdQuota: "BD渠道妈妈粉月度配额管理", library: "礼品库", activity: "活动礼品配置", activityManage: "活动管理", activityConfig: "活动配置", newUserAccount: "新客无人账号管理", fsgStores: "FSG门店查询", bulkSms: "批量短信任务", banner: "会员服务轮播图管理", privacy: "隐私条款维护", privacyRecords: "隐私条款记录", reports: "质检报告管理", reportLogs: "操作记录" };
-      const breadcrumbPaths = {
+      const titles = { crossBorder: "跨境订单录入管理", receipts: "小票识别管理", bdQuota: "BD渠道妈妈粉月度配额管理", library: "礼品库", activity: "活动礼品配置", activityManage: "活动管理", activityConfig: "活动配置", newUserAccount: "新客无人账号管理", fsgStores: "FSG门店查询", bulkSms: "批量短信任务", banner: "会员服务轮播图管理", privacy: "隐私条款维护", privacyRecords: "隐私条款记录", reports: "质检报告管理", reportLogs: "操作记录" };
+      const breadcrumbPaths = { crossBorder: ["系统首页", "跨境订单录入管理"],
         bdQuota: ["系统首页", "BD渠道妈妈粉月度配额管理"],
         receipts: ["系统首页", "运营管理", "小票识别管理"],
         library: ["系统首页", "礼品中心", "礼品库"],
@@ -6592,7 +6593,7 @@
       };
       const path = breadcrumbPaths[name] || breadcrumbPaths.library;
       $("#breadcrumb").innerHTML = `${path.slice(0, -1).join(" / ")} / <strong id="pageTitle">${path[path.length - 1]}</strong>`;
-      const isReportArea = ["receipts", "bdQuota", "activityManage", "activityConfig", "newUserAccount", "fsgStores", "bulkSms", "reports", "reportLogs", "privacy", "privacyRecords"].includes(name);
+      const isReportArea = ["crossBorder","receipts", "bdQuota", "activityManage", "activityConfig", "newUserAccount", "fsgStores", "bulkSms", "reports", "reportLogs", "privacy", "privacyRecords"].includes(name);
       $(".workspace").classList.toggle("reports-mode", isReportArea);
       if (isReportArea) {
         $("#previewSeg").style.display = "none";
