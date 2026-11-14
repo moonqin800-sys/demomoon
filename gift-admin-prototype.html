@@ -2108,6 +2108,7 @@
         <button class="nav-item nav-child" data-nav="activity" data-nav-group="giftCenter"><svg><use href="#i-calendar"/></svg>活动礼品配置</button>
         <button class="nav-item nav-primary" data-nav="activityManage"><svg><use href="#i-calendar"/></svg>活动管理</button>
         <button class="nav-item nav-primary" data-nav="crossBorder"><svg><use href="#i-file"/></svg>跨境订单录入管理</button>
+<button class="nav-item nav-primary" data-nav="aiQuery"><svg><use href="#i-file"/></svg>AI识别查询</button>
 <button class="nav-item nav-primary" data-nav="receipts"><svg><use href="#i-file"/></svg>小票识别管理</button>
         <button class="nav-item nav-primary" data-nav="bdQuota"><svg><use href="#i-calendar"/></svg><span>BD渠道妈妈粉月度配额管理</span></button>
         <button class="nav-item nav-primary" data-nav="fsgStores"><svg><use href="#i-store"/></svg>FSG门店查询</button>
@@ -2135,6 +2136,7 @@
       <section class="workspace reports-mode">
         <div class="left-flow"><section class="page" id="crossBorderPage"><iframe title="跨境订单录入管理" src="cross-border-order-management.html" style="width:100%;height:calc(100vh - 120px);min-height:700px;border:0;border-radius:12px"></iframe></section>
 
+<section class="page" id="aiQueryPage"><iframe title="AI识别查询" src="ai-recognition-query.html" style="width:100%;height:calc(100vh - 120px);min-height:740px;border:0"></iframe></section>
 <section class="page" id="receiptsPage"><div class="panel receipt-body">
  <div class="receipt-heading"><div><h1>小票识别管理</h1><div class="receipt-note">查看门店上传凭证、AI 识别结果与校验依据，查看关联交易及活动信息。</div></div><span class="receipt-badge">演示数据 · 非真实业务记录</span></div>
  <form id="receiptFilters" class="receipt-filters"><label class="receipt-dates">交易时间<div><input class="input" type="date" name="tradeStart" aria-label="交易开始日期"><span>～</span><input class="input" type="date" name="tradeEnd" aria-label="交易结束日期"></div></label><label>品牌<select class="select" name="brand" data-receipt-options="brand"><option value="">全部</option></select></label><label>活动类型<select class="select" name="activityType" data-receipt-options="activityType"><option value="">全部</option></select></label><label>活动名称<select class="select" name="activityName" data-receipt-options="activityName"><option value="">全部</option></select></label><div class="receipt-region-field"><span>地域选择</span><div id="receiptRegion" class="receipt-region"><button type="button" class="select" id="receiptRegionToggle" aria-expanded="false">全部 ▾</button><div class="receipt-region-menu" hidden><div class="receipt-region-tools"><button type="button" id="receiptRegionAll">☑ 全选</button><button type="button" id="receiptRegionClear">清空</button></div><input class="input" id="receiptRegionSearch" placeholder="搜索地域" aria-label="搜索地域"><div id="receiptRegionTree"></div></div><div id="receiptRegionValues"></div></div></div><label>KA选择<select class="select" name="ka" data-receipt-options="ka"><option value="">全部</option></select></label><label>渠道类型<select class="select" name="channel" data-receipt-options="channel"><option value="">全部</option></select></label><label>提取比例<div class="receipt-percent"><input class="input" type="number" name="ratio" min="0" max="100" value="5" step="1"><span>%</span></div></label><label>NKA<div class="receipt-percent"><input class="input" type="number" name="nkaRatio" min="0" max="100" value="50" step="1"><span>%</span></div></label><label>RKA<div class="receipt-percent"><input class="input" type="number" name="rkaRatio" min="0" max="100" value="30" step="1"><span>%</span></div></label><label>RTM<div class="receipt-percent"><input class="input" type="number" name="rtmRatio" min="0" max="100" value="20" step="1"><span>%</span></div></label><label>产品阶段<input class="input" name="stage" placeholder="请输入产品阶段"></label><label>AI审核结果<select class="select" name="result"><option value="">全部</option><option>审核通过</option><option>审核不通过</option><option>无法识别</option></select></label><label>代表代码<input class="input" name="repCode" placeholder="请输入代表代码"></label><label>门店代码<input class="input" name="storeCode" placeholder="请输入门店代码"></label><label>会员ID<input class="input" name="memberId" placeholder="请输入会员ID"></label><label>小票订单号<input class="input" name="receiptOrderNo" placeholder="请输入小票订单号"></label><div class="receipt-query-actions"><button class="btn primary" type="submit">查询</button><button class="btn" type="button" id="receiptExport">导出</button><button class="btn" type="reset">重置</button></div><span id="receiptFilterError" class="receipt-note" role="alert" style="grid-column:1/-1"></span></form>
@@ -4305,7 +4307,7 @@
     }
 
     function initialPageFromUrl() {
-      const allowedPages = new Set(["crossBorder","receipts", "bdQuota", "library", "activity", "activityManage", "fsgStores", "banner", "privacy", "privacyRecords", "reports", "reportLogs"]);
+      const allowedPages = new Set(["aiQuery","crossBorder","receipts", "bdQuota", "library", "activity", "activityManage", "fsgStores", "banner", "privacy", "privacyRecords", "reports", "reportLogs"]);
       const params = new URLSearchParams(window.location.search);
       const queryPage = params.get("menu") || params.get("nav") || params.get("page");
       const hashPage = window.location.hash.replace(/^#/, "");
@@ -4323,8 +4325,8 @@
         const childHit = !isPrimary && nav.dataset.nav === name;
         nav.classList.toggle("active", primaryHit || childHit);
       });
-      const titles = { crossBorder: "跨境订单录入管理", bdQuota: "BD渠道妈妈粉月度配额管理", receipts: "小票识别管理", library: "礼品库", activity: "活动礼品配置", activityManage: "活动管理", fsgStores: "FSG门店查询", banner: "会员服务轮播图管理", privacy: "隐私条款维护", privacyRecords: "隐私条款记录", reports: "质检报告管理", reportLogs: "操作记录" };
-      const breadcrumbPaths = { crossBorder: ["系统首页", "跨境订单录入管理"],
+      const titles = { aiQuery: "AI识别查询", crossBorder: "跨境订单录入管理", bdQuota: "BD渠道妈妈粉月度配额管理", receipts: "小票识别管理", library: "礼品库", activity: "活动礼品配置", activityManage: "活动管理", fsgStores: "FSG门店查询", banner: "会员服务轮播图管理", privacy: "隐私条款维护", privacyRecords: "隐私条款记录", reports: "质检报告管理", reportLogs: "操作记录" };
+      const breadcrumbPaths = { aiQuery: ["系统首页", "AI识别查询"], crossBorder: ["系统首页", "跨境订单录入管理"],
         receipts: ["系统首页", "运营管理", "小票识别管理"],
         bdQuota: ["系统首页", "BD渠道妈妈粉月度配额管理"],
         library: ["系统首页", "礼品中心", "礼品库"],
@@ -4339,7 +4341,7 @@
       };
       const path = breadcrumbPaths[name] || breadcrumbPaths.library;
       $("#breadcrumb").innerHTML = `${path.slice(0, -1).join(" / ")} / <strong id="pageTitle">${path[path.length - 1]}</strong>`;
-      const isReportArea = ["crossBorder","receipts", "bdQuota", "activityManage", "fsgStores", "reports", "reportLogs", "privacy", "privacyRecords"].includes(name);
+      const isReportArea = ["aiQuery","crossBorder","receipts", "bdQuota", "activityManage", "fsgStores", "reports", "reportLogs", "privacy", "privacyRecords"].includes(name);
       $(".workspace").classList.toggle("reports-mode", isReportArea);
       if (isReportArea) {
         $("#previewSeg").style.display = "none";
