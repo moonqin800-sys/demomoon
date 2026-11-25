@@ -2080,6 +2080,7 @@
 .cross-info-tabs>[role=tablist]{display:flex;gap:20px;border-bottom:1px solid #dfe6ef;margin-bottom:16px}.cross-info-tabs [role=tab]{border:0;border-bottom:3px solid transparent;border-radius:0;background:transparent;padding:12px 4px;color:#718097;cursor:pointer;font:inherit}.cross-info-tabs [role=tab][aria-selected=true]{color:#1767b3;border-bottom-color:#1767b3;font-weight:600}.cross-info-tabs [hidden]{display:none!important}.cross-order-card{border:1px solid #dfe6ef;border-radius:10px;margin:14px 0;overflow:hidden}.cross-order-card>header{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;padding:14px 16px!important;background:#f7f9fc;border-bottom:1px solid #e3eaf2}.cross-order-card>header strong{font-size:14px}.cross-order-card>header span{font-size:12px;color:#718097}.cross-goods-scroll{overflow:auto}.cross-order-card table{width:100%;border-collapse:collapse}.cross-order-card th,.cross-order-card td{padding:12px 16px;text-align:left;border-bottom:1px solid #edf0f4}.cross-order-card th{font-size:12px;color:#718097;background:#fff}.cross-order-card tr:last-child td{border-bottom:0}
 </style>
 <link rel="stylesheet" href="assets/bd-quota/quota.css">
+<link rel="stylesheet" href="assets/idream/idream.css">
 </head>
 <body>
   <svg width="0" height="0" style="position:absolute">
@@ -2116,6 +2117,7 @@
         <button class="nav-item nav-child" data-nav="library" data-nav-group="giftCenter"><svg><use href="#i-gift"/></svg>礼品库</button>
         <button class="nav-item nav-child" data-nav="activity" data-nav-group="giftCenter"><svg><use href="#i-calendar"/></svg>活动礼品配置</button>
         <button class="nav-item nav-primary" data-nav="activityManage"><svg><use href="#i-calendar"/></svg>活动管理</button>
+<button class="nav-item nav-primary" data-nav="giftBinding"><svg><use href="#i-gift"/></svg>活动绑定赠品管理</button>
 <button class="nav-item nav-primary" data-nav="crossBorder"><svg><use href="#i-file"/></svg>跨境订单录入管理</button>
 <button class="nav-item nav-primary" data-nav="aiQuery"><svg><use href="#i-file"/></svg>AI扫码识别查询</button>
 <button class="nav-item nav-primary" data-nav="receipts"><svg><use href="#i-file"/></svg>小票识别管理</button>
@@ -2249,6 +2251,7 @@
             </div>
           </section>
 
+          <section class="page" id="giftBindingPage"><div class="panel"><div id="idActivityFilter" hidden><label>活动 <input id="idBindingActivity" list="idActivityMatches" placeholder="输入活动名称 / 活动编码匹配" autocomplete="off"><datalist id="idActivityMatches"></datalist></label></div><div id="idBindingContent"></div></div></section>
           <section class="page" id="activityManagePage">
             <div class="panel">
               <div class="toolbar activity-manage-toolbar">
@@ -3560,6 +3563,7 @@ document.addEventListener('click',e=>{const tab=e.target.closest('[data-cross-ta
               <button class="activity-mini-btn teal" data-activitymanage-edit="${item.id}">编辑</button>
               <button class="activity-mini-btn orange" data-activitymanage-config="${item.id}">活动配置</button>
               <button class="activity-mini-btn blue" data-activitymanage-bind="${item.id}">礼品绑定</button>
+
             </div>
           </td>
         </tr>
@@ -4337,13 +4341,14 @@ document.addEventListener('click',e=>{const tab=e.target.closest('[data-cross-ta
         const childHit = !isPrimary && nav.dataset.nav === name;
         nav.classList.toggle("active", primaryHit || childHit);
       });
-      const titles = { aiQuery: "AI扫码识别查询", crossBorder: "跨境订单录入管理", bdQuota: "BD渠道妈妈粉月度配额管理", receipts: "小票识别管理", library: "礼品库", activity: "活动礼品配置", activityManage: "活动管理", fsgStores: "FSG门店查询", banner: "会员服务轮播图管理", privacy: "隐私条款维护", privacyRecords: "隐私条款记录", reports: "质检报告管理", reportLogs: "操作记录" };
+      const titles = { aiQuery: "AI扫码识别查询", crossBorder: "跨境订单录入管理", bdQuota: "BD渠道妈妈粉月度配额管理", receipts: "小票识别管理", library: "礼品库", activity: "活动礼品配置", activityManage: "活动管理", giftBinding: "活动绑定赠品管理", fsgStores: "FSG门店查询", banner: "会员服务轮播图管理", privacy: "隐私条款维护", privacyRecords: "隐私条款记录", reports: "质检报告管理", reportLogs: "操作记录" };
       const breadcrumbPaths = { aiQuery: ["系统首页", "AI扫码识别查询"], crossBorder: ["系统首页", "跨境订单录入管理"],
         receipts: ["系统首页", "运营管理", "小票识别管理"],
         bdQuota: ["系统首页", "BD渠道妈妈粉月度配额管理"],
         library: ["系统首页", "礼品中心", "礼品库"],
         activity: ["系统首页", "礼品中心", "活动礼品配置"],
         activityManage: ["系统首页", "活动管理"],
+        giftBinding: ["系统首页", "活动绑定赠品管理"],
         fsgStores: ["系统首页", "FSG门店查询"],
         banner: ["系统首页", "会员服务轮播图管理"],
         privacy: ["系统首页", "隐私条款管理", "隐私条款维护"],
@@ -4353,7 +4358,7 @@ document.addEventListener('click',e=>{const tab=e.target.closest('[data-cross-ta
       };
       const path = breadcrumbPaths[name] || breadcrumbPaths.library;
       $("#breadcrumb").innerHTML = `${path.slice(0, -1).join(" / ")} / <strong id="pageTitle">${path[path.length - 1]}</strong>`;
-      const isReportArea = ["aiQuery","crossBorder","receipts", "bdQuota", "activityManage", "fsgStores", "reports", "reportLogs", "privacy", "privacyRecords"].includes(name);
+      const isReportArea = ["aiQuery","crossBorder","receipts", "bdQuota", "giftBinding", "activityManage", "fsgStores", "reports", "reportLogs", "privacy", "privacyRecords"].includes(name);
       $(".workspace").classList.toggle("reports-mode", isReportArea);
       if (isReportArea) {
         $("#previewSeg").style.display = "none";
@@ -4954,5 +4959,6 @@ function receiptCrossComparisonPanel(r,original){const value=original?r.original
     switchPage(initialPageFromUrl());
   </script>
 <script src="assets/bd-quota/quota.js"></script>
+<script src="assets/idream/idream.js"></script>
 </body>
 </html>
